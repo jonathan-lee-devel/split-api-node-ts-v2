@@ -4,7 +4,12 @@
   "description": "Split is an application intended to allow for the management of shared living spaces.",
   "main": "dist/app.js",
   "scripts": {
-    "test": "node node_modules/jest/bin/jest.js"
+    "prebuild": "eslint -c .eslintrc.cjs --fix",
+    "build": "tsc",
+    "prestart": "npm run build",
+    "start": "node --es-module-specifier-resolution=node dist/bin/www.js",
+    "test": "node --no-warnings --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "sonar": "node sonar-project.cjs"
   },
   "repository": {
     "type": "git",
