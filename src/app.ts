@@ -9,7 +9,6 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 
-// catch 404 and forward to error handler
 app.use((_req, _res, next) => {
     next(createError(404));
 });
