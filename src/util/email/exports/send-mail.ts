@@ -7,21 +7,21 @@ export const makeSendMail = (
     transporter: Transporter<SMTPTransport.SentMessageInfo>,
     sendMailCallback: SendMailCallbackFunction,
 ): SendMailFunction => {
-    return async function sendMail(
-        addressTo: string,
-        subject: string,
-        html: string,
-    ): Promise<boolean> {
-        await transporter.sendMail(
-            {
-                from: process.env.EMAIL_USER,
-                to: addressTo,
-                subject,
-                html,
-            },
-            sendMailCallback,
-        );
+  return async function sendMail(
+      addressTo: string,
+      subject: string,
+      html: string,
+  ): Promise<boolean> {
+    await transporter.sendMail(
+        {
+          from: process.env.EMAIL_USER,
+          to: addressTo,
+          subject,
+          html,
+        },
+        sendMailCallback,
+    );
 
-        return false;
-    };
+    return false;
+  };
 };
