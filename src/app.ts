@@ -5,8 +5,8 @@ import createError from 'http-errors';
 import {configureExpressSession} from './config/auth/configure-express-session';
 import {configurePassport} from './config/auth/configure-passport';
 import {connectToDatabase} from './config/database/connect-to-database';
-import {PropertiesRouter} from './properties/routes';
 import {UserModel} from './users/models/User';
+import {PropertiesRouter} from './properties/routes';
 
 const app = express();
 app.use(helmet.hidePoweredBy());
@@ -21,8 +21,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 connectToDatabase();
-
-app.use('/properties', PropertiesRouter);
 
 app.use((_req, _res, next) => {
   next(createError(404));
@@ -50,5 +48,7 @@ app.use(
       res.json({error: err});
     },
 );
+
+app.use('/properties', PropertiesRouter);
 
 export {app};
