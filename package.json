@@ -1,8 +1,9 @@
 {
   "name": "split-api-node-ts-v2",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Split is an application intended to allow for the management of shared living spaces.",
   "main": "dist/app.js",
+  "type": "module",
   "scripts": {
     "prebuild": "eslint -c .eslintrc.cjs --fix",
     "build": "tsc",
@@ -10,6 +11,11 @@
     "start": "node --es-module-specifier-resolution=node dist/bin/www.js",
     "test": "node --no-warnings --experimental-vm-modules node_modules/jest/bin/jest.js",
     "sonar": "node sonar-project.cjs"
+  },
+  "jestSonar": {
+    "reportPath": "coverage",
+    "reportFile": "test-reporter.xml",
+    "indent": 4
   },
   "repository": {
     "type": "git",
@@ -25,6 +31,10 @@
   },
   "homepage": "https://github.com/jonathan-lee-devel/split-api-node-ts-v2#readme",
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.3",
+    "@types/debug": "^4.1.7",
+    "@types/express": "^4.17.13",
+    "@types/http-errors": "^1.8.2",
     "@types/node": "^18.0.3",
     "@types/nodemailer": "^6.4.4",
     "@typescript-eslint/eslint-plugin": "^5.30.5",
@@ -35,6 +45,9 @@
     "typescript": "^4.7.4"
   },
   "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "express": "^4.18.1",
+    "helmet": "^5.1.0",
     "nodemailer": "^6.7.7"
   }
 }
