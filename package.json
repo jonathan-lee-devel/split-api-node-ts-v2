@@ -18,5 +18,13 @@
   "bugs": {
     "url": "https://github.com/jonathan-lee-devel/split-api-node-ts-v2/issues"
   },
-  "homepage": "https://github.com/jonathan-lee-devel/split-api-node-ts-v2#readme"
+  "homepage": "https://github.com/jonathan-lee-devel/split-api-node-ts-v2#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.30.5",
+    "@typescript-eslint/parser": "^5.30.5",
+    "eslint": "^8.19.0",
+    "eslint-config-google": "^0.14.0",
+    "ts-node": "^10.8.2",
+    "typescript": "^4.7.4"
+  }
 }
