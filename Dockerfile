@@ -6,7 +6,7 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY docker .
+COPY . .
 
 RUN npm run build
 
