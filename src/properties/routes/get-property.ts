@@ -7,10 +7,9 @@ export const configureGetPropertyRoute = (
     getProperty: GetPropertyFunction,
 ) => {
   router.get(path, async (req, res, _next) => {
-    const property = await getProperty(req.params.propertyId);
-    if (!property) {
-      return res.status(404).send();
-    }
-    return res.status(200).json(property);
+    const propertyContainer = await getProperty(req.params.propertyId);
+    return res
+        .status(propertyContainer.status)
+        .json(propertyContainer.data);
   });
 };

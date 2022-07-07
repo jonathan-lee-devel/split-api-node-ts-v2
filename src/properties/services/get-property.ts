@@ -9,18 +9,27 @@ export const makeGetProperty = (
     try {
       const propertyModel = await PropertyModel.findOne({id: propertyId});
       if (!propertyModel) {
-        return undefined;
+        return {
+          status: 404,
+          data: undefined,
+        };
       }
       return {
-        id: propertyModel.id,
-        title: propertyModel.title,
-        tenantEmails: propertyModel.tenantEmails,
-        admin: propertyModel.admin.toString(),
-        createdBy: propertyModel.createdBy,
+        status: 200,
+        data: {
+          id: propertyModel.id,
+          title: propertyModel.title,
+          tenantEmails: propertyModel.tenantEmails,
+          admin: propertyModel.admin.toString(),
+          createdBy: propertyModel.createdBy,
+        },
       };
     } catch (err) {
       console.error(err);
-      return undefined;
+      return {
+        status: 500,
+        data: undefined,
+      };
     }
   };
 };
