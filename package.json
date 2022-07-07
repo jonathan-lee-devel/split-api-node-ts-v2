@@ -20,11 +20,16 @@
   },
   "homepage": "https://github.com/jonathan-lee-devel/split-api-node-ts-v2#readme",
   "devDependencies": {
+    "@types/node": "^18.0.3",
+    "@types/nodemailer": "^6.4.4",
     "@typescript-eslint/eslint-plugin": "^5.30.5",
     "@typescript-eslint/parser": "^5.30.5",
     "eslint": "^8.19.0",
     "eslint-config-google": "^0.14.0",
     "ts-node": "^10.8.2",
     "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "nodemailer": "^6.7.7"
   }
 }
