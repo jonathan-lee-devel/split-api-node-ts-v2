@@ -13,7 +13,6 @@ export const makeGetProperty = (
     try {
       const propertyModel = await PropertyModel.findOne({id: propertyId});
       if (!propertyModel) {
-        console.log('HERE');
         return {
           status: 404,
           data: undefined,
