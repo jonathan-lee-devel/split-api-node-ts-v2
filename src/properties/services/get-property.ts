@@ -1,16 +1,32 @@
 import {Model} from 'mongoose';
 import {Property} from '../models/Property';
 import {GetPropertyFunction} from '../types/get-property';
+import {User} from '../../users/models/User';
 
 export const makeGetProperty = (
     PropertyModel: Model<Property>,
 ): GetPropertyFunction => {
-  return async function getProperty(propertyId: string) {
+  return async function getProperty(
+      requestingUser: User,
+      propertyId: string,
+  ) {
     try {
       const propertyModel = await PropertyModel.findOne({id: propertyId});
       if (!propertyModel) {
+        console.log('HERE');
         return {
           status: 404,
+          data: undefined,
+        };
+      }
+      if (!propertyModel
+          .tenantEmails
+          .includes(requestingUser.email) &&
+                !propertyModel
+                    .administratorEmails
+                    .includes(requestingUser.email)) {
+        return {
+          status: 403,
           data: undefined,
         };
       }
@@ -20,8 +36,8 @@ export const makeGetProperty = (
           id: propertyModel.id,
           title: propertyModel.title,
           tenantEmails: propertyModel.tenantEmails,
-          admin: propertyModel.admin.toString(),
-          createdBy: propertyModel.createdBy,
+          createdByEmail: propertyModel.createdByEmail,
+          administratorEmails: propertyModel.administratorEmails,
         },
       };
     } catch (err) {

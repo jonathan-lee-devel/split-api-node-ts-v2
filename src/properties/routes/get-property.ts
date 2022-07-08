@@ -8,7 +8,11 @@ export const configureGetPropertyRoute = (
     getProperty: GetPropertyFunction,
 ) => {
   router.get(path, isLoggedIn, async (req, res, _next) => {
-    const propertyContainer = await getProperty(req.params.propertyId);
+    const propertyContainer = await getProperty(
+        // @ts-ignore
+        req.user,
+        req.params.propertyId,
+    );
     return res
         .status(propertyContainer.status)
         .json(propertyContainer.data);

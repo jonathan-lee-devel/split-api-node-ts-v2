@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import {ObjectID} from 'bson';
 
 const {model, Schema} = mongoose;
 
@@ -7,8 +6,8 @@ export interface Property {
     id: string;
     title: string;
     tenantEmails: string[];
-    createdBy: string;
-    admin: Property;
+    createdByEmail: string;
+    administratorEmails: string[];
 }
 
 const schema = new Schema<Property>({
@@ -27,13 +26,13 @@ const schema = new Schema<Property>({
     required: true,
     unique: false,
   },
-  createdBy: {
+  createdByEmail: {
     type: String,
     required: true,
     unique: false,
   },
-  admin: {
-    type: ObjectID,
+  administratorEmails: {
+    type: [String],
     required: true,
     unique: false,
   },

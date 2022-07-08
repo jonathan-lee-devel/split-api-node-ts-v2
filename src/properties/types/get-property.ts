@@ -1,6 +1,8 @@
 import {StatusDataContainer} from '../../dtos/StatusDataContainer';
 import {PropertyDto} from '../dtos/PropertyDto';
+import {User} from '../../users/models/User';
 
 export type GetPropertyFunction = (
-    propertyId: string
+    requestingUser: User,
+    propertyId: string,
 ) => Promise<StatusDataContainer<PropertyDto>>;

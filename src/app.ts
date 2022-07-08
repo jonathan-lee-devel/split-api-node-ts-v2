@@ -25,6 +25,8 @@ app.use(configureCors());
 
 connectToDatabase();
 
+app.use('/properties', PropertiesRouter);
+
 app.use((_req, _res, next) => {
   next(createError(404));
 });
@@ -51,7 +53,5 @@ app.use(
       res.json({error: err});
     },
 );
-
-app.use('/properties', PropertiesRouter);
 
 export {app};
