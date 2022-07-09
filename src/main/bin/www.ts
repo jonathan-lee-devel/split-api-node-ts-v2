@@ -3,6 +3,7 @@
 import {app} from '../app';
 import http from 'http';
 import debug from 'debug';
+
 debug('express-sandbox:server');
 
 const port = normalizePort(process.env.PORT || '3000');
@@ -52,6 +53,8 @@ function onError(error: any) {
 function onListening() {
   const address = server.address();
   const bind =
-    typeof address === 'string' ? 'pipe ' + address : 'port ' + address.port;
+        typeof address === 'string' ?
+            'pipe ' + address :
+            'port ' + address.port;
   debug('Listening on ' + bind);
 }

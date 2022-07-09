@@ -2,7 +2,7 @@ import passport from 'passport';
 import bcrypt from 'bcrypt';
 import {Strategy as LocalStrategy} from 'passport-local';
 import {HydratedDocument, Model} from 'mongoose';
-import {User} from '../../users/models/User';
+import {User} from '../../../users/models/User';
 
 export const configurePassport =
     (UserModel: Model<User>): passport.PassportStatic => {

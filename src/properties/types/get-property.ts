@@ -1,4 +1,4 @@
-import {StatusDataContainer} from '../../dtos/StatusDataContainer';
+import {StatusDataContainer} from '../../main/dtos/StatusDataContainer';
 import {PropertyDto} from '../dtos/PropertyDto';
 import {User} from '../../users/models/User';
 

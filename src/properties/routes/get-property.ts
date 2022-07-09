@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import {GetPropertyFunction} from '../types/get-property';
-import {isLoggedIn} from '../../config/auth/is-logged-in';
+import {isLoggedIn} from '../../main/config/auth/is-logged-in';
 
 export const configureGetPropertyRoute = (
     router: Router,

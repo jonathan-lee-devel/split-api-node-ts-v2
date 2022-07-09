@@ -6,8 +6,8 @@ import {configureExpressSession} from './config/auth/configure-express-session';
 import {configurePassport} from './config/auth/configure-passport';
 import {configureCors} from './config/auth/configure-cors';
 import {connectToDatabase} from './config/database/connect-to-database';
-import {UserModel} from './users/models/User';
-import {PropertiesRouter} from './properties/routes';
+import {UserModel} from '../users/models/User';
+import {PropertiesRouter} from '../properties/routes';
 
 const app = express();
 app.use(helmet.hidePoweredBy());
