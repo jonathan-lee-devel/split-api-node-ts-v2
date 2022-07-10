@@ -28,6 +28,7 @@ describe('Get property', () => {
           id: 'id',
           title: 'title',
           tenantEmails: [],
+          acceptedTenantEmails: [],
           createdByEmail: 'createdByEmail',
           administratorEmails: [],
         };
@@ -50,6 +51,7 @@ describe('Get property', () => {
           id: 'id',
           title: 'title',
           tenantEmails: ['email'],
+          acceptedTenantEmails: [],
           createdByEmail: 'createdByEmail',
           administratorEmails: [],
         };
@@ -66,6 +68,7 @@ describe('Get property', () => {
         expect(result.data.id).toStrictEqual('id');
         expect(result.data.title).toStrictEqual('title');
         expect(result.data.tenantEmails).toStrictEqual(['email']);
+        expect(result.data.acceptedTenantEmails).toStrictEqual(['']);
         expect(result.data.createdByEmail).toStrictEqual('createdByEmail');
         expect(result.data.administratorEmails).toStrictEqual([]);
       });
@@ -76,6 +79,7 @@ describe('Get property', () => {
           id: 'id',
           title: 'title',
           tenantEmails: [],
+          acceptedTenantEmails: [],
           createdByEmail: 'createdByEmail',
           administratorEmails: ['email'],
         };
@@ -92,6 +96,7 @@ describe('Get property', () => {
         expect(result.data.id).toStrictEqual('id');
         expect(result.data.title).toStrictEqual('title');
         expect(result.data.tenantEmails).toStrictEqual([]);
+        expect(result.data.acceptedTenantEmails).toStrictEqual([]);
         expect(result.data.createdByEmail).toStrictEqual('createdByEmail');
         expect(result.data.administratorEmails).toStrictEqual(['email']);
       });
@@ -102,6 +107,7 @@ describe('Get property', () => {
           id: 'id',
           title: 'title',
           tenantEmails: ['email'],
+          acceptedTenantEmails: [],
           createdByEmail: 'createdByEmail',
           administratorEmails: ['email'],
         };
@@ -118,6 +124,7 @@ describe('Get property', () => {
         expect(result.data.id).toStrictEqual('id');
         expect(result.data.title).toStrictEqual('title');
         expect(result.data.tenantEmails).toStrictEqual(['email']);
+        expect(result.data.acceptedTenantEmails).toStrictEqual([]);
         expect(result.data.createdByEmail).toStrictEqual('createdByEmail');
         expect(result.data.administratorEmails).toStrictEqual(['email']);
       });

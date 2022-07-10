@@ -35,6 +35,7 @@ export const makeGetProperty = (
           id: propertyModel.id,
           title: propertyModel.title,
           tenantEmails: propertyModel.tenantEmails,
+          acceptedTenantEmails: propertyModel.acceptedTenantEmails,
           createdByEmail: propertyModel.createdByEmail,
           administratorEmails: propertyModel.administratorEmails,
         },
