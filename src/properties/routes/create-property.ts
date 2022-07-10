@@ -2,7 +2,7 @@ import {Router} from 'express';
 import {CreatePropertyFunction} from '../types/create-property';
 import {isLoggedIn} from '../../main/config/auth/is-logged-in';
 
-export const configurePostPropertyRoute = (
+export const configureCreatePropertyRoute = (
     router: Router,
     path: string,
     createProperty: CreatePropertyFunction,

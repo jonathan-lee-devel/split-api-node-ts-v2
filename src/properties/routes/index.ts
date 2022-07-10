@@ -1,12 +1,13 @@
 import express from 'express';
 import {configureGetPropertyRoute} from './get-property';
-import {configurePostPropertyRoute} from './create-property';
+import {configureCreatePropertyRoute} from './create-property';
 import {createProperty, getProperty} from '../services';
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
 
+console.log('HERE');
 configureGetPropertyRoute(router, '/:propertyId', getProperty);
-configurePostPropertyRoute(router, '/', createProperty);
+configureCreatePropertyRoute(router, '/', createProperty);
 
 export {router as PropertiesRouter};
