@@ -6,6 +6,7 @@ import {PropertyInvitationStatus} from '../enums/PropertyInvitationStatus';
 import {PropertyInvitationToken} from '../models/PropertyInvitationToken';
 import {PropertyInvitation} from '../models/PropertyInvitation';
 import {Property} from '../../models/Property';
+import {PropertyInvitationStatusDto} from '../dtos/PropertyInvitationStatusDto';
 
 export const makeConfirmPropertyInvitation = (
     PropertyInvitationTokenModel: Model<PropertyInvitationToken>,
@@ -14,7 +15,7 @@ export const makeConfirmPropertyInvitation = (
 ): ConfirmPropertyInvitationFunction => {
   return async function confirmPropertyInvitation(
       tokenValue: string,
-  ): Promise<StatusDataContainer<PropertyInvitationStatus>> {
+  ): Promise<StatusDataContainer<PropertyInvitationStatusDto>> {
     try {
       const token =
                 await PropertyInvitationTokenModel
@@ -24,7 +25,10 @@ export const makeConfirmPropertyInvitation = (
             .error(`Invalid property invitation token provided: ${tokenValue}`);
         return {
           status: 400,
-          data: PropertyInvitationStatus.INVALID_TOKEN,
+          data: {
+            // eslint-disable-next-line max-len
+            status: PropertyInvitationStatus[PropertyInvitationStatus.INVALID_TOKEN],
+          },
         };
       }
 
@@ -37,14 +41,19 @@ export const makeConfirmPropertyInvitation = (
             .error(`Property invitation token: ${tokenValue} without associated invitation`);
         return {
           status: 500,
-          data: PropertyInvitationStatus.FAILURE,
+          data: {
+            status: PropertyInvitationStatus[PropertyInvitationStatus.FAILURE],
+          },
         };
       }
 
       if (new Date().getTime() > token.expiryDate.getTime()) {
         return {
           status: 400,
-          data: PropertyInvitationStatus.EMAIL_VERIFICATION_EXPIRED,
+          data: {
+            // eslint-disable-next-line max-len
+            status: PropertyInvitationStatus[PropertyInvitationStatus.EMAIL_VERIFICATION_EXPIRED],
+          },
         };
       }
 
@@ -56,7 +65,9 @@ export const makeConfirmPropertyInvitation = (
             .error(`Property with id: ${invitation.propertyId} does not exist for invitation`);
         return {
           status: 400,
-          data: PropertyInvitationStatus.FAILURE,
+          data: {
+            status: PropertyInvitationStatus[PropertyInvitationStatus.FAILURE],
+          },
         };
       }
 
@@ -68,13 +79,17 @@ export const makeConfirmPropertyInvitation = (
       await property.save();
       return {
         status: 200,
-        data: PropertyInvitationStatus.SUCCESS,
+        data: {
+          status: PropertyInvitationStatus[PropertyInvitationStatus.SUCCESS],
+        },
       };
     } catch (err) {
       console.error(`An error has occurred: ${err}`);
       return {
         status: 500,
-        data: PropertyInvitationStatus.FAILURE,
+        data: {
+          status: PropertyInvitationStatus[PropertyInvitationStatus.FAILURE],
+        },
       };
     }
   };

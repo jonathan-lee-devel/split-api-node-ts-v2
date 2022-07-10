@@ -1,6 +1,6 @@
 import {StatusDataContainer} from '../../../main/dtos/StatusDataContainer';
-import {PropertyInvitationStatus} from '../enums/PropertyInvitationStatus';
+import {PropertyInvitationStatusDto} from '../dtos/PropertyInvitationStatusDto';
 
 export type ConfirmPropertyInvitationFunction = (
     tokenValue: string,
-) => Promise<StatusDataContainer<PropertyInvitationStatus>>;
+) => Promise<StatusDataContainer<PropertyInvitationStatusDto>>;
