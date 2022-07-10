@@ -2,13 +2,13 @@
   "name": "split-api-node-ts-v2",
   "version": "2.0.0",
   "description": "Split is an application intended to allow for the management of shared living spaces.",
-  "main": "dist/app.js",
+  "main": "dist/main/app.js",
   "type": "module",
   "scripts": {
     "prebuild": "eslint -c .eslintrc.cjs --fix",
     "build": "tsc",
     "prestart": "npm run build",
-    "start": "node --es-module-specifier-resolution=node dist/bin/www.js",
+    "start": "node --es-module-specifier-resolution=node dist/main/bin/www.js",
     "test": "node --no-warnings --experimental-vm-modules node_modules/jest/bin/jest.js",
     "sonar": "node sonar-project.cjs"
   },
