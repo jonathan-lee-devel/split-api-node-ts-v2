@@ -11,7 +11,8 @@ export const makeGetProperty = (
       propertyId: string,
   ) {
     try {
-      const propertyModel = await PropertyModel.findOne({id: propertyId});
+      const propertyModel = await PropertyModel.findOne({id: propertyId},
+          {__v: 0});
       if (!propertyModel) {
         return {
           status: 404,
@@ -41,7 +42,7 @@ export const makeGetProperty = (
         },
       };
     } catch (err) {
-      console.error(err);
+      console.error(`An error has occurred: ${err}`);
       return {
         status: 500,
         data: undefined,

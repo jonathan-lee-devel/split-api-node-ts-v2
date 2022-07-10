@@ -9,6 +9,7 @@ import {connectToDatabase} from './config/database/connect-to-database';
 import {UserModel} from '../users/models/User';
 import {PropertiesRouter} from '../properties/routes';
 import {PropertyInvitationsRouter} from '../properties/invitations/routes';
+import {ExpensesRouter} from '../expenses/routes';
 
 const app = express();
 app.use(helmet.hidePoweredBy());
@@ -28,6 +29,7 @@ connectToDatabase();
 
 app.use('/properties', PropertiesRouter);
 app.use('/invitations', PropertyInvitationsRouter);
+app.use('/expenses', ExpensesRouter);
 
 app.use((_req, _res, next) => {
   next(createError(404));
