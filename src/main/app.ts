@@ -24,10 +24,10 @@ app.use(passport.session());
 
 app.use(configureCors());
 
+connectToDatabase();
+
 app.use('/properties', PropertiesRouter);
 app.use('/invitations', PropertyInvitationsRouter);
-
-connectToDatabase();
 
 app.use((_req, _res, next) => {
   next(createError(404));

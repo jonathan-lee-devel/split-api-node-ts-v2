@@ -6,7 +6,6 @@ import {createProperty, getProperty} from '../services';
 // eslint-disable-next-line new-cap
 const router = express.Router();
 
-console.log('HERE');
 configureGetPropertyRoute(router, '/:propertyId', getProperty);
 configureCreatePropertyRoute(router, '/', createProperty);
 

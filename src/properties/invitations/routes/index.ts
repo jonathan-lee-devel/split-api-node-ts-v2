@@ -6,7 +6,6 @@ import {confirmPropertyInvitation} from '../services';
 // eslint-disable-next-line new-cap
 const router = express.Router();
 
-console.log('@HERE');
 configureConfirmPropertyInvitationRoute(
     router,
     '/confirm/:tokenValue',
