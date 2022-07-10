@@ -6,6 +6,7 @@ export interface Property {
     id: string;
     title: string;
     tenantEmails: string[];
+    acceptedTenantEmails: string[];
     createdByEmail: string;
     administratorEmails: string[];
 }
@@ -22,6 +23,11 @@ const schema = new Schema<Property>({
     unique: false,
   },
   tenantEmails: {
+    type: [String],
+    required: true,
+    unique: false,
+  },
+  acceptedTenantEmails: {
     type: [String],
     required: true,
     unique: false,

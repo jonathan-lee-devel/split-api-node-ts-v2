@@ -24,6 +24,7 @@ export const makeCreateProperty = (
       id,
       title,
       tenantEmails: [], // e-mails get added on invitations
+      acceptedTenantEmails: [],
       createdByEmail,
       administratorEmails,
     };
@@ -39,6 +40,7 @@ export const makeCreateProperty = (
           id,
           title,
           tenantEmails,
+          acceptedTenantEmails: [],
           createdByEmail,
           administratorEmails,
         },
