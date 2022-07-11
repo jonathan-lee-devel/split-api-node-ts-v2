@@ -5,7 +5,7 @@ import {Property} from '../models/Property';
 import {CreatePropertyFunction} from '../types/create-property';
 // eslint-disable-next-line max-len
 import {InviteToPropertyFunction} from '../invitations/types/invite-to-property';
-import {User} from '../../users/models/User';
+import {User} from '../../users/main/models/User';
 
 export const makeCreateProperty = (
     generateId: GenerateIdFunction,

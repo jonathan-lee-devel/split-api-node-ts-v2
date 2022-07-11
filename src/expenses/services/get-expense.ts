@@ -1,7 +1,7 @@
 import {Model} from 'mongoose';
 import {Expense} from '../models/Expense';
 import {GetExpenseFunction} from '../types/get-expense';
-import {User} from '../../users/models/User';
+import {User} from '../../users/main/models/User';
 import {Property} from '../../properties/models/Property';
 
 export const makeGetExpense = (

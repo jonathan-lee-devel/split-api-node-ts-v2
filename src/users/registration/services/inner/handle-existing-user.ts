@@ -1,5 +1,5 @@
 import {Model} from 'mongoose';
-import {User} from '../../../models/User';
+import {User} from '../../../main/models/User';
 // eslint-disable-next-line max-len
 import {HandleExistingUserFunction} from '../../types/inner/handle-existing-user';
 // eslint-disable-next-line max-len

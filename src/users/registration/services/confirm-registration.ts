@@ -3,7 +3,7 @@ import {Model} from 'mongoose';
 import {RegistrationVerificationToken} from '../models/RegistrationVerificationToken';
 import {ConfirmRegistrationFunction} from '../types/confirm-registration';
 import {RegistrationStatus} from '../enums/RegistrationStatus';
-import {User} from '../../models/User';
+import {User} from '../../main/models/User';
 
 export const makeConfirmRegistration = (
     RegistrationVerificationTokenModel: Model<RegistrationVerificationToken>,

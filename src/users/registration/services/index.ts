@@ -1,5 +1,5 @@
 import {makeHandleExistingUser} from './inner/handle-existing-user';
-import {UserModel} from '../../models/User';
+import {UserModel} from '../../main/models/User';
 // eslint-disable-next-line max-len
 import {makeGenerateRegistrationVerificationToken} from './generate-registration-verification-token';
 // eslint-disable-next-line max-len

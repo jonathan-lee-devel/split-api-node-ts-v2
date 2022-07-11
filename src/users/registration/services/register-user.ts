@@ -1,7 +1,7 @@
 // eslint-disable-next-line max-len
 import {Model} from 'mongoose';
 // eslint-disable-next-line max-len
-import {User} from '../../models/User';
+import {User} from '../../main/models/User';
 import {SendMailFunction} from '../../../util/email/types/send-mail';
 import {RegisterUserFunction} from '../types/register-user';
 // eslint-disable-next-line max-len

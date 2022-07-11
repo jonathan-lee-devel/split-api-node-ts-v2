@@ -1,7 +1,7 @@
 import {Model} from 'mongoose';
 import {Property} from '../models/Property';
 import {GetPropertyFunction} from '../types/get-property';
-import {User} from '../../users/models/User';
+import {User} from '../../users/main/models/User';
 
 export const makeGetProperty = (
     PropertyModel: Model<Property>,

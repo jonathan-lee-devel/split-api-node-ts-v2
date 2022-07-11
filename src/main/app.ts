@@ -6,12 +6,12 @@ import {configureExpressSession} from './config/auth/configure-express-session';
 import {configurePassport} from './config/auth/configure-passport';
 import {configureCors} from './config/auth/configure-cors';
 import {connectToDatabase} from './config/database/connect-to-database';
-import {UserModel} from '../users/models/User';
+import {UserModel} from '../users/main/models/User';
 import {PropertiesRouter} from '../properties/routes';
 import {PropertyInvitationsRouter} from '../properties/invitations/routes';
 import {ExpensesRouter} from '../expenses/routes';
 import {RegistrationRouter} from '../users/registration/routes';
-import {UsersRouter} from '../users/routes';
+import {UsersRouter} from '../users/main/routes';
 
 const app = express();
 app.use(helmet.hidePoweredBy());
