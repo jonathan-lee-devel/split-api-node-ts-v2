@@ -2,7 +2,7 @@ import {makeGetExpense} from './get-expense';
 import {ExpenseModel} from '../models/Expense';
 import {PropertyModel} from '../../properties/models/Property';
 import {makeCreateExpense} from './create-expense';
-import {generatedId} from '../../util/id/exports';
+import {generatedId} from '../../util/id/services';
 
 export const getExpense = makeGetExpense(
     ExpenseModel,

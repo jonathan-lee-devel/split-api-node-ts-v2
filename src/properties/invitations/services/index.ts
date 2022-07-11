@@ -1,7 +1,7 @@
 import {makeInviteToProperty} from './invite-to-property';
 import {PropertyModel} from '../../models/Property';
 import {makeCreatePropertyInvitation} from './create-property-invitation';
-import {generatedId} from '../../../util/id/exports';
+import {generatedId} from '../../../util/id/services';
 // eslint-disable-next-line max-len
 import {makeGeneratePropertyInvitationToken} from './generate-property-invitation-token';
 import {PropertyInvitationTokenModel} from '../models/PropertyInvitationToken';
