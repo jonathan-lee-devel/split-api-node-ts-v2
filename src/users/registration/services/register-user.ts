@@ -35,7 +35,7 @@ export const makeRegisterUser = (
   ) {
     if (await handleExistingUser(email)) {
       return {
-        status: 400,
+        status: 409,
         data: {
           status: RegistrationStatus[RegistrationStatus.USER_ALREADY_EXISTS],
         },
