@@ -11,6 +11,7 @@ import {PropertiesRouter} from '../properties/routes';
 import {PropertyInvitationsRouter} from '../properties/invitations/routes';
 import {ExpensesRouter} from '../expenses/routes';
 import {RegistrationRouter} from '../users/registration/routes';
+import {UsersRouter} from '../users/routes';
 
 const app = express();
 app.use(helmet.hidePoweredBy());
@@ -28,6 +29,7 @@ app.use(configureCors());
 
 connectToDatabase();
 
+app.use('/users', UsersRouter);
 app.use('/users/register', RegistrationRouter);
 app.use('/properties', PropertiesRouter);
 app.use('/invitations', PropertyInvitationsRouter);
