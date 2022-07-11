@@ -10,6 +10,7 @@ import {encodePassword, generatePasswordResetVerificationToken} from '../../pass
 import {sendMail} from '../../../util/email/exports';
 // eslint-disable-next-line max-len
 import {PasswordResetVerificationTokenModel} from '../../password/models/PasswordResetVerificationToken';
+import {makeConfirmRegistration} from './confirm-registration';
 
 const handleExistingUser = makeHandleExistingUser(
     UserModel,
@@ -29,4 +30,9 @@ export const registerUser = makeRegisterUser(
     encodePassword,
     UserModel,
     sendMail,
+);
+
+export const confirmRegistration = makeConfirmRegistration(
+    RegistrationVerificationTokenModel,
+    UserModel,
 );
