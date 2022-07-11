@@ -1,3 +1,3 @@
-import {makeGenerateId} from "./generate-id";
+import {makeGenerateId} from './generate-id';
 
 export const generatedId = makeGenerateId();
