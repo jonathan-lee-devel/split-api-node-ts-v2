@@ -9,10 +9,14 @@ import {PropertyInvitationModel} from '../models/PropertyInvitation';
 import {makeSendPropertyInvitation} from './send-property-invitation';
 import {sendMail} from '../../../util/email/exports';
 import {makeConfirmPropertyInvitation} from './confirm-property-invitation';
+import {loggerConfig} from '../../../main/config/logger/logger-config';
+
+const logger = loggerConfig();
 
 const generatePropertyInvitationToken = makeGeneratePropertyInvitationToken();
 
 const createPropertyInvitation = makeCreatePropertyInvitation(
+    logger,
     generatedId,
     generatePropertyInvitationToken,
     PropertyInvitationTokenModel,
@@ -24,12 +28,14 @@ const sendPropertyInvitation = makeSendPropertyInvitation(
 );
 
 export const inviteToProperty = makeInviteToProperty(
+    logger,
     PropertyModel,
     createPropertyInvitation,
     sendPropertyInvitation,
 );
 
 export const confirmPropertyInvitation = makeConfirmPropertyInvitation(
+    logger,
     PropertyInvitationTokenModel,
     PropertyInvitationModel,
     PropertyModel,

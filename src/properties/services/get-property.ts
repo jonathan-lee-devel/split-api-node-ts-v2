@@ -1,9 +1,11 @@
+import bunyan from 'bunyan';
 import {Model} from 'mongoose';
 import {Property} from '../models/Property';
 import {GetPropertyFunction} from '../types/get-property';
 import {User} from '../../users/main/models/User';
 
 export const makeGetProperty = (
+    logger: bunyan,
     PropertyModel: Model<Property>,
 ): GetPropertyFunction => {
   return async function getProperty(
@@ -42,7 +44,7 @@ export const makeGetProperty = (
         },
       };
     } catch (err) {
-      console.error(`An error has occurred: ${err}`);
+      logger.error(`An error has occurred: ${err}`);
       return {
         status: 500,
         data: undefined,

@@ -1,3 +1,6 @@
 import {makeGenerateId} from './generate-id';
+import {loggerConfig} from '../../../main/config/logger/logger-config';
 
-export const generatedId = makeGenerateId();
+const logger = loggerConfig();
+
+export const generatedId = makeGenerateId(logger);

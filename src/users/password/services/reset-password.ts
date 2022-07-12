@@ -1,3 +1,4 @@
+import bunyan from 'bunyan';
 import {Model} from 'mongoose';
 import {ResetPasswordFunction} from '../types/reset-password';
 import {User} from '../../main/models/User';
@@ -12,6 +13,7 @@ import {DEFAULT_TOKEN_EXPIRY_TIME_MINUTES} from '../../../util/token/default-tok
 import {SendMailFunction} from '../../../util/email/types/send-mail';
 
 export const makeResetPassword = (
+    logger: bunyan,
     UserModel: Model<User>,
     PasswordResetVerificationTokenModel: Model<PasswordResetVerificationToken>,
     generatePasswordResetVerificationToken:
@@ -38,7 +40,7 @@ export const makeResetPassword = (
                 await PasswordResetVerificationTokenModel
                     .findOne({userEmail: email}, {__v: 0});
       if (!passwordResetVerificationTokenModel) {
-        console.error(`Password reset token does not exist for user: ${email}`);
+        logger.error(`Password reset token does not exist for user: ${email}`);
         return {
           status: 200,
           data: {
@@ -58,7 +60,7 @@ export const makeResetPassword = (
                     email,
                 );
       if (passwordResetVerificationTokenContainer.status !== 201) {
-        console.error(`generatePasswordResetVerificationToken returned ${
+        logger.error(`generatePasswordResetVerificationToken returned ${
           passwordResetVerificationTokenContainer.status
         }`);
         return {
@@ -83,7 +85,7 @@ export const makeResetPassword = (
         },
       };
     } catch (err) {
-      console.error(`An error has occurred: ${err}`);
+      logger.error(`An error has occurred: ${err}`);
       return {
         status: 500,
         data: {

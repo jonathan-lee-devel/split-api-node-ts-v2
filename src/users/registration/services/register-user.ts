@@ -1,6 +1,5 @@
-// eslint-disable-next-line max-len
+import bunyan from 'bunyan';
 import {Model} from 'mongoose';
-// eslint-disable-next-line max-len
 import {User} from '../../main/models/User';
 import {SendMailFunction} from '../../../util/email/types/send-mail';
 import {RegisterUserFunction} from '../types/register-user';
@@ -18,6 +17,7 @@ import {DEFAULT_TOKEN_SIZE} from '../../../util/token/default-token-size';
 import {DEFAULT_TOKEN_EXPIRY_TIME_MINUTES} from '../../../util/token/default-token-expiry-time-minutes';
 
 export const makeRegisterUser = (
+    logger: bunyan,
     handleExistingUser: HandleExistingUserFunction,
     generateRegistrationVerificationToken:
         GenerateRegistrationVerificationTokenFunction,
@@ -72,7 +72,7 @@ export const makeRegisterUser = (
     try {
       await new UserModel(newUser).save();
     } catch (err) {
-      console.error(`An error has occurred: ${err}`);
+      logger.error(`An error has occurred: ${err}`);
       return {
         status: 500,
         data: {

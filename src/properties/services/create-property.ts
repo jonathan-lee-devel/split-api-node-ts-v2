@@ -1,3 +1,4 @@
+import bunyan from 'bunyan';
 import {Model} from 'mongoose';
 import {GenerateIdFunction} from '../../util/id/types/generate-id';
 import {DEFAULT_ID_LENGTH} from '../../util/id/constants/default-id-length';
@@ -8,6 +9,7 @@ import {InviteToPropertyFunction} from '../invitations/types/invite-to-property'
 import {User} from '../../users/main/models/User';
 
 export const makeCreateProperty = (
+    logger: bunyan,
     generateId: GenerateIdFunction,
     PropertyModel: Model<Property>,
     inviteToProperty: InviteToPropertyFunction,
@@ -46,7 +48,7 @@ export const makeCreateProperty = (
         },
       };
     } catch (err) {
-      console.error(`An error has occurred: ${err}`);
+      logger.error(`An error has occurred: ${err}`);
       return {
         status: 500,
         data: undefined,

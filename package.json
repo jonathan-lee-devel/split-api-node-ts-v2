@@ -32,6 +32,7 @@
   "homepage": "https://github.com/jonathan-lee-devel/split-api-node-ts-v2#readme",
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
+    "@types/bunyan": "^1.8.8",
     "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.12",
     "@types/debug": "^4.1.7",
@@ -56,6 +57,7 @@
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "bunyan": "^1.8.15",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "date-fns": "^2.28.0",

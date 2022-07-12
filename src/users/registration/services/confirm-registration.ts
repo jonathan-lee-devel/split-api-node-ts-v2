@@ -1,3 +1,4 @@
+import bunyan from 'bunyan';
 import {Model} from 'mongoose';
 // eslint-disable-next-line max-len
 import {RegistrationVerificationToken} from '../models/RegistrationVerificationToken';
@@ -6,6 +7,7 @@ import {RegistrationStatus} from '../enums/RegistrationStatus';
 import {User} from '../../main/models/User';
 
 export const makeConfirmRegistration = (
+    logger: bunyan,
     RegistrationVerificationTokenModel: Model<RegistrationVerificationToken>,
     UserModel: Model<User>,
 ): ConfirmRegistrationFunction => {
@@ -51,7 +53,7 @@ export const makeConfirmRegistration = (
         },
       };
     } catch (err) {
-      console.error(`An error has occurred: ${err}`);
+      logger.error(`An error has occurred: ${err}`);
       return {
         status: 500,
         data: undefined,

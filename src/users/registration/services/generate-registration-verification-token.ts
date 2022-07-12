@@ -1,12 +1,14 @@
+import bunyan from 'bunyan';
 import {Model} from 'mongoose';
+import {randomBytes} from 'crypto';
+import {addMinutes} from 'date-fns';
 // eslint-disable-next-line max-len
 import {RegistrationVerificationToken} from '../models/RegistrationVerificationToken';
 // eslint-disable-next-line max-len
 import {GenerateRegistrationVerificationTokenFunction} from '../types/generate-registration-verification-token';
-import {randomBytes} from 'crypto';
-import {addMinutes} from 'date-fns';
 
 export const makeGenerateRegistrationVerificationToken = (
+    logger: bunyan,
     RegistrationVerificationTokenModel: Model<RegistrationVerificationToken>,
 ): GenerateRegistrationVerificationTokenFunction => {
   return async function generateRegistrationVerificationToken(
@@ -28,7 +30,7 @@ export const makeGenerateRegistrationVerificationToken = (
         data: registrationVerificationToken,
       };
     } catch (err) {
-      console.error(`An error has occurred: ${err}`);
+      logger.error(`An error has occurred: ${err}`);
       return {
         status: 500,
         data: undefined,

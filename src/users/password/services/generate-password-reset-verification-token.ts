@@ -1,3 +1,4 @@
+import bunyan from 'bunyan';
 import {Model} from 'mongoose';
 import {randomBytes} from 'crypto';
 import {addMinutes} from 'date-fns';
@@ -7,6 +8,7 @@ import {PasswordResetVerificationToken} from '../models/PasswordResetVerificatio
 import {GeneratePasswordResetVerificationTokenFunction} from '../types/generate-password-reset-verification-token';
 
 export const makeGeneratePasswordResetVerificationToken = (
+    logger: bunyan,
     PasswordResetVerificationTokenModel: Model<PasswordResetVerificationToken>,
 ): GeneratePasswordResetVerificationTokenFunction => {
   return async function generateRegistrationVerificationToken(
@@ -28,7 +30,7 @@ export const makeGeneratePasswordResetVerificationToken = (
         data: passwordResetVerificationToken,
       };
     } catch (err) {
-      console.error(`An error has occurred: ${err}`);
+      logger.error(`An error has occurred: ${err}`);
       return {
         status: 500,
         data: undefined,

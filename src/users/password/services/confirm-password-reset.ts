@@ -1,5 +1,6 @@
-import {ConfirmPasswordResetFunction} from '../types/confirm-password-reset';
+import bunyan from 'bunyan';
 import {Model} from 'mongoose';
+import {ConfirmPasswordResetFunction} from '../types/confirm-password-reset';
 // eslint-disable-next-line max-len
 import {PasswordResetVerificationToken} from '../models/PasswordResetVerificationToken';
 import {PasswordResetStatus} from '../enums/PasswordResetStatus';
@@ -7,6 +8,7 @@ import {User} from '../../main/models/User';
 import {EncodePasswordFunction} from '../types/encode-password';
 
 export const makeConfirmPasswordReset = (
+    logger: bunyan,
     PasswordResetVerificationTokenModel: Model<PasswordResetVerificationToken>,
     UserModel: Model<User>,
     encodePassword: EncodePasswordFunction,
@@ -18,6 +20,7 @@ export const makeConfirmPasswordReset = (
       const tokenModel = await PasswordResetVerificationTokenModel
           .findOne({value: tokenValue}, {__v: 0});
       if (!tokenModel) {
+        logger.info(`No token exists with value: ${tokenValue}`);
         return {
           status: 400,
           data: {
@@ -29,7 +32,7 @@ export const makeConfirmPasswordReset = (
       const userModel = await UserModel
           .findOne({email: tokenModel.userEmail}, {__v: 0});
       if (!userModel) {
-        console.error(`No user exists for token with value: ${tokenValue}`);
+        logger.error(`No user exists for token with value: ${tokenValue}`);
         return {
           status: 500,
           data: {
@@ -59,7 +62,7 @@ export const makeConfirmPasswordReset = (
         },
       };
     } catch (err) {
-      console.error(`An error has occurred: ${err}`);
+      logger.error(`An error has occurred: ${err}`);
       return {
         status: 500,
         data: {

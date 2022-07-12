@@ -1,3 +1,4 @@
+import bunyan from 'bunyan';
 import {Model} from 'mongoose';
 import {User} from '../../../main/models/User';
 // eslint-disable-next-line max-len
@@ -8,6 +9,7 @@ import {RegistrationVerificationToken} from '../../models/RegistrationVerificati
 import {PasswordResetVerificationToken} from '../../../password/models/PasswordResetVerificationToken';
 
 export const makeHandleExistingUser = (
+    logger: bunyan,
     UserModel: Model<User>,
     RegistrationVerificationTokenModel: Model<RegistrationVerificationToken>,
     PasswordResetVerificationTokenModel: Model<PasswordResetVerificationToken>,
@@ -29,7 +31,7 @@ export const makeHandleExistingUser = (
         return false;
       }
     } catch (err) {
-      console.error(`An error has occurred: ${err}`);
+      logger.error(`An error has occurred: ${err}`);
       return false;
     }
   };

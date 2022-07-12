@@ -1,3 +1,4 @@
+import bunyan from 'bunyan';
 import {Model} from 'mongoose';
 import {Property} from '../../models/Property';
 import {InviteToPropertyFunction} from '../types/invite-to-property';
@@ -9,6 +10,7 @@ import {CreatePropertyInvitationFunction} from '../types/create-property-invitat
 import {SendPropertyInvitationFunction} from '../types/send-property-invitation';
 
 export const makeInviteToProperty = (
+    logger: bunyan,
     PropertyModel: Model<Property>,
     createPropertyInvitation: CreatePropertyInvitationFunction,
     sendPropertyInvitation: SendPropertyInvitationFunction,
@@ -23,7 +25,7 @@ export const makeInviteToProperty = (
           .findOne({id: propertyId}, {__v: 0});
       if (!property) {
         // eslint-disable-next-line max-len
-        console.error(`Cannot invite to property with ID: ${propertyId} as does not exist`);
+        logger.error(`Cannot invite to property with ID: ${propertyId} as does not exist`);
         return {
           status: 400,
           data: undefined,
@@ -33,7 +35,7 @@ export const makeInviteToProperty = (
       property.tenantEmails.push(inviteeEmail);
       await property.save();
     } catch (err) {
-      console.error(`An error has occurred: ${err}`);
+      logger.error(`An error has occurred: ${err}`);
       return {
         status: 500,
         data: undefined,
@@ -67,7 +69,7 @@ export const makeInviteToProperty = (
       };
     }
     // eslint-disable-next-line max-len
-    console.error(`An error has occurred, createPropertyInvitation returned status: ${propertyInvitationContainer.status}`);
+    logger.error(`An error has occurred, createPropertyInvitation returned status: ${propertyInvitationContainer.status}`);
     return {
       status: 500,
       data: undefined,

@@ -1,16 +1,19 @@
+import bunyan from 'bunyan';
 import {SentMessageInfo} from 'nodemailer';
 import {SendMailCallbackFunction} from '../../types/inner/send-mail-callback';
 
-export const makeSendMailCallback = (): SendMailCallbackFunction => {
+export const makeSendMailCallback = (
+    logger: bunyan,
+): SendMailCallbackFunction => {
   return function sendMailCallback(
       err: Error | null,
       info: SentMessageInfo,
   ) {
     if (err) {
-      console.error(err);
+      logger.error(err);
       return false;
     }
-    console.log(`E-mail sent with response: ${info.response}`);
+    logger.info(`E-mail sent with response: ${info.response}`);
     return true;
   };
 };

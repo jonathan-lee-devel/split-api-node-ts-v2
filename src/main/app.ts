@@ -13,6 +13,9 @@ import {ExpensesRouter} from '../expenses/routes';
 import {RegistrationRouter} from '../users/registration/routes';
 import {UsersRouter} from '../users/main/routes';
 import {PasswordResetRouter} from '../users/password/routes';
+import {loggerConfig} from './config/logger/logger-config';
+
+const logger = loggerConfig();
 
 const app = express();
 app.use(helmet.hidePoweredBy());
@@ -28,7 +31,7 @@ app.use(passport.session());
 
 app.use(configureCors());
 
-connectToDatabase();
+connectToDatabase(logger);
 
 app.use('/users', UsersRouter);
 app.use('/users/register', RegistrationRouter);
@@ -55,7 +58,7 @@ app.use(
       res.locals.message = err.message;
       res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-      console.error(
+      logger.error(
           // eslint-disable-next-line max-len
           `Error at ${req.url}: {"status":"${err.status}", "message":"${err.message}"}`,
       );

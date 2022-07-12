@@ -11,8 +11,12 @@ import {sendMail} from '../../../util/email/exports';
 // eslint-disable-next-line max-len
 import {PasswordResetVerificationTokenModel} from '../../password/models/PasswordResetVerificationToken';
 import {makeConfirmRegistration} from './confirm-registration';
+import {loggerConfig} from '../../../main/config/logger/logger-config';
+
+const logger = loggerConfig();
 
 const handleExistingUser = makeHandleExistingUser(
+    logger,
     UserModel,
     RegistrationVerificationTokenModel,
     PasswordResetVerificationTokenModel,
@@ -20,10 +24,12 @@ const handleExistingUser = makeHandleExistingUser(
 
 const generateRegistrationVerificationToken =
     makeGenerateRegistrationVerificationToken(
+        logger,
         RegistrationVerificationTokenModel,
     );
 
 export const registerUser = makeRegisterUser(
+    logger,
     handleExistingUser,
     generateRegistrationVerificationToken,
     generatePasswordResetVerificationToken,
@@ -33,6 +39,7 @@ export const registerUser = makeRegisterUser(
 );
 
 export const confirmRegistration = makeConfirmRegistration(
+    logger,
     RegistrationVerificationTokenModel,
     UserModel,
 );

@@ -1,16 +1,19 @@
 import mongoose from 'mongoose';
+import bunyan from 'bunyan';
 
 const {connect} = mongoose;
 
-export const connectToDatabase = () => {
+export const connectToDatabase = (
+    logger: bunyan,
+) => {
   connect(process.env.DATABASE_URL)
       .then((_) => {
-        console.log(
+        logger.info(
             `Connected to database: ${process.env.DATABASE_URL}`,
         );
       })
       .catch((err) => {
-        console.error(
+        logger.error(
             // eslint-disable-next-line max-len
             `Could not connect to database: ${process.env.DATABASE_URL} -> ${err}`,
         );
