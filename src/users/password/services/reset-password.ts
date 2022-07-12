@@ -86,7 +86,9 @@ export const makeResetPassword = (
       console.error(`An error has occurred: ${err}`);
       return {
         status: 500,
-        data: undefined,
+        data: {
+          status: PasswordResetStatus[PasswordResetStatus.FAILURE],
+        },
       };
     }
   };
