@@ -12,6 +12,7 @@ import {PropertyInvitationsRouter} from '../properties/invitations/routes';
 import {ExpensesRouter} from '../expenses/routes';
 import {RegistrationRouter} from '../users/registration/routes';
 import {UsersRouter} from '../users/main/routes';
+import {PasswordResetRouter} from '../users/password/routes';
 
 const app = express();
 app.use(helmet.hidePoweredBy());
@@ -31,6 +32,7 @@ connectToDatabase();
 
 app.use('/users', UsersRouter);
 app.use('/users/register', RegistrationRouter);
+app.use('/users/password', PasswordResetRouter);
 app.use('/properties', PropertiesRouter);
 app.use('/invitations', PropertyInvitationsRouter);
 app.use('/expenses', ExpensesRouter);
