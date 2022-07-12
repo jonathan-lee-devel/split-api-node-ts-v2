@@ -14,6 +14,7 @@ import {RegistrationRouter} from '../users/registration/routes';
 import {UsersRouter} from '../users/main/routes';
 import {PasswordResetRouter} from '../users/password/routes';
 import {loggerConfig} from './config/logger/logger-config';
+import {ProfileRouter} from '../users/profile/routes';
 
 const logger = loggerConfig();
 
@@ -36,6 +37,7 @@ connectToDatabase(logger);
 app.use('/users', UsersRouter);
 app.use('/users/register', RegistrationRouter);
 app.use('/users/password', PasswordResetRouter);
+app.use('/users/profile', ProfileRouter);
 app.use('/properties', PropertiesRouter);
 app.use('/invitations', PropertyInvitationsRouter);
 app.use('/expenses', ExpensesRouter);
