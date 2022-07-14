@@ -42,6 +42,12 @@ export const makeRemoveTenantFromProperty = (
         };
       }
       propertyModel.tenantEmails.splice(tenantEmailIndex, 1);
+      const acceptedTenantEmailIndex =
+                propertyModel.acceptedTenantEmails
+                    .indexOf(tenantEmailToRemove, 0);
+      if (acceptedTenantEmailIndex > -1) {
+        propertyModel.acceptedTenantEmails.splice(acceptedTenantEmailIndex, 1);
+      }
       await propertyModel.save();
       return {
         status: 204,
