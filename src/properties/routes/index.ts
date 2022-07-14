@@ -8,6 +8,6 @@ import {verifyEmail} from '../../util/email/exports';
 const router = express.Router();
 
 configureGetPropertyRoute(router, '/:propertyId', getProperty);
-configureCreatePropertyRoute(router, '/', verifyEmail, createProperty);
+configureCreatePropertyRoute(router, '/create', verifyEmail, createProperty);
 
 export {router as PropertiesRouter};

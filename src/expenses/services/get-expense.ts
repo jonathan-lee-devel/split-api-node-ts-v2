@@ -48,7 +48,14 @@ export const makeGetExpense = (
       return {
         status: 200,
         data: {
-          ...expenseModel,
+          id: expenseModel.id,
+          propertyId: expenseModel.propertyId,
+          title: expenseModel.title,
+          amount: expenseModel.amount,
+          frequency: expenseModel.frequency,
+          startDate: expenseModel.startDate,
+          endDate: expenseModel.endDate,
+          createdByEmail: expenseModel.createdByEmail,
         },
       };
     } catch (err) {

@@ -1,25 +1,24 @@
 import {Router} from 'express';
-import Dinero from 'dinero.js';
-import {body, validationResult} from 'express-validator';
-import {CreateExpenseFunction} from '../types/create-expense';
+import {UpdateExpenseFunction} from '../types/update-expense';
 import {isLoggedIn} from '../../main/config/auth/is-logged-in';
-import {ExpenseFrequency} from '../enums/ExpenseFrequency';
 import {isBefore} from 'date-fns';
+import {body, validationResult} from 'express-validator';
+import {ExpenseFrequency} from '../enums/ExpenseFrequency';
 
-export const configureCreateExpenseRoute = (
+export const configureUpdateExpenseRoute = (
     router: Router,
     path: string,
-    createExpense: CreateExpenseFunction,
+    updateExpense: UpdateExpenseFunction,
 ) => {
-  router.post(path,
-      body('propertyId', 'Must be a valid property ID')
+  router.patch(path,
+      body('propertyId', 'Must be a valid propertyId')
           .exists(),
       body('title', 'Must be a valid title of 1-30 characters')
           .exists()
           .isLength({min: 1, max: 30}),
-      body('amount', 'Must be a non-negative integer')
+      body('amount', 'Must be a non-negative float')
           .exists()
-          .isInt({min: 0}),
+          .isFloat({min: 0.00}),
       body('frequency', 'Must be a valid frequency')
           .exists()
           .isInt({min: ExpenseFrequency.ONCE, max: ExpenseFrequency.YEARLY}),
@@ -51,21 +50,22 @@ export const configureCreateExpenseRoute = (
           return res.status(400).json({errors: errors.array()});
         }
 
+        const {expenseId} = req.params;
         const {
-          propertyId, title, amount, frequency, startDate, endDate,
+          title, amount, frequency, startDate, endDate,
         } = req.body;
-        // eslint-disable-next-line new-cap
-        const dineroAmount = Dinero({amount, currency: 'EUR', precision: 2});
-        const expenseContainer = await createExpense(
+
+        const expenseContainer = await updateExpense(
             // @ts-ignore
             req.user,
-            propertyId,
+            expenseId,
             title,
-            dineroAmount,
+            amount,
             frequency,
             startDate,
             endDate,
         );
+
         return res
             .status(expenseContainer.status)
             .json(expenseContainer.data);

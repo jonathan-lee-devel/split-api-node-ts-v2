@@ -1,7 +1,7 @@
 import {Router} from 'express';
 import {CreatePropertyFunction} from '../types/create-property';
 import {isLoggedIn} from '../../main/config/auth/is-logged-in';
-import {body} from 'express-validator';
+import {body, validationResult} from 'express-validator';
 import {VerifyEmailFunction} from '../../util/email/types/verify-email';
 
 export const configureCreatePropertyRoute = (
@@ -35,6 +35,11 @@ export const configureCreatePropertyRoute = (
             return true;
           }),
       isLoggedIn, async (req, res, _next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return res.status(400).json({errors: errors.array()});
+        }
+
         const {title, tenantEmails, administratorEmails} = req.body;
         const propertyContainer = await createProperty(
             // @ts-ignore
