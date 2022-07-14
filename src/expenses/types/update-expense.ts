@@ -5,7 +5,7 @@ import {ExpenseDto} from '../dtos/ExpenseDto';
 
 export type UpdateExpenseFunction = (
     requestingUser: User,
-    propertyId: string,
+    expenseId: string,
     title: string,
     amount: string,
     frequency: ExpenseFrequency,
