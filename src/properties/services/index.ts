@@ -4,6 +4,12 @@ import {makeCreateProperty} from './create-property';
 import {generatedId} from '../../util/id/services';
 import {inviteToProperty} from '../invitations/services';
 import {loggerConfig} from '../../main/config/logger/logger-config';
+import {makeDeleteProperty} from './delete-property';
+// eslint-disable-next-line max-len
+import {makeGetPropertiesForUserAsAdmin} from './get-properties-for-user-as-admin';
+// eslint-disable-next-line max-len
+import {makeGetPropertiesForUserAsTenant} from './get-properties-for-user-as-tenant';
+import {makeRemoveTenantFromProperty} from './remove-tenant-from-property';
 
 const logger = loggerConfig();
 
@@ -14,4 +20,21 @@ export const createProperty = makeCreateProperty(
     generatedId,
     PropertyModel,
     inviteToProperty,
+);
+
+export const deleteProperty = makeDeleteProperty(logger, PropertyModel);
+
+export const getPropertiesForUserAsAdmin = makeGetPropertiesForUserAsAdmin(
+    logger,
+    PropertyModel,
+);
+
+export const getPropertiesForUserAsTenant = makeGetPropertiesForUserAsTenant(
+    logger,
+    PropertyModel,
+);
+
+export const removeTenantFromProperty = makeRemoveTenantFromProperty(
+    logger,
+    PropertyModel,
 );
