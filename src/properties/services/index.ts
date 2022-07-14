@@ -10,6 +10,7 @@ import {makeGetPropertiesForUserAsAdmin} from './get-properties-for-user-as-admi
 // eslint-disable-next-line max-len
 import {makeGetPropertiesForUserAsTenant} from './get-properties-for-user-as-tenant';
 import {makeRemoveTenantFromProperty} from './remove-tenant-from-property';
+import {makeGetPropertyIsAdmin} from './get-property-is-admin';
 
 const logger = loggerConfig();
 
@@ -38,3 +39,5 @@ export const removeTenantFromProperty = makeRemoveTenantFromProperty(
     logger,
     PropertyModel,
 );
+
+export const getPropertyIsAdmin = makeGetPropertyIsAdmin(PropertyModel);

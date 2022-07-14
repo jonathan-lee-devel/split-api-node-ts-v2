@@ -7,6 +7,7 @@ import {
   getPropertiesForUserAsAdmin,
   getPropertiesForUserAsTenant,
   getProperty,
+  getPropertyIsAdmin,
   removeTenantFromProperty,
 } from '../services';
 import {verifyEmail} from '../../util/email/exports';
@@ -21,6 +22,7 @@ import {configureRemoveTenantFromPropertyRoute} from './remove-tenant-from-prope
 import {configureTenantLeavePropertyRoute} from './tenant-leave-property';
 // eslint-disable-next-line max-len
 import {configureInviteTenantsToPropertyRoute} from './invite-tenants-to-property';
+import {configureGetPropertyIsAdminRoute} from './get-property-is-admin';
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -53,6 +55,11 @@ configureInviteTenantsToPropertyRoute(
     '/tenant-invite',
     verifyEmail,
     inviteToProperty,
+);
+configureGetPropertyIsAdminRoute(
+    router,
+    '/:propertyId/isAdmin',
+    getPropertyIsAdmin,
 );
 
 export {router as PropertiesRouter};
