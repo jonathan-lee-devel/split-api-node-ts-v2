@@ -18,7 +18,6 @@ export const makeCreateProperty = (
       requestingUser: User,
       title: string,
       tenantEmails: string[],
-      administratorEmails: string[],
   ) {
     const id = await generateId(DEFAULT_ID_LENGTH);
     const createdByEmail = requestingUser.email;
@@ -28,7 +27,7 @@ export const makeCreateProperty = (
       tenantEmails: [], // e-mails get added on invitations
       acceptedTenantEmails: [],
       createdByEmail,
-      administratorEmails,
+      administratorEmails: [createdByEmail], // single admin at init
     };
 
     try {
@@ -44,7 +43,7 @@ export const makeCreateProperty = (
           tenantEmails,
           acceptedTenantEmails: [],
           createdByEmail,
-          administratorEmails,
+          administratorEmails: property.administratorEmails,
         },
       };
     } catch (err) {

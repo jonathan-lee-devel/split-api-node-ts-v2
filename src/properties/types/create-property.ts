@@ -6,5 +6,4 @@ export type CreatePropertyFunction = (
     requestingUser: User,
     title: string,
     tenantEmails: string[],
-    administratorEmails: string[],
 ) => Promise<StatusDataContainer<PropertyDto>>;

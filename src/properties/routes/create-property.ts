@@ -24,29 +24,18 @@ export const configureCreatePropertyRoute = (
             }
             return true;
           }),
-      body('administratorEmails', 'Only valid e-mail addresses are allowed')
-          .exists()
-          .custom((input) => {
-            for (const email of input.toString().split(',')) {
-              if (!verifyEmail(email)) {
-                return false;
-              }
-            }
-            return true;
-          }),
       isLoggedIn, async (req, res, _next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
           return res.status(400).json({errors: errors.array()});
         }
 
-        const {title, tenantEmails, administratorEmails} = req.body;
+        const {title, tenantEmails} = req.body;
         const propertyContainer = await createProperty(
             // @ts-ignore
             req.user,
             title,
             tenantEmails,
-            administratorEmails,
         );
         return res
             .status(propertyContainer.status)
