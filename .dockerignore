@@ -2,7 +2,6 @@
 nginx
 node_modules
 .env
-.eslintrc.cjs
 .gitignore
 docker-compose.yml
 Dockerfile

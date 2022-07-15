@@ -3,7 +3,7 @@ version: '3'
 services:
   express:
     restart: on-failure
-    build: .
+    image: jonathanleedev/split-api-v2:latest
     environment:
       SESSION_SECRET: ${SESSION_SECRET}
       FRONT_END_URL: ${FRONT_END_URL}
@@ -14,7 +14,7 @@ services:
   nginx:
     build:
       context: nginx
-      dockerfile: ../Dockerfile
+      dockerfile: Dockerfile
     ports:
       - '443:443'
     links:
