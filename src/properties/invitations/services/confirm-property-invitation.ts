@@ -26,10 +26,11 @@ export const makeConfirmPropertyInvitation = (
         logger
             .error(`Invalid property invitation token provided: ${tokenValue}`);
         return {
-          status: 400,
+          status: 200,
           data: {
             // eslint-disable-next-line max-len
             status: PropertyInvitationStatus[PropertyInvitationStatus.INVALID_TOKEN],
+            propertyId: undefined,
           },
         };
       }
@@ -45,16 +46,18 @@ export const makeConfirmPropertyInvitation = (
           status: 500,
           data: {
             status: PropertyInvitationStatus[PropertyInvitationStatus.FAILURE],
+            propertyId: undefined,
           },
         };
       }
 
       if (new Date().getTime() > token.expiryDate.getTime()) {
         return {
-          status: 400,
+          status: 200,
           data: {
             // eslint-disable-next-line max-len
             status: PropertyInvitationStatus[PropertyInvitationStatus.EMAIL_VERIFICATION_EXPIRED],
+            propertyId: undefined,
           },
         };
       }
@@ -69,6 +72,7 @@ export const makeConfirmPropertyInvitation = (
           status: 400,
           data: {
             status: PropertyInvitationStatus[PropertyInvitationStatus.FAILURE],
+            propertyId: undefined,
           },
         };
       }
@@ -83,6 +87,7 @@ export const makeConfirmPropertyInvitation = (
         status: 200,
         data: {
           status: PropertyInvitationStatus[PropertyInvitationStatus.SUCCESS],
+          propertyId: property.id,
         },
       };
     } catch (err) {
@@ -91,6 +96,7 @@ export const makeConfirmPropertyInvitation = (
         status: 500,
         data: {
           status: PropertyInvitationStatus[PropertyInvitationStatus.FAILURE],
+          propertyId: undefined,
         },
       };
     }
