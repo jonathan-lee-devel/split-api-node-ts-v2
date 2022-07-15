@@ -11,6 +11,9 @@ import {makeGetPropertiesForUserAsAdmin} from './get-properties-for-user-as-admi
 import {makeGetPropertiesForUserAsTenant} from './get-properties-for-user-as-tenant';
 import {makeRemoveTenantFromProperty} from './remove-tenant-from-property';
 import {makeGetPropertyIsAdmin} from './get-property-is-admin';
+import {makeGetPropertyTotalExpenses} from './get-property-total-expenses';
+import {ExpenseModel} from '../../expenses/models/Expense';
+import {makeGetPropertyTotalExpensesPerTenant} from './get-property-total-expenses-per-tenant';
 
 const logger = loggerConfig();
 
@@ -41,3 +44,16 @@ export const removeTenantFromProperty = makeRemoveTenantFromProperty(
 );
 
 export const getPropertyIsAdmin = makeGetPropertyIsAdmin(PropertyModel);
+
+export const getPropertyTotalExpenses = makeGetPropertyTotalExpenses(
+    logger,
+    PropertyModel,
+    ExpenseModel,
+);
+
+export const getPropertyTotalExpensesPerTenant =
+    makeGetPropertyTotalExpensesPerTenant(
+        logger,
+        PropertyModel,
+        ExpenseModel,
+    );

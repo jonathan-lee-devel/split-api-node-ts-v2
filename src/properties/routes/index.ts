@@ -8,6 +8,8 @@ import {
   getPropertiesForUserAsTenant,
   getProperty,
   getPropertyIsAdmin,
+  getPropertyTotalExpenses,
+  getPropertyTotalExpensesPerTenant,
   removeTenantFromProperty,
 } from '../services';
 import {verifyEmail} from '../../util/email/exports';
@@ -23,6 +25,8 @@ import {configureTenantLeavePropertyRoute} from './tenant-leave-property';
 // eslint-disable-next-line max-len
 import {configureInviteTenantsToPropertyRoute} from './invite-tenants-to-property';
 import {configureGetPropertyIsAdminRoute} from './get-property-is-admin';
+import {configureGetPropertyTotalExpensesRoute} from './get-property-total-expenses';
+import {configureGetPropertyTotalExpensesPerTenantRoute} from './get-property-total-expenses-per-tenant';
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -60,6 +64,16 @@ configureGetPropertyIsAdminRoute(
     router,
     '/:propertyId/isAdmin',
     getPropertyIsAdmin,
+);
+configureGetPropertyTotalExpensesRoute(
+    router,
+    '/:propertyId/expenses-total',
+    getPropertyTotalExpenses,
+);
+configureGetPropertyTotalExpensesPerTenantRoute(
+    router,
+    '/:propertyId/expenses-per-tenant',
+    getPropertyTotalExpensesPerTenant,
 );
 
 export {router as PropertiesRouter};

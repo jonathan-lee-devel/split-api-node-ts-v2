@@ -1,9 +1,9 @@
 import {GenerateIdFunction} from '../../util/id/types/generate-id';
 import {Model} from 'mongoose';
+import {Dinero} from 'dinero.js';
 import {Expense} from '../models/Expense';
 import {CreateExpenseFunction} from '../types/create-expense';
 import {User} from '../../users/main/models/User';
-import {Dinero} from 'dinero.js';
 import {ExpenseFrequency} from '../enums/ExpenseFrequency';
 import {DEFAULT_ID_LENGTH} from '../../util/id/constants/default-id-length';
 
