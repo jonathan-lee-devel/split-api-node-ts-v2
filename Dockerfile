@@ -1,6 +1,6 @@
 FROM node:16-alpine
 
-WORKDIR /usr/src/app
+WORKDIR .
 
 COPY package*.json ./
 
@@ -12,4 +12,4 @@ RUN npm run build
 
 EXPOSE 3000
 
-CMD [ "node", "--es-module-specifier-resolution=node", "dist/bin/www.js" ]
+CMD [ "node", "--es-module-specifier-resolution=node", "dist/main/bin/www.js" ]
