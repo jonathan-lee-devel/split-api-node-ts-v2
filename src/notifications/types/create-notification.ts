@@ -7,4 +7,6 @@ export type CreateNotificationFunction = (
     userEmail: string,
     title: string,
     text: string,
+    routerLink: string | undefined,
+    buttonText: string | undefined,
 ) => Promise<StatusDataContainer<NotificationDto>>;

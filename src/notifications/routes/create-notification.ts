@@ -19,13 +19,15 @@ export const configureCreateNotificationRoute = (
           .exists()
           .isLength({min: 5, max: 100}),
       isLoggedIn, async (req, res, _next) => {
-        const {userEmail, title, text} = req.body;
+        const {userEmail, title, text, buttonText, routerLink} = req.body;
         const notificationContainer = await createNotification(
             // @ts-ignore
             req.user,
             userEmail,
             title,
             text,
+            routerLink,
+            buttonText,
         );
         return res
             .status(notificationContainer.status)

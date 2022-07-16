@@ -12,10 +12,12 @@ export const makeCreateNotification = (
     NotificationModel: Model<Notification>,
 ): CreateNotificationFunction => {
   return async function createNotification(
-      requestingUser: User,
+      _requestingUser: User,
       userEmail: string,
       title: string,
       text: string,
+      routerLink: string | undefined,
+      buttonText: string | undefined,
   ) {
     const id = await generateId(DEFAULT_ID_LENGTH);
     const datetime = new Date();
@@ -26,8 +28,8 @@ export const makeCreateNotification = (
       text,
       isRead: false,
       datetime,
-      routerLink: undefined,
-      buttonText: undefined,
+      routerLink,
+      buttonText,
     };
 
     try {
@@ -40,8 +42,8 @@ export const makeCreateNotification = (
           text,
           isRead: false,
           datetime,
-          routerLink: undefined,
-          buttonText: undefined,
+          routerLink,
+          buttonText,
         },
       };
     } catch (err) {
