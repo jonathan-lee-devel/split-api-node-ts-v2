@@ -15,6 +15,7 @@ import {UsersRouter} from '../users/main/routes';
 import {PasswordResetRouter} from '../users/password/routes';
 import {loggerConfig} from './config/logger/logger-config';
 import {ProfileRouter} from '../users/profile/routes';
+import {NotificationsRouter} from '../notifications/routes';
 
 const logger = loggerConfig();
 
@@ -41,6 +42,7 @@ app.use('/users/profile', ProfileRouter);
 app.use('/properties', PropertiesRouter);
 app.use('/invitations', PropertyInvitationsRouter);
 app.use('/expenses', ExpensesRouter);
+app.use('/notifications', NotificationsRouter);
 
 app.use((_req, _res, next) => {
   next(createError(404));
