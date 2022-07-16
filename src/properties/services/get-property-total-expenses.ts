@@ -37,8 +37,8 @@ export const makeGetPropertyTotalExpenses = (
         total += amountAsNumber;
       }
       const totalAsCurrency =
-                // eslint-disable-next-line new-cap
-                Dinero({amount: total * 100, currency: 'EUR', precision: 2});
+                // eslint-disable-next-line new-cap,max-len
+                Dinero({amount: Math.round(total * 100), currency: 'EUR', precision: 2});
       return {
         status: 200,
         data: totalAsCurrency.toFormat(),
