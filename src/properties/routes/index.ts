@@ -1,8 +1,6 @@
 import express from 'express';
 import {configureGetPropertyRoute} from './get-property';
-import {configureCreatePropertyRoute} from './create-property';
 import {
-  createProperty,
   deleteProperty,
   getPropertiesForUserAsAdmin,
   getPropertiesForUserAsTenant,
@@ -25,11 +23,23 @@ import {configureTenantLeavePropertyRoute} from './tenant-leave-property';
 // eslint-disable-next-line max-len
 import {configureInviteTenantsToPropertyRoute} from './invite-tenants-to-property';
 import {configureGetPropertyIsAdminRoute} from './get-property-is-admin';
+// eslint-disable-next-line max-len
 import {configureGetPropertyTotalExpensesRoute} from './get-property-total-expenses';
+// eslint-disable-next-line max-len
 import {configureGetPropertyTotalExpensesPerTenantRoute} from './get-property-total-expenses-per-tenant';
+// eslint-disable-next-line max-len
+import {makeExpressCallback} from '../../main/express-callbacks/express-callback';
+import {createPropertyController} from '../controllers';
+import {loggerConfig} from '../../main/config/logger/logger-config';
+// eslint-disable-next-line max-len
+import {createPropertyValidationChain} from '../validation-chains/create-property';
+import {configureRoute} from '../../main/routes/configure-route';
+import {RequestMethod} from '../../main/enums/request-method';
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
+
+const logger = loggerConfig();
 
 configureGetPropertyRoute(router, '/:propertyId', getProperty);
 configureGetPropertiesForUserAsAdminRoute(
@@ -42,7 +52,15 @@ configureGetPropertiesForUserAsTenantRoute(
     '/my/tenant',
     getPropertiesForUserAsTenant,
 );
-configureCreatePropertyRoute(router, '/create', verifyEmail, createProperty);
+configureRoute(
+    router,
+    RequestMethod.POST,
+    '/create',
+    true,
+    createPropertyValidationChain,
+    makeExpressCallback(logger, createPropertyController),
+);
+
 configureDeletePropertyRoute(router, '/delete/:propertyId', deleteProperty);
 configureRemoveTenantFromPropertyRoute(
     router,
