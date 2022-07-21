@@ -1,10 +1,7 @@
 import express from 'express';
 // eslint-disable-next-line max-len
 import {getPropertyIsAdmin, getPropertyTotalExpenses, getPropertyTotalExpensesPerTenant} from '../services';
-import {verifyEmail} from '../../util/email/exports';
-import {inviteToProperty} from '../invitations/services';
 // eslint-disable-next-line max-len
-import {configureInviteTenantsToPropertyRoute} from './invite-tenants-to-property';
 import {configureGetPropertyIsAdminRoute} from './get-property-is-admin';
 // eslint-disable-next-line max-len
 import {configureGetPropertyTotalExpensesRoute} from './get-property-total-expenses';
@@ -19,6 +16,7 @@ import {
   getPropertiesForUserAsAdminController,
   getPropertiesForUserAsTenantController,
   getPropertyController,
+  inviteTenantsToPropertyController,
   removeTenantFromPropertyController,
   tenantLeavePropertyController,
 } from '../controllers';
@@ -31,6 +29,8 @@ import {HttpRequestMethod} from '../../main/enums/http-request-method';
 import {removeTenantFromPropertyValidationChain} from '../validation-chains/remove-tenant-from-property';
 // eslint-disable-next-line max-len
 import {tenantLeavePropertyValidationChain} from '../validation-chains/tenant-leave-property';
+// eslint-disable-next-line max-len
+import {inviteTenantsToPropertyValidationChain} from '../validation-chains/invite-tenants-to-property';
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -93,11 +93,13 @@ configureRoute(
     tenantLeavePropertyValidationChain,
     makeExpressCallback(logger, tenantLeavePropertyController),
 );
-configureInviteTenantsToPropertyRoute(
+configureRoute(
     router,
+    HttpRequestMethod.PATCH,
     '/tenant-invite',
-    verifyEmail,
-    inviteToProperty,
+    true,
+    inviteTenantsToPropertyValidationChain,
+    makeExpressCallback(logger, inviteTenantsToPropertyController),
 );
 configureGetPropertyIsAdminRoute(
     router,

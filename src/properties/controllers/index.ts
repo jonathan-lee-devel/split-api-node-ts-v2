@@ -5,6 +5,7 @@ import {
   getPropertiesForUserAsAdmin,
   getPropertiesForUserAsTenant,
   getProperty,
+  inviteTenantsToProperty,
   removeTenantFromProperty,
 } from '../services';
 import {makeDeletePropertyController} from './delete-property';
@@ -16,6 +17,8 @@ import {makeGetPropertiesForUserAsTenantController} from './get-properties-for-u
 // eslint-disable-next-line max-len
 import {makeRemoveTenantFromPropertyController} from './remove-tenant-from-property';
 import {makeTenantLeavePropertyController} from './tenant-leave-property';
+// eslint-disable-next-line max-len
+import {makeInviteTenantsToPropertyController} from './invite-tenants-to-property';
 
 export const getPropertyController =
     makeGetPropertyController(getProperty);
@@ -37,3 +40,6 @@ export const removeTenantFromPropertyController =
 
 export const tenantLeavePropertyController =
     makeTenantLeavePropertyController(removeTenantFromProperty);
+
+export const inviteTenantsToPropertyController =
+    makeInviteTenantsToPropertyController(inviteTenantsToProperty);
