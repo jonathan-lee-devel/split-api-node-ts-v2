@@ -5,6 +5,9 @@ import {
   getPropertiesForUserAsAdmin,
   getPropertiesForUserAsTenant,
   getProperty,
+  getPropertyIsAdmin,
+  getPropertyTotalExpenses,
+  getPropertyTotalExpensesPerTenant,
   inviteTenantsToProperty,
   removeTenantFromProperty,
 } from '../services';
@@ -19,6 +22,11 @@ import {makeRemoveTenantFromPropertyController} from './remove-tenant-from-prope
 import {makeTenantLeavePropertyController} from './tenant-leave-property';
 // eslint-disable-next-line max-len
 import {makeInviteTenantsToPropertyController} from './invite-tenants-to-property';
+import {makeGetPropertyIsAdminController} from './get-property-is-admin';
+// eslint-disable-next-line max-len
+import {makeGetPropertyTotalExpensesController} from './get-property-total-expenses';
+// eslint-disable-next-line max-len
+import {makeGetPropertyTotalExpensesPerTenantController} from './get-property-total-expenses-per-tenant';
 
 export const getPropertyController =
     makeGetPropertyController(getProperty);
@@ -43,3 +51,13 @@ export const tenantLeavePropertyController =
 
 export const inviteTenantsToPropertyController =
     makeInviteTenantsToPropertyController(inviteTenantsToProperty);
+
+export const getPropertyIsAdminController =
+    makeGetPropertyIsAdminController(getPropertyIsAdmin);
+
+export const getPropertyTotalExpensesController =
+    makeGetPropertyTotalExpensesController(getPropertyTotalExpenses);
+
+export const getPropertyTotalExpensesPerTenantController =
+    makeGetPropertyTotalExpensesPerTenantController(
+        getPropertyTotalExpensesPerTenant);

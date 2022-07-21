@@ -1,12 +1,8 @@
 import express from 'express';
 // eslint-disable-next-line max-len
-import {getPropertyIsAdmin, getPropertyTotalExpenses, getPropertyTotalExpensesPerTenant} from '../services';
 // eslint-disable-next-line max-len
-import {configureGetPropertyIsAdminRoute} from './get-property-is-admin';
 // eslint-disable-next-line max-len
-import {configureGetPropertyTotalExpensesRoute} from './get-property-total-expenses';
 // eslint-disable-next-line max-len
-import {configureGetPropertyTotalExpensesPerTenantRoute} from './get-property-total-expenses-per-tenant';
 // eslint-disable-next-line max-len
 import {makeExpressCallback} from '../../main/express-callbacks/express-callback';
 // eslint-disable-next-line max-len
@@ -16,6 +12,9 @@ import {
   getPropertiesForUserAsAdminController,
   getPropertiesForUserAsTenantController,
   getPropertyController,
+  getPropertyIsAdminController,
+  getPropertyTotalExpensesController,
+  getPropertyTotalExpensesPerTenantController,
   inviteTenantsToPropertyController,
   removeTenantFromPropertyController,
   tenantLeavePropertyController,
@@ -101,20 +100,29 @@ configureRoute(
     inviteTenantsToPropertyValidationChain,
     makeExpressCallback(logger, inviteTenantsToPropertyController),
 );
-configureGetPropertyIsAdminRoute(
+configureRoute(
     router,
+    HttpRequestMethod.GET,
     '/:propertyId/isAdmin',
-    getPropertyIsAdmin,
+    true,
+    [],
+    makeExpressCallback(logger, getPropertyIsAdminController),
 );
-configureGetPropertyTotalExpensesRoute(
+configureRoute(
     router,
+    HttpRequestMethod.GET,
     '/:propertyId/expenses-total',
-    getPropertyTotalExpenses,
+    true,
+    [],
+    makeExpressCallback(logger, getPropertyTotalExpensesController),
 );
-configureGetPropertyTotalExpensesPerTenantRoute(
+configureRoute(
     router,
+    HttpRequestMethod.GET,
     '/:propertyId/expenses-per-tenant',
-    getPropertyTotalExpensesPerTenant,
+    true,
+    [],
+    makeExpressCallback(logger, getPropertyTotalExpensesPerTenantController),
 );
 
 export {router as PropertiesRouter};
