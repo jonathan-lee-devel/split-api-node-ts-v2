@@ -1,79 +1,128 @@
 import express from 'express';
-import {configureGetPropertyRoute} from './get-property';
-import {configureCreatePropertyRoute} from './create-property';
+// eslint-disable-next-line max-len
+// eslint-disable-next-line max-len
+// eslint-disable-next-line max-len
+// eslint-disable-next-line max-len
+// eslint-disable-next-line max-len
+import {makeExpressCallback} from '../../main/express-callbacks/express-callback';
+// eslint-disable-next-line max-len
 import {
-  createProperty,
-  deleteProperty,
-  getPropertiesForUserAsAdmin,
-  getPropertiesForUserAsTenant,
-  getProperty,
-  getPropertyIsAdmin,
-  getPropertyTotalExpenses,
-  getPropertyTotalExpensesPerTenant,
-  removeTenantFromProperty,
-} from '../services';
-import {verifyEmail} from '../../util/email/exports';
-import {inviteToProperty} from '../invitations/services';
-import {configureDeletePropertyRoute} from './delete-property';
+  createPropertyController,
+  deletePropertyController,
+  getPropertiesForUserAsAdminController,
+  getPropertiesForUserAsTenantController,
+  getPropertyController,
+  getPropertyIsAdminController,
+  getPropertyTotalExpensesController,
+  getPropertyTotalExpensesPerTenantController,
+  inviteTenantsToPropertyController,
+  removeTenantFromPropertyController,
+  tenantLeavePropertyController,
+} from '../controllers';
+import {loggerConfig} from '../../main/config/logger/logger-config';
 // eslint-disable-next-line max-len
-import {configureGetPropertiesForUserAsAdminRoute} from './get-properties-for-user-as-admin';
+import {createPropertyValidationChain} from '../validation-chains/create-property';
+import {configureRoute} from '../../main/routes/configure-route';
+import {HttpRequestMethod} from '../../main/enums/http-request-method';
 // eslint-disable-next-line max-len
-import {configureGetPropertiesForUserAsTenantRoute} from './get-properties-for-user-as-tenant';
+import {removeTenantFromPropertyValidationChain} from '../validation-chains/remove-tenant-from-property';
 // eslint-disable-next-line max-len
-import {configureRemoveTenantFromPropertyRoute} from './remove-tenant-from-property';
-import {configureTenantLeavePropertyRoute} from './tenant-leave-property';
+import {tenantLeavePropertyValidationChain} from '../validation-chains/tenant-leave-property';
 // eslint-disable-next-line max-len
-import {configureInviteTenantsToPropertyRoute} from './invite-tenants-to-property';
-import {configureGetPropertyIsAdminRoute} from './get-property-is-admin';
-import {configureGetPropertyTotalExpensesRoute} from './get-property-total-expenses';
-import {configureGetPropertyTotalExpensesPerTenantRoute} from './get-property-total-expenses-per-tenant';
+import {inviteTenantsToPropertyValidationChain} from '../validation-chains/invite-tenants-to-property';
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
 
-configureGetPropertyRoute(router, '/:propertyId', getProperty);
-configureGetPropertiesForUserAsAdminRoute(
+const logger = loggerConfig();
+
+configureRoute(
     router,
+    HttpRequestMethod.GET,
+    '/:propertyId',
+    true,
+    [],
+    makeExpressCallback(logger, getPropertyController),
+);
+configureRoute(
+    router,
+    HttpRequestMethod.GET,
     '/my/admin',
-    getPropertiesForUserAsAdmin,
+    true,
+    [],
+    makeExpressCallback(logger, getPropertiesForUserAsAdminController),
 );
-configureGetPropertiesForUserAsTenantRoute(
+configureRoute(
     router,
+    HttpRequestMethod.GET,
     '/my/tenant',
-    getPropertiesForUserAsTenant,
+    true,
+    [],
+    makeExpressCallback(logger, getPropertiesForUserAsTenantController),
 );
-configureCreatePropertyRoute(router, '/create', verifyEmail, createProperty);
-configureDeletePropertyRoute(router, '/delete/:propertyId', deleteProperty);
-configureRemoveTenantFromPropertyRoute(
+configureRoute(
     router,
+    HttpRequestMethod.POST,
+    '/create',
+    true,
+    createPropertyValidationChain,
+    makeExpressCallback(logger, createPropertyController),
+);
+configureRoute(
+    router,
+    HttpRequestMethod.DELETE,
+    '/delete/:propertyId',
+    true,
+    [],
+    makeExpressCallback(logger, deletePropertyController),
+);
+configureRoute(
+    router,
+    HttpRequestMethod.PATCH,
     '/remove-tenant',
-    removeTenantFromProperty,
+    true,
+    removeTenantFromPropertyValidationChain,
+    makeExpressCallback(logger, removeTenantFromPropertyController),
 );
-configureTenantLeavePropertyRoute(
+configureRoute(
     router,
+    HttpRequestMethod.PATCH,
     '/tenant-leave',
-    removeTenantFromProperty,
+    true,
+    tenantLeavePropertyValidationChain,
+    makeExpressCallback(logger, tenantLeavePropertyController),
 );
-configureInviteTenantsToPropertyRoute(
+configureRoute(
     router,
+    HttpRequestMethod.PATCH,
     '/tenant-invite',
-    verifyEmail,
-    inviteToProperty,
+    true,
+    inviteTenantsToPropertyValidationChain,
+    makeExpressCallback(logger, inviteTenantsToPropertyController),
 );
-configureGetPropertyIsAdminRoute(
+configureRoute(
     router,
+    HttpRequestMethod.GET,
     '/:propertyId/isAdmin',
-    getPropertyIsAdmin,
+    true,
+    [],
+    makeExpressCallback(logger, getPropertyIsAdminController),
 );
-configureGetPropertyTotalExpensesRoute(
+configureRoute(
     router,
+    HttpRequestMethod.GET,
     '/:propertyId/expenses-total',
-    getPropertyTotalExpenses,
+    true,
+    [],
+    makeExpressCallback(logger, getPropertyTotalExpensesController),
 );
-configureGetPropertyTotalExpensesPerTenantRoute(
+configureRoute(
     router,
+    HttpRequestMethod.GET,
     '/:propertyId/expenses-per-tenant',
-    getPropertyTotalExpensesPerTenant,
+    true,
+    [],
+    makeExpressCallback(logger, getPropertyTotalExpensesPerTenantController),
 );
 
 export {router as PropertiesRouter};

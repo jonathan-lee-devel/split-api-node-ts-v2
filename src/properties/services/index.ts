@@ -13,7 +13,9 @@ import {makeRemoveTenantFromProperty} from './remove-tenant-from-property';
 import {makeGetPropertyIsAdmin} from './get-property-is-admin';
 import {makeGetPropertyTotalExpenses} from './get-property-total-expenses';
 import {ExpenseModel} from '../../expenses/models/Expense';
+// eslint-disable-next-line max-len
 import {makeGetPropertyTotalExpensesPerTenant} from './get-property-total-expenses-per-tenant';
+import {makeInviteTenantsToProperty} from './invite-tenants-to-property';
 
 const logger = loggerConfig();
 
@@ -57,3 +59,9 @@ export const getPropertyTotalExpensesPerTenant =
         PropertyModel,
         ExpenseModel,
     );
+
+export const inviteTenantsToProperty = makeInviteTenantsToProperty(
+    logger,
+    PropertyModel,
+    inviteToProperty,
+);
