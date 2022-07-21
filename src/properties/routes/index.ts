@@ -10,7 +10,6 @@ import {inviteToProperty} from '../invitations/services';
 // eslint-disable-next-line max-len
 // eslint-disable-next-line max-len
 // eslint-disable-next-line max-len
-import {configureRemoveTenantFromPropertyRoute} from './remove-tenant-from-property';
 import {configureTenantLeavePropertyRoute} from './tenant-leave-property';
 // eslint-disable-next-line max-len
 import {configureInviteTenantsToPropertyRoute} from './invite-tenants-to-property';
@@ -28,12 +27,15 @@ import {
   getPropertiesForUserAsAdminController,
   getPropertiesForUserAsTenantController,
   getPropertyController,
+  removeTenantFromPropertyController,
 } from '../controllers';
 import {loggerConfig} from '../../main/config/logger/logger-config';
 // eslint-disable-next-line max-len
 import {createPropertyValidationChain} from '../validation-chains/create-property';
 import {configureRoute} from '../../main/routes/configure-route';
 import {HttpRequestMethod} from '../../main/enums/http-request-method';
+// eslint-disable-next-line max-len
+import {removeTenantFromPropertyValidationChain} from '../validation-chains/remove-tenant-from-property';
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -72,7 +74,6 @@ configureRoute(
     createPropertyValidationChain,
     makeExpressCallback(logger, createPropertyController),
 );
-
 configureRoute(
     router,
     HttpRequestMethod.DELETE,
@@ -81,10 +82,13 @@ configureRoute(
     [],
     makeExpressCallback(logger, deletePropertyController),
 );
-configureRemoveTenantFromPropertyRoute(
+configureRoute(
     router,
+    HttpRequestMethod.PATCH,
     '/remove-tenant',
-    removeTenantFromProperty,
+    true,
+    removeTenantFromPropertyValidationChain,
+    makeExpressCallback(logger, removeTenantFromPropertyController),
 );
 configureTenantLeavePropertyRoute(
     router,
