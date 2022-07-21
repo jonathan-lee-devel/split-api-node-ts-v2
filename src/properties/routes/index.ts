@@ -1,7 +1,6 @@
 import express from 'express';
 import {configureGetPropertyRoute} from './get-property';
 import {
-  deleteProperty,
   getPropertiesForUserAsAdmin,
   getPropertiesForUserAsTenant,
   getProperty,
@@ -12,7 +11,6 @@ import {
 } from '../services';
 import {verifyEmail} from '../../util/email/exports';
 import {inviteToProperty} from '../invitations/services';
-import {configureDeletePropertyRoute} from './delete-property';
 // eslint-disable-next-line max-len
 import {configureGetPropertiesForUserAsAdminRoute} from './get-properties-for-user-as-admin';
 // eslint-disable-next-line max-len
@@ -29,12 +27,13 @@ import {configureGetPropertyTotalExpensesRoute} from './get-property-total-expen
 import {configureGetPropertyTotalExpensesPerTenantRoute} from './get-property-total-expenses-per-tenant';
 // eslint-disable-next-line max-len
 import {makeExpressCallback} from '../../main/express-callbacks/express-callback';
-import {createPropertyController} from '../controllers';
+// eslint-disable-next-line max-len
+import {createPropertyController, deletePropertyController} from '../controllers';
 import {loggerConfig} from '../../main/config/logger/logger-config';
 // eslint-disable-next-line max-len
 import {createPropertyValidationChain} from '../validation-chains/create-property';
 import {configureRoute} from '../../main/routes/configure-route';
-import {RequestMethod} from '../../main/enums/request-method';
+import {HttpRequestMethod} from '../../main/enums/http-request-method';
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -54,14 +53,21 @@ configureGetPropertiesForUserAsTenantRoute(
 );
 configureRoute(
     router,
-    RequestMethod.POST,
+    HttpRequestMethod.POST,
     '/create',
     true,
     createPropertyValidationChain,
     makeExpressCallback(logger, createPropertyController),
 );
 
-configureDeletePropertyRoute(router, '/delete/:propertyId', deleteProperty);
+configureRoute(
+    router,
+    HttpRequestMethod.DELETE,
+    '/delete/:propertyId',
+    true,
+    [],
+    makeExpressCallback(logger, deletePropertyController),
+);
 configureRemoveTenantFromPropertyRoute(
     router,
     '/remove-tenant',

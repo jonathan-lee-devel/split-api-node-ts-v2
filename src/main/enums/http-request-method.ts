@@ -1,4 +1,4 @@
-export enum RequestMethod {
+export enum HttpRequestMethod {
     // eslint-disable-next-line no-unused-vars
     GET = 'get',
     // eslint-disable-next-line no-unused-vars

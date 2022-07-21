@@ -6,11 +6,10 @@ export const makeCreatePropertyController = (
     createProperty: CreatePropertyFunction,
 ): HttpController => {
   return async function createPropertyController(httpRequest: HttpRequest) {
-    const {title, tenantEmails} = httpRequest.body;
     const propertyContainer = await createProperty(
         httpRequest.user,
-        title,
-        tenantEmails,
+        httpRequest.body.title,
+        httpRequest.body.tenantEmails,
     );
     return {
       httpStatus: propertyContainer.status,
