@@ -1,9 +1,5 @@
 import express from 'express';
-import {configureGetPropertyRoute} from './get-property';
 import {
-  getPropertiesForUserAsAdmin,
-  getPropertiesForUserAsTenant,
-  getProperty,
   getPropertyIsAdmin,
   getPropertyTotalExpenses,
   getPropertyTotalExpensesPerTenant,
@@ -12,9 +8,7 @@ import {
 import {verifyEmail} from '../../util/email/exports';
 import {inviteToProperty} from '../invitations/services';
 // eslint-disable-next-line max-len
-import {configureGetPropertiesForUserAsAdminRoute} from './get-properties-for-user-as-admin';
 // eslint-disable-next-line max-len
-import {configureGetPropertiesForUserAsTenantRoute} from './get-properties-for-user-as-tenant';
 // eslint-disable-next-line max-len
 import {configureRemoveTenantFromPropertyRoute} from './remove-tenant-from-property';
 import {configureTenantLeavePropertyRoute} from './tenant-leave-property';
@@ -28,7 +22,13 @@ import {configureGetPropertyTotalExpensesPerTenantRoute} from './get-property-to
 // eslint-disable-next-line max-len
 import {makeExpressCallback} from '../../main/express-callbacks/express-callback';
 // eslint-disable-next-line max-len
-import {createPropertyController, deletePropertyController} from '../controllers';
+import {
+  createPropertyController,
+  deletePropertyController,
+  getPropertiesForUserAsAdminController,
+  getPropertiesForUserAsTenantController,
+  getPropertyController,
+} from '../controllers';
 import {loggerConfig} from '../../main/config/logger/logger-config';
 // eslint-disable-next-line max-len
 import {createPropertyValidationChain} from '../validation-chains/create-property';
@@ -40,16 +40,29 @@ const router = express.Router();
 
 const logger = loggerConfig();
 
-configureGetPropertyRoute(router, '/:propertyId', getProperty);
-configureGetPropertiesForUserAsAdminRoute(
+configureRoute(
     router,
-    '/my/admin',
-    getPropertiesForUserAsAdmin,
+    HttpRequestMethod.GET,
+    '/:propertyId',
+    true,
+    [],
+    makeExpressCallback(logger, getPropertyController),
 );
-configureGetPropertiesForUserAsTenantRoute(
+configureRoute(
     router,
+    HttpRequestMethod.GET,
+    '/my/admin',
+    true,
+    [],
+    makeExpressCallback(logger, getPropertiesForUserAsAdminController),
+);
+configureRoute(
+    router,
+    HttpRequestMethod.GET,
     '/my/tenant',
-    getPropertiesForUserAsTenant,
+    true,
+    [],
+    makeExpressCallback(logger, getPropertiesForUserAsTenantController),
 );
 configureRoute(
     router,
