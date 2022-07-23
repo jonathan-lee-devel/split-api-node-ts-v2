@@ -1,21 +1,38 @@
 import express from 'express';
-import {configureGetExpenseRoute} from './get-expense';
 import {configureCreateExpenseRoute} from './create-expense';
 import {configureDeleteExpenseRoute} from './delete-expense';
 // eslint-disable-next-line max-len
-import {configureGetExpensesForPropertyRoute} from './get-expenses-for-property';
 import {configureUpdateExpenseRoute} from './update-expense';
 // eslint-disable-next-line max-len
-import {createExpense, deleteExpense, getExpense, getExpensesForProperty, updateExpense} from '../services';
+import {createExpense, deleteExpense, updateExpense} from '../services';
+import {loggerConfig} from '../../main/config/logger/logger-config';
+import {configureRoute} from '../../main/routes/configure-route';
+import {HttpRequestMethod} from '../../main/enums/http-request-method';
+// eslint-disable-next-line max-len
+import {makeExpressCallback} from '../../main/express-callbacks/express-callback';
+// eslint-disable-next-line max-len
+import {getExpenseController, getExpensesForPropertyController} from '../controllers';
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
 
-configureGetExpenseRoute(router, '/:expenseId', getExpense);
-configureGetExpensesForPropertyRoute(
+const logger = loggerConfig();
+
+configureRoute(
     router,
+    HttpRequestMethod.GET,
+    '/:expenseId',
+    true,
+    [],
+    makeExpressCallback(logger, getExpenseController),
+);
+configureRoute(
+    router,
+    HttpRequestMethod.GET,
     '/for/property/:propertyId',
-    getExpensesForProperty,
+    true,
+    [],
+    makeExpressCallback(logger, getExpensesForPropertyController),
 );
 configureCreateExpenseRoute(router, '/create', createExpense);
 configureDeleteExpenseRoute(router, '/delete/:expenseId', deleteExpense);

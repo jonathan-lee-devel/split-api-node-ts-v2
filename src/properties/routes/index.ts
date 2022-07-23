@@ -1,9 +1,5 @@
 import express from 'express';
 // eslint-disable-next-line max-len
-// eslint-disable-next-line max-len
-// eslint-disable-next-line max-len
-// eslint-disable-next-line max-len
-// eslint-disable-next-line max-len
 import {makeExpressCallback} from '../../main/express-callbacks/express-callback';
 // eslint-disable-next-line max-len
 import {
