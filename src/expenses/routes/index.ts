@@ -1,17 +1,18 @@
 import express from 'express';
-import {configureCreateExpenseRoute} from './create-expense';
 import {configureDeleteExpenseRoute} from './delete-expense';
 // eslint-disable-next-line max-len
 import {configureUpdateExpenseRoute} from './update-expense';
 // eslint-disable-next-line max-len
-import {createExpense, deleteExpense, updateExpense} from '../services';
+import {deleteExpense, updateExpense} from '../services';
 import {loggerConfig} from '../../main/config/logger/logger-config';
 import {configureRoute} from '../../main/routes/configure-route';
 import {HttpRequestMethod} from '../../main/enums/http-request-method';
 // eslint-disable-next-line max-len
 import {makeExpressCallback} from '../../main/express-callbacks/express-callback';
 // eslint-disable-next-line max-len
-import {getExpenseController, getExpensesForPropertyController} from '../controllers';
+import {createExpenseController, getExpenseController, getExpensesForPropertyController} from '../controllers';
+// eslint-disable-next-line max-len
+import {createExpenseValidationChain} from '../validation-chains/create-expense';
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -34,7 +35,14 @@ configureRoute(
     [],
     makeExpressCallback(logger, getExpensesForPropertyController),
 );
-configureCreateExpenseRoute(router, '/create', createExpense);
+configureRoute(
+    router,
+    HttpRequestMethod.POST,
+    '/create',
+    true,
+    createExpenseValidationChain,
+    makeExpressCallback(logger, createExpenseController),
+);
 configureDeleteExpenseRoute(router, '/delete/:expenseId', deleteExpense);
 configureUpdateExpenseRoute(router, '/update/:expenseId', updateExpense);
 

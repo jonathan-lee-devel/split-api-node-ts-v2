@@ -1,6 +1,6 @@
-import {GenerateIdFunction} from '../../util/id/types/generate-id';
 import {Model} from 'mongoose';
-import {Dinero} from 'dinero.js';
+import Dinero from 'dinero.js';
+import {GenerateIdFunction} from '../../util/id/types/generate-id';
 import {Expense} from '../models/Expense';
 import {CreateExpenseFunction} from '../types/create-expense';
 import {User} from '../../users/main/models/User';
@@ -15,18 +15,24 @@ export const makeCreateExpense = (
       requestingUser: User,
       propertyId: string,
       title: string,
-      amount: Dinero,
+      amount: number,
       frequency: ExpenseFrequency,
       startDate: Date,
       endDate: Date,
   ) {
     const id = await generateId(DEFAULT_ID_LENGTH);
     const createdByEmail = requestingUser.email;
+    // eslint-disable-next-line new-cap
+    const dineroAmount = Dinero({
+      amount,
+      currency: 'EUR',
+      precision: 2,
+    });
     const expense: Expense = {
       id,
       propertyId,
       title,
-      amount: amount.toFormat(),
+      amount: dineroAmount.toFormat(),
       frequency,
       startDate,
       endDate,
