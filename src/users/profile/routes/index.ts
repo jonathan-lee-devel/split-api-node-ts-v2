@@ -1,21 +1,34 @@
 import express from 'express';
-import {configureGetProfileRoute} from './get-profile';
-import {getProfile, updateProfile} from '../services';
-import {configureUpdateProfileRoute} from './update-profile';
+import {loggerConfig} from '../../../main/config/logger/logger-config';
+import {configureRoute} from '../../../main/routes/configure-route';
+import {HttpRequestMethod} from '../../../main/enums/http-request-method';
+// eslint-disable-next-line max-len
+import {makeExpressCallback} from '../../../main/express-callbacks/express-callback';
+// eslint-disable-next-line max-len
+import {updateProfileValidationChain} from '../validation-chains/update-profile';
+import {getProfileController, updateProfileController} from '../controllers';
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
 
-configureGetProfileRoute(
+const logger = loggerConfig();
+
+configureRoute(
     router,
+    HttpRequestMethod.GET,
     '/',
-    getProfile,
+    true,
+    [],
+    makeExpressCallback(logger, getProfileController),
 );
 
-configureUpdateProfileRoute(
+configureRoute(
     router,
+    HttpRequestMethod.PATCH,
     '/update',
-    updateProfile,
+    true,
+    updateProfileValidationChain,
+    makeExpressCallback(logger, updateProfileController),
 );
 
 export {router as ProfileRouter};
