@@ -1,24 +1,68 @@
 import express from 'express';
-import {configureGetExpenseRoute} from './get-expense';
-import {configureCreateExpenseRoute} from './create-expense';
-import {configureDeleteExpenseRoute} from './delete-expense';
 // eslint-disable-next-line max-len
-import {configureGetExpensesForPropertyRoute} from './get-expenses-for-property';
-import {configureUpdateExpenseRoute} from './update-expense';
 // eslint-disable-next-line max-len
-import {createExpense, deleteExpense, getExpense, getExpensesForProperty, updateExpense} from '../services';
+import {loggerConfig} from '../../main/config/logger/logger-config';
+import {configureRoute} from '../../main/routes/configure-route';
+import {HttpRequestMethod} from '../../main/enums/http-request-method';
+// eslint-disable-next-line max-len
+import {makeExpressCallback} from '../../main/express-callbacks/express-callback';
+// eslint-disable-next-line max-len
+import {
+  createExpenseController,
+  deleteExpenseController,
+  getExpenseController,
+  getExpensesForPropertyController,
+  updateExpenseController,
+} from '../controllers';
+// eslint-disable-next-line max-len
+import {createExpenseValidationChain} from '../validation-chains/create-expense';
+// eslint-disable-next-line max-len
+import {updateExpenseValidationChain} from '../validation-chains/update-expense';
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
 
-configureGetExpenseRoute(router, '/:expenseId', getExpense);
-configureGetExpensesForPropertyRoute(
+const logger = loggerConfig();
+
+configureRoute(
     router,
-    '/for/property/:propertyId',
-    getExpensesForProperty,
+    HttpRequestMethod.GET,
+    '/:expenseId',
+    true,
+    [],
+    makeExpressCallback(logger, getExpenseController),
 );
-configureCreateExpenseRoute(router, '/create', createExpense);
-configureDeleteExpenseRoute(router, '/delete/:expenseId', deleteExpense);
-configureUpdateExpenseRoute(router, '/update/:expenseId', updateExpense);
+configureRoute(
+    router,
+    HttpRequestMethod.GET,
+    '/for/property/:propertyId',
+    true,
+    [],
+    makeExpressCallback(logger, getExpensesForPropertyController),
+);
+configureRoute(
+    router,
+    HttpRequestMethod.POST,
+    '/create',
+    true,
+    createExpenseValidationChain,
+    makeExpressCallback(logger, createExpenseController),
+);
+configureRoute(
+    router,
+    HttpRequestMethod.DELETE,
+    '/delete/:expenseId',
+    true,
+    [],
+    makeExpressCallback(logger, deleteExpenseController),
+);
+configureRoute(
+    router,
+    HttpRequestMethod.PATCH,
+    '/update/:expenseId',
+    true,
+    updateExpenseValidationChain,
+    makeExpressCallback(logger, updateExpenseController),
+);
 
 export {router as ExpensesRouter};
