@@ -1,21 +1,37 @@
 import express from 'express';
-import {configureResetPasswordRoute} from './reset-password';
-import {configureConfirmPasswordResetRoute} from './confirm-password-reset';
-import {confirmPasswordReset, resetPassword} from '../services';
+import {loggerConfig} from '../../../main/config/logger/logger-config';
+import {configureRoute} from '../../../main/routes/configure-route';
+import {HttpRequestMethod} from '../../../main/enums/http-request-method';
+// eslint-disable-next-line max-len
+import {resetPasswordValidationChain} from '../validation-chains/reset-password';
+// eslint-disable-next-line max-len
+import {makeExpressCallback} from '../../../main/express-callbacks/express-callback';
+// eslint-disable-next-line max-len
+import {confirmPasswordResetController, resetPasswordController} from '../controllers';
+// eslint-disable-next-line max-len
+import {confirmPasswordResetValidationChain} from '../validation-chains/confirm-password-reset';
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
 
-configureResetPasswordRoute(
+const logger = loggerConfig();
+
+configureRoute(
     router,
+    HttpRequestMethod.POST,
     '/reset',
-    resetPassword,
+    false,
+    resetPasswordValidationChain,
+    makeExpressCallback(logger, resetPasswordController),
 );
 
-configureConfirmPasswordResetRoute(
+configureRoute(
     router,
+    HttpRequestMethod.POST,
     '/reset/confirm/:tokenValue',
-    confirmPasswordReset,
+    false,
+    confirmPasswordResetValidationChain,
+    makeExpressCallback(logger, confirmPasswordResetController),
 );
 
 export {router as PasswordResetRouter};
