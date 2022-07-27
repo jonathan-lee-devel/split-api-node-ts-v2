@@ -18,8 +18,7 @@ export const makeUpdateExpense = (
       title: string,
       amount: string,
       frequency: ExpenseFrequency,
-      startDate: Date,
-      endDate: Date,
+      date: Date,
   ) {
     try {
       const expenseModel = await ExpenseModel
@@ -53,8 +52,7 @@ export const makeUpdateExpense = (
       // eslint-disable-next-line max-len,new-cap
       expenseModel.amount = Dinero({amount: Number(amount) * 100, currency: 'EUR', precision: 2}).toFormat();
       expenseModel.frequency = frequency;
-      expenseModel.startDate = startDate;
-      expenseModel.endDate = endDate;
+      expenseModel.date = date;
       await expenseModel.save();
       return {
         status: 204,

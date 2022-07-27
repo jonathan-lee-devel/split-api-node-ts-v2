@@ -53,8 +53,7 @@ export const makeGetExpense = (
           title: expenseModel.title,
           amount: expenseModel.amount,
           frequency: expenseModel.frequency,
-          startDate: expenseModel.startDate,
-          endDate: expenseModel.endDate,
+          date: expenseModel.date,
           createdByEmail: expenseModel.createdByEmail,
         },
       };

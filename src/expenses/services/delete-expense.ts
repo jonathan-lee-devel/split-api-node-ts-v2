@@ -4,10 +4,13 @@ import bunyan from 'bunyan';
 import {Model} from 'mongoose';
 import {Expense} from '../models/Expense';
 import {Property} from '../../properties/models/Property';
+// eslint-disable-next-line max-len
+import {ExpenseDistributionAssignment} from '../models/ExpenseDistributionAssignment';
 
 export const makeDeleteExpense = (
     logger: bunyan,
     ExpenseModel: Model<Expense>,
+    ExpenseDistributionAssignmentModel: Model<ExpenseDistributionAssignment>,
     PropertyModel: Model<Property>,
 ): DeleteExpenseFunction => {
   return async function deleteExpense(
@@ -28,7 +31,7 @@ export const makeDeleteExpense = (
           .findOne({id: expenseModel.propertyId}, {__v: 0});
       if (!propertyModel) {
         logger
-            // eslint-disable-next-line max-len
+        // eslint-disable-next-line max-len
             .error(`Attempting to delete expense: ${expenseId} for which property does not exist`);
         return {
           status: 500,
@@ -44,6 +47,7 @@ export const makeDeleteExpense = (
       }
 
       await ExpenseModel.deleteOne({id: expenseId});
+      await ExpenseDistributionAssignmentModel.deleteMany({expenseId});
       return {
         status: 204,
         data: undefined,

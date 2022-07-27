@@ -9,8 +9,7 @@ export interface Expense {
     title: string;
     amount: string;
     frequency: ExpenseFrequency;
-    startDate: Date;
-    endDate: Date;
+    date: Date;
     createdByEmail: string;
 }
 
@@ -40,12 +39,7 @@ const schema = new Schema<Expense>({
     required: true,
     unique: false,
   },
-  startDate: {
-    type: Date,
-    required: true,
-    unique: false,
-  },
-  endDate: {
+  date: {
     type: Date,
     required: true,
     unique: false,

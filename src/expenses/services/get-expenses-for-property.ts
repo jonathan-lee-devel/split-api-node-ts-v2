@@ -42,8 +42,7 @@ export const makeGetExpensesForProperty = (
           title: (await expense).title,
           amount: (await expense).amount,
           frequency: (await expense).frequency,
-          startDate: (await expense).startDate,
-          endDate: (await expense).endDate,
+          date: (await expense).date,
           createdByEmail: (await expense).createdByEmail,
         });
       }
