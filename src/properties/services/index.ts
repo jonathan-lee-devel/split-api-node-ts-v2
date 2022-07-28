@@ -16,6 +16,7 @@ import {ExpenseModel} from '../../expenses/models/Expense';
 // eslint-disable-next-line max-len
 import {makeGetPropertyTotalExpensesPerTenant} from './get-property-total-expenses-per-tenant';
 import {makeInviteTenantsToProperty} from './invite-tenants-to-property';
+import {amountStringAsNumber} from '../../util/dinero/exports';
 
 const logger = loggerConfig();
 
@@ -58,6 +59,7 @@ export const getPropertyTotalExpensesPerTenant =
         logger,
         PropertyModel,
         ExpenseModel,
+        amountStringAsNumber,
     );
 
 export const inviteTenantsToProperty = makeInviteTenantsToProperty(

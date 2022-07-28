@@ -1,11 +1,11 @@
 import bunyan from 'bunyan';
 import {Model} from 'mongoose';
+import Dinero from 'dinero.js';
 import {UpdateExpenseFunction} from '../types/update-expense';
 import {User} from '../../users/main/models/User';
 import {ExpenseFrequency} from '../enums/ExpenseFrequency';
 import {Expense} from '../models/Expense';
 import {Property} from '../../properties/models/Property';
-import Dinero from 'dinero.js';
 
 export const makeUpdateExpense = (
     logger: bunyan,
