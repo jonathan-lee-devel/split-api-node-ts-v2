@@ -13,6 +13,8 @@ import {ExpenseDistributionAssignmentModel} from '../models/ExpenseDistributionA
 import {makeCreateExpenseDistributionAssignment} from './create-expense-distribution-assignment';
 // eslint-disable-next-line max-len
 import {makeUpdateExpenseDistributionAssignment} from './update-expense-distribution-assignment';
+// eslint-disable-next-line max-len
+import {makeDeleteExpenseDistributionAssignment} from './delete-expense-distribution-assignment';
 
 const logger = loggerConfig();
 
@@ -58,6 +60,14 @@ export const createExpenseDistributionAssignment =
 
 export const updateExpenseDistributionAssignment =
     makeUpdateExpenseDistributionAssignment(
+        logger,
+        ExpenseDistributionAssignmentModel,
+        ExpenseModel,
+        PropertyModel,
+    );
+
+export const deleteExpenseDistributionAssignment =
+    makeDeleteExpenseDistributionAssignment(
         logger,
         ExpenseDistributionAssignmentModel,
         ExpenseModel,

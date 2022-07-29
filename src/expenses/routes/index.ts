@@ -9,6 +9,7 @@ import {
   createExpenseController,
   createExpenseDistributionAssignmentController,
   deleteExpenseController,
+  deleteExpenseDistributionAssignmentController,
   getExpenseController,
   getExpensesForPropertyController,
   updateExpenseController,
@@ -85,6 +86,14 @@ configureRoute(
     true,
     updateExpenseDistributionAssignmentValidationChain,
     makeExpressCallback(logger, updateExpenseDistributionAssignmentController),
+);
+configureRoute(
+    router,
+    HttpRequestMethod.DELETE,
+    '/distribution-assignments/delete/:expenseDistributionAssignmentId',
+    true,
+    [],
+    makeExpressCallback(logger, deleteExpenseDistributionAssignmentController),
 );
 
 export {router as ExpensesRouter};
