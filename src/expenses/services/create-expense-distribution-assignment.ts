@@ -11,6 +11,8 @@ import {Property} from '../../properties/models/Property';
 import {DEFAULT_ID_LENGTH} from '../../util/id/constants/default-id-length';
 import {amountStringAsNumber} from '../../common/use-cases/dinero';
 import {errorMessageToDto} from '../../common/use-cases/errors';
+// eslint-disable-next-line max-len
+import {returnForbidden, returnInternalServerError} from '../../common/use-cases/status-data-container';
 
 export const makeCreateExpenseDistributionAssignment = (
     logger: bunyan,
@@ -38,10 +40,7 @@ export const makeCreateExpenseDistributionAssignment = (
     const propertyModel = await PropertyModel
         .findOne({id: expenseModel.propertyId}, {__v: 0});
     if (!propertyModel.administratorEmails.includes(requestingUser.email)) {
-      return {
-        status: 403,
-        data: undefined,
-      };
+      return returnForbidden();
     }
 
     const expenseDistributionAssignments =
@@ -84,10 +83,7 @@ export const makeCreateExpenseDistributionAssignment = (
       };
     } catch (err) {
       logger.error(`An error has occurred: ${err}`);
-      return {
-        status: 500,
-        data: undefined,
-      };
+      return returnInternalServerError();
     }
   };
 };

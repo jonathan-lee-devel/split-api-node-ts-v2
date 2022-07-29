@@ -3,6 +3,8 @@ import {Expense} from '../models/Expense';
 import {GetExpenseFunction} from '../types/get-expense';
 import {User} from '../../users/main/models/User';
 import {Property} from '../../properties/models/Property';
+// eslint-disable-next-line max-len
+import {returnForbidden, returnInternalServerError, returnNotFound} from '../../common/use-cases/status-data-container';
 
 export const makeGetExpense = (
     ExpenseModel: Model<Expense>,
@@ -16,10 +18,7 @@ export const makeGetExpense = (
       const expenseModel = await ExpenseModel.findOne({id: expenseId},
           {__v: 0});
       if (!expenseModel) {
-        return {
-          status: 404,
-          data: undefined,
-        };
+        return returnNotFound();
       }
 
       const expensePropertyModel = await PropertyModel
@@ -39,10 +38,7 @@ export const makeGetExpense = (
                 !expensePropertyModel
                     .administratorEmails
                     .includes(requestingUser.email)) {
-        return {
-          status: 403,
-          data: undefined,
-        };
+        return returnForbidden();
       }
 
       return {
@@ -59,10 +55,7 @@ export const makeGetExpense = (
       };
     } catch (err) {
       console.error(`An error has occurred: ${err}`);
-      return {
-        status: 500,
-        data: undefined,
-      };
+      return returnInternalServerError();
     }
   };
 };

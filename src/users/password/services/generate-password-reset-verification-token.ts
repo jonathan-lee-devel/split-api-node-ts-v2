@@ -6,6 +6,8 @@ import {addMinutes} from 'date-fns';
 import {PasswordResetVerificationToken} from '../models/PasswordResetVerificationToken';
 // eslint-disable-next-line max-len
 import {GeneratePasswordResetVerificationTokenFunction} from '../types/generate-password-reset-verification-token';
+// eslint-disable-next-line max-len
+import {returnInternalServerError} from '../../../common/use-cases/status-data-container';
 
 export const makeGeneratePasswordResetVerificationToken = (
     logger: bunyan,
@@ -31,10 +33,7 @@ export const makeGeneratePasswordResetVerificationToken = (
       };
     } catch (err) {
       logger.error(`An error has occurred: ${err}`);
-      return {
-        status: 500,
-        data: undefined,
-      };
+      return returnInternalServerError();
     }
   };
 };

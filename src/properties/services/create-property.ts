@@ -7,6 +7,8 @@ import {CreatePropertyFunction} from '../types/create-property';
 // eslint-disable-next-line max-len
 import {InviteToPropertyFunction} from '../invitations/types/invite-to-property';
 import {User} from '../../users/main/models/User';
+// eslint-disable-next-line max-len
+import {returnInternalServerError} from '../../common/use-cases/status-data-container';
 
 export const makeCreateProperty = (
     logger: bunyan,
@@ -48,10 +50,7 @@ export const makeCreateProperty = (
       };
     } catch (err) {
       logger.error(`An error has occurred: ${err}`);
-      return {
-        status: 500,
-        data: undefined,
-      };
+      return returnInternalServerError();
     }
   };
 };

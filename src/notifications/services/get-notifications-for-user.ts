@@ -5,6 +5,8 @@ import {Notification} from '../models/Notification';
 import {GetNotificationsForUserFunction} from '../types/get-notifications-for-user';
 import {User} from '../../users/main/models/User';
 import {NotificationDto} from '../dtos/NotificationDto';
+// eslint-disable-next-line max-len
+import {returnInternalServerError} from '../../common/use-cases/status-data-container';
 
 export const makeGetNotificationsForUser = (
     logger: bunyan,
@@ -34,10 +36,7 @@ export const makeGetNotificationsForUser = (
       };
     } catch (err) {
       logger.error(`An error has occurred: ${err}`);
-      return {
-        status: 500,
-        data: undefined,
-      };
+      return returnInternalServerError();
     }
   };
 };

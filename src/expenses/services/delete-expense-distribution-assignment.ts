@@ -7,6 +7,8 @@ import {User} from '../../users/main/models/User';
 import {DeleteExpenseDistributionAssignmentFunction} from '../types/delete-expense-distribution-assignment';
 import {Expense} from '../models/Expense';
 import {Property} from '../../properties/models/Property';
+// eslint-disable-next-line max-len
+import {returnForbidden, returnInternalServerError, returnNotFound} from '../../common/use-cases/status-data-container';
 
 export const makeDeleteExpenseDistributionAssignment = (
     logger: bunyan,
@@ -24,10 +26,7 @@ export const makeDeleteExpenseDistributionAssignment = (
                 await ExpenseDistributionAssignmentModel
                     .findOne({id: expenseDistributionAssignmentId}, {__v: 0});
       if (!expenseDistributionAssignmentModel) {
-        return {
-          status: 404,
-          data: undefined,
-        };
+        return returnNotFound();
       }
 
       const expenseModel: Expense = await ExpenseModel
@@ -37,10 +36,7 @@ export const makeDeleteExpenseDistributionAssignment = (
       if (!expenseModel) {
         // eslint-disable-next-line max-len
         logger.error(`Attempting to delete expense distribution assignment ${expenseDistributionAssignmentId} but expense does not exist`);
-        return {
-          status: 500,
-          data: undefined,
-        };
+        return returnInternalServerError();
       }
 
       const propertyModel = await PropertyModel
@@ -48,17 +44,11 @@ export const makeDeleteExpenseDistributionAssignment = (
       if (!propertyModel) {
         // eslint-disable-next-line max-len
         logger.error(`No property exists for expense: ${expenseDistributionAssignmentModel.expenseId}`);
-        return {
-          status: 500,
-          data: undefined,
-        };
+        return returnInternalServerError();
       }
 
       if (!propertyModel.administratorEmails.includes(requestingUser.email)) {
-        return {
-          status: 403,
-          data: undefined,
-        };
+        return returnForbidden();
       }
 
       await ExpenseDistributionAssignmentModel
@@ -69,10 +59,7 @@ export const makeDeleteExpenseDistributionAssignment = (
       };
     } catch (err) {
       logger.error(`An error has occurred: ${err}`);
-      return {
-        status: 500,
-        data: undefined,
-      };
+      return returnInternalServerError();
     }
   };
 };

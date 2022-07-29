@@ -6,6 +6,8 @@ import {User} from '../../users/main/models/User';
 import {ExpenseFrequency} from '../enums/ExpenseFrequency';
 import {Expense} from '../models/Expense';
 import {Property} from '../../properties/models/Property';
+// eslint-disable-next-line max-len
+import {returnForbidden, returnInternalServerError, returnNotFound} from '../../common/use-cases/status-data-container';
 
 export const makeUpdateExpense = (
     logger: bunyan,
@@ -24,10 +26,7 @@ export const makeUpdateExpense = (
       const expenseModel = await ExpenseModel
           .findOne({id: expenseId}, {__v: 0});
       if (!expenseModel) {
-        return {
-          status: 404,
-          data: undefined,
-        };
+        return returnNotFound();
       }
 
       const propertyModel = await PropertyModel
@@ -36,16 +35,10 @@ export const makeUpdateExpense = (
         logger
         // eslint-disable-next-line max-len
             .error(`Property: ${expenseModel.propertyId} does not exist for expense: ${expenseId}`);
-        return {
-          status: 500,
-          data: undefined,
-        };
+        return returnInternalServerError();
       }
       if (!propertyModel.administratorEmails.includes(requestingUser.email)) {
-        return {
-          status: 403,
-          data: undefined,
-        };
+        return returnForbidden();
       }
 
       expenseModel.title = title;
@@ -60,10 +53,7 @@ export const makeUpdateExpense = (
       };
     } catch (err) {
       logger.error(`An error has occurred: ${err}`);
-      return {
-        status: 500,
-        data: undefined,
-      };
+      return returnInternalServerError();
     }
   };
 };

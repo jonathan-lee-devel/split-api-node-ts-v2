@@ -6,6 +6,8 @@ import {addMinutes} from 'date-fns';
 import {RegistrationVerificationToken} from '../models/RegistrationVerificationToken';
 // eslint-disable-next-line max-len
 import {GenerateRegistrationVerificationTokenFunction} from '../types/generate-registration-verification-token';
+// eslint-disable-next-line max-len
+import {returnInternalServerError} from '../../../common/use-cases/status-data-container';
 
 export const makeGenerateRegistrationVerificationToken = (
     logger: bunyan,
@@ -31,10 +33,7 @@ export const makeGenerateRegistrationVerificationToken = (
       };
     } catch (err) {
       logger.error(`An error has occurred: ${err}`);
-      return {
-        status: 500,
-        data: undefined,
-      };
+      return returnInternalServerError();
     }
   };
 };

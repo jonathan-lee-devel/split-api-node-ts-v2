@@ -6,6 +6,8 @@ import {GetPropertyTotalExpensesFunction} from '../types/get-property-total-expe
 import {Property} from '../models/Property';
 import {User} from '../../users/main/models/User';
 import {newDineroAmount} from '../../common/use-cases/dinero';
+// eslint-disable-next-line max-len
+import {returnForbidden, returnInternalServerError} from '../../common/use-cases/status-data-container';
 
 export const makeGetPropertyTotalExpenses = (
     logger: bunyan,
@@ -22,10 +24,7 @@ export const makeGetPropertyTotalExpenses = (
           .includes(requestingUser.email) &&
                 !propertyModel.administratorEmails
                     .includes(requestingUser.email)) {
-        return {
-          status: 403,
-          data: undefined,
-        };
+        return returnForbidden();
       }
       const expenses = await ExpenseModel.find({propertyId}, {__v: 0});
       let total = 0.0;
@@ -42,10 +41,7 @@ export const makeGetPropertyTotalExpenses = (
       };
     } catch (err) {
       logger.error(`An error has occurred: ${err}`);
-      return {
-        status: 500,
-        data: undefined,
-      };
+      return returnInternalServerError();
     }
   };
 };

@@ -5,6 +5,8 @@ import {RegistrationVerificationToken} from '../models/RegistrationVerificationT
 import {ConfirmRegistrationFunction} from '../types/confirm-registration';
 import {RegistrationStatus} from '../enums/RegistrationStatus';
 import {User} from '../../main/models/User';
+// eslint-disable-next-line max-len
+import {returnInternalServerError} from '../../../common/use-cases/status-data-container';
 
 export const makeConfirmRegistration = (
     logger: bunyan,
@@ -54,10 +56,7 @@ export const makeConfirmRegistration = (
       };
     } catch (err) {
       logger.error(`An error has occurred: ${err}`);
-      return {
-        status: 500,
-        data: undefined,
-      };
+      return returnInternalServerError();
     }
   };
 };

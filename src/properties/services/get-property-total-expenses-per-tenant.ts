@@ -12,6 +12,8 @@ import {User} from '../../users/main/models/User';
 import {IndividualExpenseBreakdownDto} from '../../expenses/dtos/IndividualExpenseBreakdownDto';
 // eslint-disable-next-line max-len
 import {amountStringAsNumber, newDineroAmount} from '../../common/use-cases/dinero';
+// eslint-disable-next-line max-len
+import {returnInternalServerError} from '../../common/use-cases/status-data-container';
 
 export const makeGetPropertyTotalExpensesPerTenant = (
     logger: bunyan,
@@ -95,10 +97,7 @@ export const makeGetPropertyTotalExpensesPerTenant = (
       };
     } catch (err) {
       logger.error(`An error has occurred: ${err}`);
-      return {
-        status: 500,
-        data: undefined,
-      };
+      return returnInternalServerError();
     }
   };
 };
