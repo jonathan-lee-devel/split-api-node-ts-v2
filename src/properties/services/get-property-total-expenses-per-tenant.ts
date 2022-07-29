@@ -38,13 +38,10 @@ export const makeGetPropertyTotalExpensesPerTenant = (
       const expenses = await ExpenseModel.find({propertyId}, {__v: 0});
       if (!expenses) {
         return {
-          status: 200,
-          data: {
-            total: '€0.00',
-            expenses: [],
-          },
+          status: 200, data: {total: '€0.00', expenses: []},
         };
       }
+
       let total = 0.0;
       const individualExpenseBreakdownDtos
                 : IndividualExpenseBreakdownDto[] = [];
@@ -62,25 +59,20 @@ export const makeGetPropertyTotalExpensesPerTenant = (
                                 requestingUser.email);
                         }).pop();
         if (expenseDistributionAssignmentsForUser) {
-          // eslint-disable-next-line new-cap
           const amountString = newDineroAmount(parseInt(
               expenseDistributionAssignmentsForUser.amount) / 100).toFormat();
-          individualExpenseBreakdownDtos.push(
-              {
-                expenseTitle: (await expense).title,
-                amount: amountString,
-              },
-          );
+          individualExpenseBreakdownDtos.push({
+            expenseTitle: (await expense).title, amount: amountString,
+          });
           total += amountStringAsNumber(amountString);
         } else {
-          const remainingNumberOfTenants =
-                        numberOfTenants -
+          const remainingNumberOfTenants = numberOfTenants -
                         expenseDistributionAssignments.length;
           const sumOfDistributionAmounts =
                         expenseDistributionAssignments
                             .reduce((sum, currentValue) =>
-                              sum +
-                                amountStringAsNumber(currentValue.amount), 0);
+                              sum + amountStringAsNumber(currentValue.amount),
+                            0);
           const amountAsNumber = amountStringAsNumber((await expense).amount);
           const amountToPay =
                         (amountAsNumber - sumOfDistributionAmounts) /
