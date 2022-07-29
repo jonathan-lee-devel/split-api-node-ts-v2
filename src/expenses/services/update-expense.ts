@@ -1,11 +1,13 @@
 import bunyan from 'bunyan';
 import {Model} from 'mongoose';
+import Dinero from 'dinero.js';
 import {UpdateExpenseFunction} from '../types/update-expense';
 import {User} from '../../users/main/models/User';
 import {ExpenseFrequency} from '../enums/ExpenseFrequency';
 import {Expense} from '../models/Expense';
 import {Property} from '../../properties/models/Property';
-import Dinero from 'dinero.js';
+// eslint-disable-next-line max-len
+import {returnForbidden, returnInternalServerError, returnNotFound} from '../../common/use-cases/status-data-container';
 
 export const makeUpdateExpense = (
     logger: bunyan,
@@ -18,17 +20,13 @@ export const makeUpdateExpense = (
       title: string,
       amount: string,
       frequency: ExpenseFrequency,
-      startDate: Date,
-      endDate: Date,
+      date: Date,
   ) {
     try {
       const expenseModel = await ExpenseModel
           .findOne({id: expenseId}, {__v: 0});
       if (!expenseModel) {
-        return {
-          status: 404,
-          data: undefined,
-        };
+        return returnNotFound();
       }
 
       const propertyModel = await PropertyModel
@@ -37,24 +35,17 @@ export const makeUpdateExpense = (
         logger
         // eslint-disable-next-line max-len
             .error(`Property: ${expenseModel.propertyId} does not exist for expense: ${expenseId}`);
-        return {
-          status: 500,
-          data: undefined,
-        };
+        return returnInternalServerError();
       }
       if (!propertyModel.administratorEmails.includes(requestingUser.email)) {
-        return {
-          status: 403,
-          data: undefined,
-        };
+        return returnForbidden();
       }
 
       expenseModel.title = title;
       // eslint-disable-next-line max-len,new-cap
       expenseModel.amount = Dinero({amount: Number(amount) * 100, currency: 'EUR', precision: 2}).toFormat();
       expenseModel.frequency = frequency;
-      expenseModel.startDate = startDate;
-      expenseModel.endDate = endDate;
+      expenseModel.date = date;
       await expenseModel.save();
       return {
         status: 204,
@@ -62,10 +53,7 @@ export const makeUpdateExpense = (
       };
     } catch (err) {
       logger.error(`An error has occurred: ${err}`);
-      return {
-        status: 500,
-        data: undefined,
-      };
+      return returnInternalServerError();
     }
   };
 };

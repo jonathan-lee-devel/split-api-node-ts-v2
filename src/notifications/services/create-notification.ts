@@ -5,6 +5,8 @@ import {CreateNotificationFunction} from '../types/create-notification';
 import {User} from '../../users/main/models/User';
 import {DEFAULT_ID_LENGTH} from '../../util/id/constants/default-id-length';
 import {Notification} from '../models/Notification';
+// eslint-disable-next-line max-len
+import {returnInternalServerError} from '../../common/use-cases/status-data-container';
 
 export const makeCreateNotification = (
     logger: bunyan,
@@ -48,10 +50,7 @@ export const makeCreateNotification = (
       };
     } catch (err) {
       logger.error(`An error has occurred: ${err}`);
-      return {
-        status: 500,
-        data: undefined,
-      };
+      return returnInternalServerError();
     }
   };
 };

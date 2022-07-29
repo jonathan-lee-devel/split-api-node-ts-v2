@@ -12,8 +12,7 @@ export const makeCreateExpenseController = (
         httpRequest.body.title,
         httpRequest.body.amount,
         httpRequest.body.frequency,
-        httpRequest.body.startDate,
-        httpRequest.body.endDate,
+        httpRequest.body.date,
     );
     return {
       httpStatus: expenseContainer.status,

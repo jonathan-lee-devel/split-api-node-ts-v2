@@ -6,6 +6,8 @@ import {User} from '../../users/main/models/User';
 import {InviteToPropertyFunction} from '../invitations/types/invite-to-property';
 // eslint-disable-next-line max-len
 import {InviteTenantsToPropertyFunction} from '../types/invite-tenants-to-property';
+// eslint-disable-next-line max-len
+import {returnForbidden, returnInternalServerError, returnNotFound} from '../../common/use-cases/status-data-container';
 
 export const makeInviteTenantsToProperty = (
     logger: bunyan,
@@ -22,23 +24,14 @@ export const makeInviteTenantsToProperty = (
       propertyModel = await PropertyModel
           .findOne({id: propertyId}, {__v: 0});
       if (!propertyModel) {
-        return {
-          status: 404,
-          data: undefined,
-        };
+        return returnNotFound();
       }
       if (!propertyModel.administratorEmails.includes(requestingUser.email)) {
-        return {
-          status: 403,
-          data: undefined,
-        };
+        return returnForbidden();
       }
     } catch (err) {
       logger.error(`An error has occurred: ${err}`);
-      return {
-        status: 500,
-        data: undefined,
-      };
+      return returnInternalServerError();
     }
 
     let status = 200;

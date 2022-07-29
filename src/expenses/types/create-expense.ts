@@ -9,6 +9,5 @@ export type CreateExpenseFunction = (
     title: string,
     amount: number,
     frequency: ExpenseFrequency,
-    startDate: Date,
-    endDate: Date,
+    date: Date,
 ) => Promise<StatusDataContainer<ExpenseDto>>;

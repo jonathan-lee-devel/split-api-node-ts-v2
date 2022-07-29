@@ -5,6 +5,8 @@ import {Property} from '../models/Property';
 import {GetPropertiesForUserAsAdminFunction} from '../types/get-properties-for-user-as-admin';
 import {User} from '../../users/main/models/User';
 import {PropertyDto} from '../dtos/PropertyDto';
+// eslint-disable-next-line max-len
+import {returnInternalServerError} from '../../common/use-cases/status-data-container';
 
 export const makeGetPropertiesForUserAsAdmin = (
     logger: bunyan,
@@ -36,10 +38,7 @@ export const makeGetPropertiesForUserAsAdmin = (
       };
     } catch (err) {
       logger.error(`An error has occurred: ${err}`);
-      return {
-        status: 500,
-        data: undefined,
-      };
+      return returnInternalServerError();
     }
   };
 };

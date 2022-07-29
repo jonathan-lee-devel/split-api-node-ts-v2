@@ -3,6 +3,8 @@ import {Model} from 'mongoose';
 import {Property} from '../models/Property';
 import {GetPropertyFunction} from '../types/get-property';
 import {User} from '../../users/main/models/User';
+// eslint-disable-next-line max-len
+import {returnForbidden, returnInternalServerError, returnNotFound} from '../../common/use-cases/status-data-container';
 
 export const makeGetProperty = (
     logger: bunyan,
@@ -16,10 +18,7 @@ export const makeGetProperty = (
       const propertyModel = await PropertyModel.findOne({id: propertyId},
           {__v: 0});
       if (!propertyModel) {
-        return {
-          status: 404,
-          data: undefined,
-        };
+        return returnNotFound();
       }
       if (!propertyModel
           .tenantEmails
@@ -27,10 +26,7 @@ export const makeGetProperty = (
                 !propertyModel
                     .administratorEmails
                     .includes(requestingUser.email)) {
-        return {
-          status: 403,
-          data: undefined,
-        };
+        return returnForbidden();
       }
       return {
         status: 200,
@@ -45,10 +41,7 @@ export const makeGetProperty = (
       };
     } catch (err) {
       logger.error(`An error has occurred: ${err}`);
-      return {
-        status: 500,
-        data: undefined,
-      };
+      return returnInternalServerError();
     }
   };
 };

@@ -1,6 +1,5 @@
 import {body, ValidationChain} from 'express-validator';
 import {ExpenseFrequency} from '../enums/ExpenseFrequency';
-import {isBefore} from 'date-fns';
 
 export const updateExpenseValidationChain: ValidationChain[] = [
   body('propertyId', 'Must be a valid propertyId')
@@ -14,26 +13,11 @@ export const updateExpenseValidationChain: ValidationChain[] = [
   body('frequency', 'Must be a valid frequency')
       .exists()
       .isInt({min: ExpenseFrequency.ONCE, max: ExpenseFrequency.YEARLY}),
-  body('startDate', 'Must be a valid start date')
+  body('date', 'Must be a valid date from the current month')
       .exists()
-      .custom((input, {req}) => {
-        try {
-          const startDate = new Date(input);
-          const endDate = new Date(req.body.endDate);
-
-          return !isBefore(endDate, startDate);
-        } catch (err) {
-          return false;
-        }
-      }),
-  body('endDate', 'Must be a valid end date')
-      .exists()
-      .custom((input) => {
-        try {
-          const date = new Date(input);
-          return !isBefore(date, new Date());
-        } catch (err) {
-          return false;
-        }
+      .custom((_input, {req}) => {
+        const inputDate = new Date(req.body.date);
+        const currentDate = new Date();
+        return inputDate.getMonth() === currentDate.getMonth();
       }),
 ];

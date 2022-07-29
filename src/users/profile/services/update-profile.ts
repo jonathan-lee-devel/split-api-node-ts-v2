@@ -2,6 +2,8 @@ import bunyan from 'bunyan';
 import {Model} from 'mongoose';
 import {UpdateProfileFunction} from '../types/update-profile';
 import {User} from '../../main/models/User';
+// eslint-disable-next-line max-len
+import {returnForbidden, returnInternalServerError} from '../../../common/use-cases/status-data-container';
 
 export const makeUpdateProfile = (
     logger: bunyan,
@@ -13,19 +15,13 @@ export const makeUpdateProfile = (
       firstName: string,
       lastName: string) {
     if (requestingUser.email !== email) {
-      return {
-        status: 403,
-        data: undefined,
-      };
+      return returnForbidden();
     }
     try {
       const userModel = await UserModel.findOne({email}, {__v: 0});
       if (!userModel) {
         logger.error(`No user profile available for requesting user: ${email}`);
-        return {
-          status: 500,
-          data: undefined,
-        };
+        return returnInternalServerError();
       }
 
       userModel.firstName = firstName;
@@ -40,10 +36,7 @@ export const makeUpdateProfile = (
         },
       };
     } catch (err) {
-      return {
-        status: 500,
-        data: undefined,
-      };
+      return returnInternalServerError();
     }
   };
 };

@@ -4,10 +4,15 @@ import bunyan from 'bunyan';
 import {Model} from 'mongoose';
 import {Expense} from '../models/Expense';
 import {Property} from '../../properties/models/Property';
+// eslint-disable-next-line max-len
+import {ExpenseDistributionAssignment} from '../models/ExpenseDistributionAssignment';
+// eslint-disable-next-line max-len
+import {returnForbidden, returnInternalServerError, returnNotFound} from '../../common/use-cases/status-data-container';
 
 export const makeDeleteExpense = (
     logger: bunyan,
     ExpenseModel: Model<Expense>,
+    ExpenseDistributionAssignmentModel: Model<ExpenseDistributionAssignment>,
     PropertyModel: Model<Property>,
 ): DeleteExpenseFunction => {
   return async function deleteExpense(
@@ -18,42 +23,31 @@ export const makeDeleteExpense = (
       const expenseModel = await ExpenseModel
           .findOne({id: expenseId}, {__v: 0});
       if (!expenseModel) {
-        return {
-          status: 404,
-          data: undefined,
-        };
+        return returnNotFound();
       }
 
       const propertyModel = await PropertyModel
           .findOne({id: expenseModel.propertyId}, {__v: 0});
       if (!propertyModel) {
         logger
-            // eslint-disable-next-line max-len
+        // eslint-disable-next-line max-len
             .error(`Attempting to delete expense: ${expenseId} for which property does not exist`);
-        return {
-          status: 500,
-          data: undefined,
-        };
+        return returnInternalServerError();
       }
 
       if (!propertyModel.administratorEmails.includes(requestingUser.email)) {
-        return {
-          status: 403,
-          data: undefined,
-        };
+        return returnForbidden();
       }
 
       await ExpenseModel.deleteOne({id: expenseId});
+      await ExpenseDistributionAssignmentModel.deleteMany({expenseId});
       return {
         status: 204,
         data: undefined,
       };
     } catch (err) {
       logger.error(`An error has occurred: ${err}`);
-      return {
-        status: 500,
-        data: undefined,
-      };
+      return returnInternalServerError();
     }
   };
 };

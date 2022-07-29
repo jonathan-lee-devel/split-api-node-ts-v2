@@ -4,6 +4,8 @@ import {Model} from 'mongoose';
 import {RemoveTenantFromPropertyFunction} from '../types/remove-tenant-from-property';
 import {User} from '../../users/main/models/User';
 import {Property} from '../models/Property';
+// eslint-disable-next-line max-len
+import {returnForbidden, returnInternalServerError} from '../../common/use-cases/status-data-container';
 
 export const makeRemoveTenantFromProperty = (
     logger: bunyan,
@@ -27,10 +29,7 @@ export const makeRemoveTenantFromProperty = (
       if (requestingUser.email !== tenantEmailToRemove &&
                 !propertyModel.administratorEmails
                     .includes(requestingUser.email)) {
-        return {
-          status: 403,
-          data: undefined,
-        };
+        return returnForbidden();
       }
 
       const tenantEmailIndex =
@@ -55,10 +54,7 @@ export const makeRemoveTenantFromProperty = (
       };
     } catch (err) {
       logger.error(`An error has occurred: ${err}`);
-      return {
-        status: 500,
-        data: undefined,
-      };
+      return returnInternalServerError();
     }
   };
 };

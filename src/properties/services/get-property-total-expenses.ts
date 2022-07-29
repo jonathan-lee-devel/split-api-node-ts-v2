@@ -1,11 +1,13 @@
 import bunyan from 'bunyan';
 import {Model} from 'mongoose';
-import Dinero from 'dinero.js';
 import {Expense} from '../../expenses/models/Expense';
 // eslint-disable-next-line max-len
 import {GetPropertyTotalExpensesFunction} from '../types/get-property-total-expenses';
 import {Property} from '../models/Property';
 import {User} from '../../users/main/models/User';
+import {newDineroAmount} from '../../common/use-cases/dinero';
+// eslint-disable-next-line max-len
+import {returnForbidden, returnInternalServerError} from '../../common/use-cases/status-data-container';
 
 export const makeGetPropertyTotalExpenses = (
     logger: bunyan,
@@ -22,10 +24,7 @@ export const makeGetPropertyTotalExpenses = (
           .includes(requestingUser.email) &&
                 !propertyModel.administratorEmails
                     .includes(requestingUser.email)) {
-        return {
-          status: 403,
-          data: undefined,
-        };
+        return returnForbidden();
       }
       const expenses = await ExpenseModel.find({propertyId}, {__v: 0});
       let total = 0.0;
@@ -36,19 +35,13 @@ export const makeGetPropertyTotalExpenses = (
         );
         total += amountAsNumber;
       }
-      const totalAsCurrency =
-                // eslint-disable-next-line new-cap,max-len
-                Dinero({amount: Math.round(total * 100), currency: 'EUR', precision: 2});
       return {
         status: 200,
-        data: totalAsCurrency.toFormat(),
+        data: newDineroAmount(total).toFormat(),
       };
     } catch (err) {
       logger.error(`An error has occurred: ${err}`);
-      return {
-        status: 500,
-        data: undefined,
-      };
+      return returnInternalServerError();
     }
   };
 };

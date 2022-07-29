@@ -6,7 +6,6 @@ export interface ExpenseDto {
     title: string;
     amount: string;
     frequency: ExpenseFrequency;
-    startDate: Date;
-    endDate: Date;
+    date: Date;
     createdByEmail: string;
 }
