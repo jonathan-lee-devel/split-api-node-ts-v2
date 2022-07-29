@@ -5,12 +5,10 @@ import {Expense} from '../models/Expense';
 // eslint-disable-next-line max-len
 import {ExpenseDistributionAssignment} from '../models/ExpenseDistributionAssignment';
 // eslint-disable-next-line max-len
-import {AmountStringAsNumberFunction} from '../../util/dinero/types/amount-string-as-number';
-// eslint-disable-next-line max-len
-import {ErrorMessageToDtoFunction} from '../../util/errors/types/error-message-to-dto';
-// eslint-disable-next-line max-len
 import {UpdateExpenseDistributionAssignmentFunction} from '../types/update-expense-distribution-assignment';
 import {User} from '../../users/main/models/User';
+import {amountStringAsNumber} from '../../common/use-cases/dinero';
+import {errorMessageToDto} from '../../common/use-cases/errors';
 
 export const makeUpdateExpenseDistributionAssignment = (
     logger: bunyan,
@@ -18,8 +16,6 @@ export const makeUpdateExpenseDistributionAssignment = (
         Model<ExpenseDistributionAssignment>,
     ExpenseModel: Model<Expense>,
     PropertyModel: Model<Property>,
-    amountStringAsNumber: AmountStringAsNumberFunction,
-    errorMessageToDto: ErrorMessageToDtoFunction,
 ): UpdateExpenseDistributionAssignmentFunction => {
   return async function updateExpenseDistributionAssignment(
       requestingUser: User,

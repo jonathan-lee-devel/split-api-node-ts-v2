@@ -1,44 +1,40 @@
 import bunyan from 'bunyan';
 import {Model} from 'mongoose';
-import Dinero from 'dinero.js';
+// eslint-disable-next-line max-len
+import {getPropertyRequireTenantOrAdmin} from '../../common/use-cases/properties';
 import {Expense} from '../../expenses/models/Expense';
 // eslint-disable-next-line max-len
+import {ExpenseDistributionAssignment} from '../../expenses/models/ExpenseDistributionAssignment';
+// eslint-disable-next-line max-len
 import {GetPropertyTotalExpensesPerTenantFunction} from '../types/get-property-total-expenses-per-tenant-function';
-import {Property} from '../models/Property';
 import {User} from '../../users/main/models/User';
 // eslint-disable-next-line max-len
-import {AmountStringAsNumberFunction} from '../../util/dinero/types/amount-string-as-number';
-// eslint-disable-next-line max-len
 import {IndividualExpenseBreakdownDto} from '../../expenses/dtos/IndividualExpenseBreakdownDto';
+// eslint-disable-next-line max-len
+import {amountStringAsNumber, newDineroAmount} from '../../common/use-cases/dinero';
 
 export const makeGetPropertyTotalExpensesPerTenant = (
     logger: bunyan,
-    PropertyModel: Model<Property>,
     ExpenseModel: Model<Expense>,
-    amountStringAsNumber: AmountStringAsNumberFunction,
+    ExpenseDistributionAssignmentModel:
+        Model<ExpenseDistributionAssignment>,
 ): GetPropertyTotalExpensesPerTenantFunction => {
   return async function getPropertyTotalExpensesPerTenant(
       requestingUser: User,
       propertyId: string,
   ) {
     try {
-      const propertyModel = await PropertyModel
-          .findOne({id: propertyId}, {__v: 0});
-      if (!propertyModel) {
+      const propertyModelContainer =
+                await getPropertyRequireTenantOrAdmin(
+                    requestingUser, propertyId,
+                );
+      if (propertyModelContainer.status !== 200) {
         return {
-          status: 404,
+          status: propertyModelContainer.status,
           data: undefined,
         };
       }
-      if (!propertyModel.tenantEmails
-          .includes(requestingUser.email) &&
-                !propertyModel.administratorEmails
-                    .includes(requestingUser.email)) {
-        return {
-          status: 403,
-          data: undefined,
-        };
-      }
+
       const expenses = await ExpenseModel.find({propertyId}, {__v: 0});
       if (!expenses) {
         return {
@@ -52,33 +48,56 @@ export const makeGetPropertyTotalExpensesPerTenant = (
       let total = 0.0;
       const individualExpenseBreakdownDtos
                 : IndividualExpenseBreakdownDto[] = [];
-      const numberOfTenants = propertyModel.tenantEmails.length;
+      const numberOfTenants = propertyModelContainer.data.tenantEmails.length;
       for (const expense of expenses) {
-        const amountAsNumber = amountStringAsNumber((await expense).amount);
-        individualExpenseBreakdownDtos.push(
-            {
-              expenseTitle: (await expense).title,
-              // eslint-disable-next-line new-cap
-              amount: Dinero({
-                amount: Math.round((amountAsNumber / numberOfTenants) * 100),
-                currency: 'EUR',
-                precision: 2,
-              }).toFormat(),
-            },
-        );
-        total += amountAsNumber;
+        const expenseDistributionAssignments: ExpenseDistributionAssignment[] =
+                    await ExpenseDistributionAssignmentModel
+                        .find({expenseId: (await expense).id},
+                            {__v: 0});
+        const expenseDistributionAssignmentsForUser =
+                    expenseDistributionAssignments
+                        .filter((expenseDistributionAssignment) => {
+                          return (
+                            expenseDistributionAssignment.tenantEmail ===
+                                requestingUser.email);
+                        }).pop();
+        if (expenseDistributionAssignmentsForUser) {
+          // eslint-disable-next-line new-cap
+          const amountString = newDineroAmount(parseInt(
+              expenseDistributionAssignmentsForUser.amount) / 100).toFormat();
+          individualExpenseBreakdownDtos.push(
+              {
+                expenseTitle: (await expense).title,
+                amount: amountString,
+              },
+          );
+          total += amountStringAsNumber(amountString);
+        } else {
+          const remainingNumberOfTenants =
+                        numberOfTenants -
+                        expenseDistributionAssignments.length;
+          const sumOfDistributionAmounts =
+                        expenseDistributionAssignments
+                            .reduce((sum, currentValue) =>
+                              sum +
+                                amountStringAsNumber(currentValue.amount), 0);
+          const amountAsNumber = amountStringAsNumber((await expense).amount);
+          const amountToPay =
+                        (amountAsNumber - sumOfDistributionAmounts) /
+                        remainingNumberOfTenants;
+          individualExpenseBreakdownDtos.push(
+              {
+                expenseTitle: (await expense).title,
+                amount: newDineroAmount(amountToPay).toFormat(),
+              },
+          );
+          total += amountToPay;
+        }
       }
-      total /= numberOfTenants;
-      // eslint-disable-next-line new-cap
-      const totalAsCurrency = Dinero({
-        amount: Math.round(total * 100),
-        currency: 'EUR',
-        precision: 2,
-      });
       return {
         status: 200,
         data: {
-          total: totalAsCurrency.toFormat(),
+          total: newDineroAmount(total).toFormat(),
           expenses: individualExpenseBreakdownDtos,
         },
       };

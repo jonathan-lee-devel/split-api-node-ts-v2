@@ -1,11 +1,11 @@
 import bunyan from 'bunyan';
 import {Model} from 'mongoose';
-import Dinero from 'dinero.js';
 import {Expense} from '../../expenses/models/Expense';
 // eslint-disable-next-line max-len
 import {GetPropertyTotalExpensesFunction} from '../types/get-property-total-expenses';
 import {Property} from '../models/Property';
 import {User} from '../../users/main/models/User';
+import {newDineroAmount} from '../../common/use-cases/dinero';
 
 export const makeGetPropertyTotalExpenses = (
     logger: bunyan,
@@ -36,12 +36,9 @@ export const makeGetPropertyTotalExpenses = (
         );
         total += amountAsNumber;
       }
-      const totalAsCurrency =
-                // eslint-disable-next-line new-cap,max-len
-                Dinero({amount: Math.round(total * 100), currency: 'EUR', precision: 2});
       return {
         status: 200,
-        data: totalAsCurrency.toFormat(),
+        data: newDineroAmount(total).toFormat(),
       };
     } catch (err) {
       logger.error(`An error has occurred: ${err}`);

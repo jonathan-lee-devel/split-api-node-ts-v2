@@ -9,10 +9,8 @@ import {CreateExpenseDistributionAssignmentFunction} from '../types/create-expen
 import {User} from '../../users/main/models/User';
 import {Property} from '../../properties/models/Property';
 import {DEFAULT_ID_LENGTH} from '../../util/id/constants/default-id-length';
-// eslint-disable-next-line max-len
-import {AmountStringAsNumberFunction} from '../../util/dinero/types/amount-string-as-number';
-// eslint-disable-next-line max-len
-import {ErrorMessageToDtoFunction} from '../../util/errors/types/error-message-to-dto';
+import {amountStringAsNumber} from '../../common/use-cases/dinero';
+import {errorMessageToDto} from '../../common/use-cases/errors';
 
 export const makeCreateExpenseDistributionAssignment = (
     logger: bunyan,
@@ -21,8 +19,6 @@ export const makeCreateExpenseDistributionAssignment = (
     PropertyModel: Model<Property>,
     ExpenseDistributionAssignmentModel:
         Model<ExpenseDistributionAssignment>,
-    amountStringAsNumber: AmountStringAsNumberFunction,
-    errorMessageToDto: ErrorMessageToDtoFunction,
 ): CreateExpenseDistributionAssignmentFunction => {
   return async function createExpenseDistributionAssignment(
       requestingUser: User,

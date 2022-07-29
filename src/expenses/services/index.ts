@@ -11,8 +11,6 @@ import {makeUpdateExpense} from './update-expense';
 import {ExpenseDistributionAssignmentModel} from '../models/ExpenseDistributionAssignment';
 // eslint-disable-next-line max-len
 import {makeCreateExpenseDistributionAssignment} from './create-expense-distribution-assignment';
-import {amountStringAsNumber} from '../../util/dinero/exports';
-import {errorMessageToDto} from '../../util/errors/exports';
 // eslint-disable-next-line max-len
 import {makeUpdateExpenseDistributionAssignment} from './update-expense-distribution-assignment';
 
@@ -56,8 +54,6 @@ export const createExpenseDistributionAssignment =
         ExpenseModel,
         PropertyModel,
         ExpenseDistributionAssignmentModel,
-        amountStringAsNumber,
-        errorMessageToDto,
     );
 
 export const updateExpenseDistributionAssignment =
@@ -66,6 +62,4 @@ export const updateExpenseDistributionAssignment =
         ExpenseDistributionAssignmentModel,
         ExpenseModel,
         PropertyModel,
-        amountStringAsNumber,
-        errorMessageToDto,
     );

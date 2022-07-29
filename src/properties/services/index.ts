@@ -13,10 +13,11 @@ import {makeRemoveTenantFromProperty} from './remove-tenant-from-property';
 import {makeGetPropertyIsAdmin} from './get-property-is-admin';
 import {makeGetPropertyTotalExpenses} from './get-property-total-expenses';
 import {ExpenseModel} from '../../expenses/models/Expense';
+import {makeInviteTenantsToProperty} from './invite-tenants-to-property';
+// eslint-disable-next-line max-len
+import {ExpenseDistributionAssignmentModel} from '../../expenses/models/ExpenseDistributionAssignment';
 // eslint-disable-next-line max-len
 import {makeGetPropertyTotalExpensesPerTenant} from './get-property-total-expenses-per-tenant';
-import {makeInviteTenantsToProperty} from './invite-tenants-to-property';
-import {amountStringAsNumber} from '../../util/dinero/exports';
 
 const logger = loggerConfig();
 
@@ -57,9 +58,8 @@ export const getPropertyTotalExpenses = makeGetPropertyTotalExpenses(
 export const getPropertyTotalExpensesPerTenant =
     makeGetPropertyTotalExpensesPerTenant(
         logger,
-        PropertyModel,
         ExpenseModel,
-        amountStringAsNumber,
+        ExpenseDistributionAssignmentModel,
     );
 
 export const inviteTenantsToProperty = makeInviteTenantsToProperty(
