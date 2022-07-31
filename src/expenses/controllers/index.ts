@@ -4,6 +4,7 @@ import {
   deleteExpense,
   deleteExpenseDistributionAssignment,
   getExpense,
+  getExpenseDistributionAssignment,
   getExpenseDistributionAssignmentsForProperty,
   getExpensesForProperty,
   updateExpense,
@@ -24,6 +25,7 @@ import {makeDeleteExpenseDistributionAssignmentController} from './delete-expens
 import {
   makeGetExpenseDistributionAssignmentsForPropertyController,
 } from './get-expense-distribution-assignments-for-property';
+import {makeGetExpenseDistributionAssignmentsController} from './get-expense-distribution-assignment';
 
 export const getExpenseController = makeGetExpenseController(getExpense);
 
@@ -52,6 +54,11 @@ export const updateExpenseDistributionAssignmentController =
 export const deleteExpenseDistributionAssignmentController =
     makeDeleteExpenseDistributionAssignmentController(
         deleteExpenseDistributionAssignment,
+    );
+
+export const getExpenseDistributionAssignmentsController =
+    makeGetExpenseDistributionAssignmentsController(
+        getExpenseDistributionAssignment,
     );
 
 export const getExpenseDistributionAssignmentsForPropertyController =
