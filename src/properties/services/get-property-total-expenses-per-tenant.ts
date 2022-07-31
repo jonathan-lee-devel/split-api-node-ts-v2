@@ -14,6 +14,7 @@ import {IndividualExpenseBreakdownDto} from '../../expenses/dtos/IndividualExpen
 import {amountStringAsNumber, newDineroAmount} from '../../common/use-cases/dinero';
 // eslint-disable-next-line max-len
 import {returnInternalServerError} from '../../common/use-cases/status-data-container';
+import {errorMessageToDto} from '../../common/use-cases/errors';
 
 export const makeGetPropertyTotalExpensesPerTenant = (
     logger: bunyan,
@@ -34,6 +35,18 @@ export const makeGetPropertyTotalExpensesPerTenant = (
         return {
           status: propertyModelContainer.status,
           data: undefined,
+        };
+      }
+
+      if (
+        propertyModelContainer.data.administratorEmails
+            .includes(requestingUser.email) &&
+                !propertyModelContainer.data.tenantEmails
+                    .includes(requestingUser.email)) {
+        return {
+          status: 400,
+          // eslint-disable-next-line max-len
+          data: errorMessageToDto('Admin viewing expense report is not a tenant'),
         };
       }
 
@@ -74,7 +87,7 @@ export const makeGetPropertyTotalExpensesPerTenant = (
                         expenseDistributionAssignments
                             .reduce((sum, currentValue) =>
                               sum + amountStringAsNumber(currentValue.amount),
-                            0);
+                            0) / 100.00;
           const amountAsNumber = amountStringAsNumber((await expense).amount);
           const amountToPay =
                         (amountAsNumber - sumOfDistributionAmounts) /

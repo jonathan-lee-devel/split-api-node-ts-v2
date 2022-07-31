@@ -4,6 +4,7 @@ import {
   deleteExpense,
   deleteExpenseDistributionAssignment,
   getExpense,
+  getExpenseDistributionAssignmentsForProperty,
   getExpensesForProperty,
   updateExpense,
   updateExpenseDistributionAssignment,
@@ -20,6 +21,9 @@ import {makeCreateExpenseDistributionAssignmentController} from './create-expens
 import {makeUpdateExpenseDistributionAssignmentController} from './update-expense-distribution-assignment';
 // eslint-disable-next-line max-len
 import {makeDeleteExpenseDistributionAssignmentController} from './delete-expense-distribution-assignment';
+import {
+  makeGetExpenseDistributionAssignmentsForPropertyController,
+} from './get-expense-distribution-assignments-for-property';
 
 export const getExpenseController = makeGetExpenseController(getExpense);
 
@@ -48,4 +52,9 @@ export const updateExpenseDistributionAssignmentController =
 export const deleteExpenseDistributionAssignmentController =
     makeDeleteExpenseDistributionAssignmentController(
         deleteExpenseDistributionAssignment,
+    );
+
+export const getExpenseDistributionAssignmentsForPropertyController =
+    makeGetExpenseDistributionAssignmentsForPropertyController(
+        getExpenseDistributionAssignmentsForProperty,
     );

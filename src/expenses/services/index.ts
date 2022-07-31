@@ -15,6 +15,8 @@ import {makeCreateExpenseDistributionAssignment} from './create-expense-distribu
 import {makeUpdateExpenseDistributionAssignment} from './update-expense-distribution-assignment';
 // eslint-disable-next-line max-len
 import {makeDeleteExpenseDistributionAssignment} from './delete-expense-distribution-assignment';
+// eslint-disable-next-line max-len
+import {makeGetExpenseDistributionAssignmentsForProperty} from './get-expense-distribution-assignments-for-property';
 
 const logger = loggerConfig();
 
@@ -72,4 +74,12 @@ export const deleteExpenseDistributionAssignment =
         ExpenseDistributionAssignmentModel,
         ExpenseModel,
         PropertyModel,
+    );
+
+export const getExpenseDistributionAssignmentsForProperty =
+    makeGetExpenseDistributionAssignmentsForProperty(
+        logger,
+        PropertyModel,
+        ExpenseModel,
+        ExpenseDistributionAssignmentModel,
     );
