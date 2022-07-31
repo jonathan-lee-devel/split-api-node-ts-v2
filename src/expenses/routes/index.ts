@@ -11,6 +11,8 @@ import {
   deleteExpenseController,
   deleteExpenseDistributionAssignmentController,
   getExpenseController,
+  getExpenseDistributionAssignmentsController,
+  getExpenseDistributionAssignmentsForPropertyController,
   getExpensesForPropertyController,
   updateExpenseController,
   updateExpenseDistributionAssignmentController,
@@ -94,6 +96,28 @@ configureRoute(
     true,
     [],
     makeExpressCallback(logger, deleteExpenseDistributionAssignmentController),
+);
+configureRoute(
+    router,
+    HttpRequestMethod.GET,
+    '/distribution-assignments/:propertyId/:expenseDistributionAssignmentId',
+    true,
+    [],
+    makeExpressCallback(
+        logger,
+        getExpenseDistributionAssignmentsController,
+    ),
+);
+configureRoute(
+    router,
+    HttpRequestMethod.GET,
+    '/distribution-assignments/for/property/:propertyId',
+    true,
+    [],
+    makeExpressCallback(
+        logger,
+        getExpenseDistributionAssignmentsForPropertyController,
+    ),
 );
 
 export {router as ExpensesRouter};

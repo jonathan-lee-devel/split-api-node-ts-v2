@@ -46,21 +46,18 @@ export const makeCreateExpenseDistributionAssignment = (
     const expenseDistributionAssignments =
             await ExpenseDistributionAssignmentModel
                 .find({expenseId}, {__v: 0});
-    let total = 0.0;
-    for (
-      const expenseDistributionAssignment of expenseDistributionAssignments
-    ) {
-      const amountAsNumber =
-                amountStringAsNumber(
-                    (await expenseDistributionAssignment).amount,
-                );
-      total += amountAsNumber;
-    }
+    const total =
+            expenseDistributionAssignments
+                .reduce((sum, currentValue) =>
+                  sum + amountStringAsNumber(currentValue.amount),
+                0) / 100.00;
+    const amountAsNumber = Number(amount);
     const expenseAmountAsNumber = amountStringAsNumber(expenseModel.amount);
-    if (total > expenseAmountAsNumber) {
+    if (total + amountAsNumber > expenseAmountAsNumber) {
       return {
         status: 400,
-        data: errorMessageToDto('Amount exceeds total amount for expense'),
+        // eslint-disable-next-line max-len
+        data: errorMessageToDto('Amount allocated exceeds total amount for expense'),
       };
     }
 
@@ -68,7 +65,7 @@ export const makeCreateExpenseDistributionAssignment = (
       id: await generatedId(DEFAULT_ID_LENGTH),
       expenseId,
       tenantEmail,
-      amount,
+      amount: String(amountAsNumber * 100.00),
     };
 
     try {
