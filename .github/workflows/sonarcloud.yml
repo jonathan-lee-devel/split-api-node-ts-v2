@@ -56,5 +56,5 @@ jobs:
           args:             
             -Dsonar.projectKey=jonathan-lee-devel_split-api-node-ts-v2
             -Dsonar.organization=jonathan-lee-devel
-            -Dsonar.tests=**/__tests__/**.spec.ts
+            -Dsonar.tests=*.spec.ts
             -Dsonar.verbose=true   
