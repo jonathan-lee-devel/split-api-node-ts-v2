@@ -15,7 +15,14 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Analyze with SonarCloud         
+      - uses: actions/checkout@v3
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm test
 
         # You can pin the exact commit or the version.
         # uses: SonarSource/sonarcloud-github-action@de2e56b42aa84d0b1c5b622644ac17e505c9a049
@@ -25,7 +32,12 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}   # Generate a token on Sonarcloud.io, add it to the secrets of this repo with the name SONAR_TOKEN (Settings > Secrets > Actions > add new repository secret)
         with:
           # Additional arguments for the sonarcloud scanner
-          args:             
+          args:
             -Dsonar.projectKey=jonathan-lee-devel_split-api-node-ts-v2
             -Dsonar.organization=jonathan-lee-devel
-            -Dsonar.verbose=true   
+            -Dsonar.verbose=true
+            -Dsonar.sources=src
+            -Dsonar.tests=src
+            -Dsonar.inclusions=**
+            -Dsonar.test.inclusions=src/**/*.spec.ts,src/**/*.spec.tsx,src/**/*.test.ts,src/**/*.test.tsx
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
