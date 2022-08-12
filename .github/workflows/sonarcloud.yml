@@ -13,7 +13,7 @@ permissions:
 jobs:
   Analysis:
     runs-on: ubuntu-latest
-    
+
     strategy:
       matrix:
         node-version: [ 16.x, 18.x ]
@@ -24,9 +24,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: npm run build --if-present
-      - run: npm test
+      - name: Install Node
+        run: npm ci
+      - name: Build Node
+        run: npm run build --if-present
+      - name: Test Node
+        run: npm test
 
         # You can pin the exact commit or the version.
         # uses: SonarSource/sonarcloud-github-action@de2e56b42aa84d0b1c5b622644ac17e505c9a049
