@@ -3,8 +3,9 @@ import {makeCreateExpenseDistributionAssignmentController} from '../create-expen
 import {User} from '../../../users/main/models/User';
 import {HttpRequest} from '../../../main/types/http-request';
 
-describe('Create expense controller unit tests', () => {
-  it('When makeCreateExpenseController Then createExpenseController',
+describe('Create expense distribution assignment controller unit tests', () => {
+  // eslint-disable-next-line max-len
+  it('When makeCreateExpenseDistributionAssignmentController Then createExpenseDistributionAssignmentController',
       async () => {
         const createExpenseDistributionAssignmentController =
                 makeCreateExpenseDistributionAssignmentController(
