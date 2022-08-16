@@ -6,4 +6,6 @@ import {ErrorDto} from '../../main/dtos/ErrorDto';
 export type GetPropertyTotalExpensesPerTenantFunction = (
     requestingUser: User,
     propertyId: string,
+    month: number,
+    year: number,
 ) => Promise<StatusDataContainer<ExpenseBreakdownDto | ErrorDto>>;

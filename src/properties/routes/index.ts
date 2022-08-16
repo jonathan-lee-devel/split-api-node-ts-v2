@@ -26,6 +26,11 @@ import {removeTenantFromPropertyValidationChain} from '../validation-chains/remo
 import {tenantLeavePropertyValidationChain} from '../validation-chains/tenant-leave-property';
 // eslint-disable-next-line max-len
 import {inviteTenantsToPropertyValidationChain} from '../validation-chains/invite-tenants-to-property';
+// eslint-disable-next-line max-len
+import {getPropertyTotalExpensesValidationChain} from '../validation-chains/get-property-total-expenses';
+import {
+  getPropertyTotalExpensesPerTenantValidationChain,
+} from '../validation-chains/get-property-total-expenses-per-tenant';
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -109,7 +114,7 @@ configureRoute(
     HttpRequestMethod.GET,
     '/:propertyId/expenses-total',
     true,
-    [],
+    getPropertyTotalExpensesValidationChain,
     makeExpressCallback(logger, getPropertyTotalExpensesController),
 );
 configureRoute(
@@ -117,7 +122,7 @@ configureRoute(
     HttpRequestMethod.GET,
     '/:propertyId/expenses-per-tenant',
     true,
-    [],
+    getPropertyTotalExpensesPerTenantValidationChain,
     makeExpressCallback(logger, getPropertyTotalExpensesPerTenantController),
 );
 

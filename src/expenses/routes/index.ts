@@ -13,6 +13,7 @@ import {
   getExpenseController,
   getExpenseDistributionAssignmentsController,
   getExpenseDistributionAssignmentsForPropertyController,
+  getExpensesForMonthController,
   getExpensesForPropertyController,
   updateExpenseController,
   updateExpenseDistributionAssignmentController,
@@ -27,6 +28,8 @@ import {
 import {
   updateExpenseDistributionAssignmentValidationChain,
 } from '../validation-chains/update-expense-distribution-assignment';
+// eslint-disable-next-line max-len
+import {getExpensesForMonthValidationChain} from '../validation-chains/get-expenses-for-month';
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -48,6 +51,14 @@ configureRoute(
     true,
     [],
     makeExpressCallback(logger, getExpensesForPropertyController),
+);
+configureRoute(
+    router,
+    HttpRequestMethod.GET,
+    '/for/month',
+    true,
+    getExpensesForMonthValidationChain,
+    makeExpressCallback(logger, getExpensesForMonthController),
 );
 configureRoute(
     router,
