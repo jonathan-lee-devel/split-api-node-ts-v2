@@ -16,7 +16,10 @@ export const makeGetPropertyTotalExpenses = (
 ): GetPropertyTotalExpensesFunction => {
   return async function getPropertyTotalExpenses(
       requestingUser: User,
-      propertyId: string) {
+      propertyId: string,
+      month: number,
+      year: number,
+  ) {
     try {
       const propertyModel = await PropertyModel
           .findOne({id: propertyId}, {__v: 0});
@@ -26,7 +29,21 @@ export const makeGetPropertyTotalExpenses = (
                     .includes(requestingUser.email)) {
         return returnForbidden();
       }
-      const expenses = await ExpenseModel.find({propertyId}, {__v: 0});
+      const expenses = await ExpenseModel.aggregate([
+        {'$match': {propertyId: {$eq: propertyId}}},
+        {
+          '$addFields': {
+            month: {$month: '$date'},
+            year: {$year: '$date'},
+          },
+        },
+        {'$match': {month: {$eq: month}}},
+        {'$match': {year: {$eq: year}}},
+        {'$project': {_id: 0, __v: 0, month: 0, year: 0}},
+      ]);
+      if (!expenses) {
+        return returnInternalServerError();
+      }
       let total = 0.0;
       for (const expense of expenses) {
         const amountAsNumber = Number((await expense)

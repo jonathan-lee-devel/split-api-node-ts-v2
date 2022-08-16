@@ -13,6 +13,8 @@ export const makeGetPropertyTotalExpensesPerTenantController = (
     const propertyContainer = await getPropertyTotalExpensesPerTenant(
         httpRequest.user,
         httpRequest.params.propertyId,
+        httpRequest.body.month,
+        httpRequest.body.year,
     );
     return {
       httpStatus: propertyContainer.status,

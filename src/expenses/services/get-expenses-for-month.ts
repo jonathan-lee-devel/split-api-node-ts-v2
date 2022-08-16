@@ -5,7 +5,7 @@ import {Property} from '../../properties/models/Property';
 import {GetExpensesForMonthFunction} from '../types/get-expenses-for-month';
 import {User} from '../../users/main/models/User';
 // eslint-disable-next-line max-len
-import {returnForbidden, returnInternalServerError} from '../../common/use-cases/status-data-container';
+import {returnForbidden, returnInternalServerError, returnNotFound} from '../../common/use-cases/status-data-container';
 
 export const makeGetExpensesForMonth = (
     _logger: bunyan,
@@ -20,50 +20,24 @@ export const makeGetExpensesForMonth = (
   ) {
     const property = await PropertyModel
         .findOne({id: propertyId}, {__v: 0});
+    if (!property) {
+      return returnNotFound();
+    }
     if (!property.tenantEmails.includes(requestingUser.email) &&
             !property.administratorEmails.includes(requestingUser.email)) {
       return returnForbidden();
     }
     const expenses = await ExpenseModel.aggregate([
+      {'$match': {propertyId: {$eq: propertyId}}},
       {
-        '$match': {
-          propertyId: {
-            $eq: propertyId,
-          },
+        '$addFields': {
+          month: {$month: '$date'},
+          year: {$year: '$date'},
         },
       },
-      {
-        '$project': {
-          _id: 0,
-          id: 1,
-          propertyId: 1,
-          title: 1,
-          amount: 1,
-          frequency: 1,
-          date: 1,
-          createdByEmail: 1,
-          month: {
-            $month: '$date',
-          },
-          year: {
-            $year: '$date',
-          },
-        },
-      },
-      {
-        '$match': {
-          month: {
-            $eq: month,
-          },
-        },
-      },
-      {
-        '$match': {
-          year: {
-            $eq: year,
-          },
-        },
-      },
+      {'$match': {month: {$eq: month}}},
+      {'$match': {year: {$eq: year}}},
+      {'$project': {_id: 0, __v: 0, month: 0, year: 0}},
     ]);
     if (!expenses) {
       return returnInternalServerError();

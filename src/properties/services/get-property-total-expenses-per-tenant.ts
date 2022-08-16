@@ -25,6 +25,8 @@ export const makeGetPropertyTotalExpensesPerTenant = (
   return async function getPropertyTotalExpensesPerTenant(
       requestingUser: User,
       propertyId: string,
+      month: number,
+      year: number,
   ) {
     try {
       const propertyModelContainer =
@@ -50,7 +52,18 @@ export const makeGetPropertyTotalExpensesPerTenant = (
         };
       }
 
-      const expenses = await ExpenseModel.find({propertyId}, {__v: 0});
+      const expenses = await ExpenseModel.aggregate([
+        {'$match': {propertyId: {$eq: propertyId}}},
+        {
+          '$addFields': {
+            month: {$month: '$date'},
+            year: {$year: '$date'},
+          },
+        },
+        {'$match': {month: {$eq: month}}},
+        {'$match': {year: {$eq: year}}},
+        {'$project': {_id: 0, __v: 0, month: 0, year: 0}},
+      ]);
       if (!expenses) {
         return {
           status: 200, data: {total: '€0.00', expenses: []},
