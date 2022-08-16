@@ -64,7 +64,7 @@ export const makeGetPropertyTotalExpensesPerTenant = (
         {'$match': {year: {$eq: year}}},
         {'$project': {_id: 0, __v: 0, month: 0, year: 0}},
       ]);
-      if (!expenses) {
+      if (expenses.length === 0) {
         return {
           status: 200, data: {total: '€0.00', expenses: []},
         };
