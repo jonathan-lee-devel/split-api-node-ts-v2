@@ -10,9 +10,9 @@ export const makeGetExpensesForMonthController = (
   ) {
     const expensesContainer = await getExpensesForMonth(
         httpRequest.user,
-        httpRequest.body.propertyId,
-        httpRequest.body.month,
-        httpRequest.body.year,
+        httpRequest.params.propertyId,
+        httpRequest.params.month,
+        httpRequest.params.year,
     );
     return {
       httpStatus: expensesContainer.status,
