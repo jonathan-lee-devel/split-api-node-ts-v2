@@ -1,16 +1,18 @@
 import {Model} from 'mongoose';
 import bunyan from 'bunyan';
-import {Expense} from '../models/Expense';
 import {Property} from '../../properties/models/Property';
 import {GetExpensesForMonthFunction} from '../types/get-expenses-for-month';
 import {User} from '../../users/main/models/User';
 // eslint-disable-next-line max-len
 import {returnForbidden, returnInternalServerError, returnNotFound} from '../../common/use-cases/status-data-container';
+import {
+  GetAggregatedExpensesForMonthFunction,
+} from '../../common/use-cases/properties/types/get-aggregated-expenses-for-month';
 
 export const makeGetExpensesForMonth = (
     _logger: bunyan,
     PropertyModel: Model<Property>,
-    ExpenseModel: Model<Expense>,
+    getAggregatedExpensesForMonth: GetAggregatedExpensesForMonthFunction,
 ): GetExpensesForMonthFunction => {
   return async function getExpensesForMonth(
       requestingUser: User,
@@ -27,25 +29,12 @@ export const makeGetExpensesForMonth = (
             !property.administratorEmails.includes(requestingUser.email)) {
       return returnForbidden();
     }
-    const rawExpenses = await ExpenseModel.aggregate([
-      {'$match': {propertyId: {$eq: `${propertyId}`}}},
-      {
-        '$addFields': {
-          month: {$month: '$date'},
-          year: {$year: '$date'},
-        },
-      },
-    ]);
-    // This is a workaround, MongoDB aggregation doesn't seem to work here
-    const expenses = rawExpenses.filter((expense) =>
-      Number(expense.month) === Number(month) &&
-            Number(expense.year) === Number(year));
-    expenses.forEach((expense) => {
-      delete expense.month;
-      delete expense.year;
-      delete expense._id;
-      delete expense.__v;
-    });
+    const expenses = await getAggregatedExpensesForMonth(
+        requestingUser,
+        propertyId,
+        month,
+        year,
+    );
     if (!expenses) {
       return returnInternalServerError();
     }

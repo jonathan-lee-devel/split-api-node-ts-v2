@@ -2,7 +2,6 @@ import bunyan from 'bunyan';
 import {Model} from 'mongoose';
 // eslint-disable-next-line max-len
 import {getPropertyRequireTenantOrAdmin} from '../../common/use-cases/properties';
-import {Expense} from '../../expenses/models/Expense';
 // eslint-disable-next-line max-len
 import {ExpenseDistributionAssignment} from '../../expenses/models/ExpenseDistributionAssignment';
 // eslint-disable-next-line max-len
@@ -15,10 +14,13 @@ import {amountStringAsNumber, newDineroAmount} from '../../common/use-cases/dine
 // eslint-disable-next-line max-len
 import {returnInternalServerError} from '../../common/use-cases/status-data-container';
 import {errorMessageToDto} from '../../common/use-cases/errors';
+import {
+  GetAggregatedExpensesForMonthFunction,
+} from '../../common/use-cases/properties/types/get-aggregated-expenses-for-month';
 
 export const makeGetPropertyTotalExpensesPerTenant = (
     logger: bunyan,
-    ExpenseModel: Model<Expense>,
+    getAggregatedExpensesForMonth: GetAggregatedExpensesForMonthFunction,
     ExpenseDistributionAssignmentModel:
         Model<ExpenseDistributionAssignment>,
 ): GetPropertyTotalExpensesPerTenantFunction => {
@@ -52,25 +54,12 @@ export const makeGetPropertyTotalExpensesPerTenant = (
         };
       }
 
-      const rawExpenses = await ExpenseModel.aggregate([
-        {'$match': {propertyId: {$eq: `${propertyId}`}}},
-        {
-          '$addFields': {
-            month: {$month: '$date'},
-            year: {$year: '$date'},
-          },
-        },
-      ]);
-      // This is a workaround, MongoDB aggregation doesn't seem to work here
-      const expenses = rawExpenses.filter((expense) =>
-        Number(expense.month) === Number(month) &&
-          Number(expense.year) === Number(year));
-      expenses.forEach((expense) => {
-        delete expense.month;
-        delete expense.year;
-        delete expense._id;
-        delete expense.__v;
-      });
+      const expenses = await getAggregatedExpensesForMonth(
+          requestingUser,
+          propertyId,
+          month,
+          year,
+      );
       if (!expenses) {
         return returnInternalServerError();
       }
