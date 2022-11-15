@@ -15,6 +15,7 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
+// eslint-disable-next-line require-jsdoc
 function normalizePort(val: any) {
   const thisPort = parseInt(val, 10);
 
@@ -29,6 +30,7 @@ function normalizePort(val: any) {
   return false;
 }
 
+// eslint-disable-next-line require-jsdoc
 function onError(error: any) {
   if (error.syscall !== 'listen') {
     throw error;
@@ -50,6 +52,7 @@ function onError(error: any) {
   }
 }
 
+// eslint-disable-next-line require-jsdoc
 function onListening() {
   const address = server.address();
   const bind =
