@@ -52,18 +52,28 @@ export const makeGetPropertyTotalExpensesPerTenant = (
         };
       }
 
-      const expenses = await ExpenseModel.aggregate([
-        {'$match': {propertyId: {$eq: propertyId}}},
+      const rawExpenses = await ExpenseModel.aggregate([
+        {'$match': {propertyId: {$eq: `${propertyId}`}}},
         {
           '$addFields': {
             month: {$month: '$date'},
             year: {$year: '$date'},
           },
         },
-        {'$match': {month: {$eq: month}}},
-        {'$match': {year: {$eq: year}}},
-        {'$project': {_id: 0, __v: 0, month: 0, year: 0}},
       ]);
+      // This is a workaround, MongoDB aggregation doesn't seem to work here
+      const expenses = rawExpenses.filter((expense) =>
+        Number(expense.month) === Number(month) &&
+          Number(expense.year) === Number(year));
+      expenses.forEach((expense) => {
+        delete expense.month;
+        delete expense.year;
+        delete expense._id;
+        delete expense.__v;
+      });
+      if (!expenses) {
+        return returnInternalServerError();
+      }
       if (expenses.length === 0) {
         return {
           status: 200, data: {total: '€0.00', expenses: []},
