@@ -1,6 +1,5 @@
 import bunyan from 'bunyan';
 import {Model} from 'mongoose';
-import {Expense} from '../../expenses/models/Expense';
 // eslint-disable-next-line max-len
 import {GetPropertyTotalExpensesFunction} from '../types/get-property-total-expenses';
 import {Property} from '../models/Property';
@@ -8,11 +7,14 @@ import {User} from '../../users/main/models/User';
 import {newDineroAmount} from '../../common/use-cases/dinero';
 // eslint-disable-next-line max-len
 import {returnForbidden, returnInternalServerError, returnNotFound} from '../../common/use-cases/status-data-container';
+import {
+  GetAggregatedExpensesForMonthFunction,
+} from '../../common/use-cases/properties/types/get-aggregated-expenses-for-month';
 
 export const makeGetPropertyTotalExpenses = (
     logger: bunyan,
     PropertyModel: Model<Property>,
-    ExpenseModel: Model<Expense>,
+    getAggregatedExpensesForMonth: GetAggregatedExpensesForMonthFunction,
 ): GetPropertyTotalExpensesFunction => {
   return async function getPropertyTotalExpenses(
       requestingUser: User,
@@ -32,25 +34,12 @@ export const makeGetPropertyTotalExpenses = (
                     .includes(requestingUser.email)) {
         return returnForbidden();
       }
-      const rawExpenses = await ExpenseModel.aggregate([
-        {'$match': {propertyId: {$eq: `${propertyId}`}}},
-        {
-          '$addFields': {
-            month: {$month: '$date'},
-            year: {$year: '$date'},
-          },
-        },
-      ]);
-      // This is a workaround, MongoDB aggregation doesn't seem to work here
-      const expenses = rawExpenses.filter((expense) =>
-        Number(expense.month) === Number(month) &&
-          Number(expense.year) === Number(year));
-      expenses.forEach((expense) => {
-        delete expense.month;
-        delete expense.year;
-        delete expense._id;
-        delete expense.__v;
-      });
+      const expenses = await getAggregatedExpensesForMonth(
+          requestingUser,
+          propertyId,
+          month,
+          year,
+      );
       if (!expenses) {
         return returnInternalServerError();
       }

@@ -12,12 +12,12 @@ import {makeGetPropertiesForUserAsTenant} from './get-properties-for-user-as-ten
 import {makeRemoveTenantFromProperty} from './remove-tenant-from-property';
 import {makeGetPropertyIsAdmin} from './get-property-is-admin';
 import {makeGetPropertyTotalExpenses} from './get-property-total-expenses';
-import {ExpenseModel} from '../../expenses/models/Expense';
 import {makeInviteTenantsToProperty} from './invite-tenants-to-property';
 // eslint-disable-next-line max-len
 import {ExpenseDistributionAssignmentModel} from '../../expenses/models/ExpenseDistributionAssignment';
 // eslint-disable-next-line max-len
 import {makeGetPropertyTotalExpensesPerTenant} from './get-property-total-expenses-per-tenant';
+import {getAggregatedExpensesForMonth} from '../../common/use-cases/properties';
 
 const logger = loggerConfig();
 
@@ -52,13 +52,13 @@ export const getPropertyIsAdmin = makeGetPropertyIsAdmin(PropertyModel);
 export const getPropertyTotalExpenses = makeGetPropertyTotalExpenses(
     logger,
     PropertyModel,
-    ExpenseModel,
+    getAggregatedExpensesForMonth,
 );
 
 export const getPropertyTotalExpensesPerTenant =
     makeGetPropertyTotalExpensesPerTenant(
         logger,
-        ExpenseModel,
+        getAggregatedExpensesForMonth,
         ExpenseDistributionAssignmentModel,
     );
 

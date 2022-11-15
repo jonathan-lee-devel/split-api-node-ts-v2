@@ -20,6 +20,7 @@ import {makeGetExpenseDistributionAssignmentsForProperty} from './get-expense-di
 // eslint-disable-next-line max-len
 import {makeGetExpenseDistributionAssignment} from './get-expense-distribution-assignment';
 import {makeGetExpensesForMonth} from './get-expenses-for-month';
+import {getAggregatedExpensesForMonth} from '../../common/use-cases/properties';
 
 const logger = loggerConfig();
 
@@ -51,7 +52,7 @@ export const getExpensesForProperty = makeGetExpensesForProperty(
 export const getExpensesForMonth = makeGetExpensesForMonth(
     logger,
     PropertyModel,
-    ExpenseModel,
+    getAggregatedExpensesForMonth,
 );
 
 export const updateExpense = makeUpdateExpense(
