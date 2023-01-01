@@ -20,3 +20,4 @@ to be split semi-manually. For example, one tenant may owe 600 in rent for havin
 total for rent is 2000 split among 4 tenants.
 # Upcoming Features (Feel free to contribute)
  * Monthly archives
+ * Repeating expenses
