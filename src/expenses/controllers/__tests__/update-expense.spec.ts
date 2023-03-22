@@ -14,7 +14,6 @@ describe('Update expense controller unit tests', () => {
         expect(updateExpenseController).not.toBeNull();
         expect(updateExpenseController).toBeInstanceOf(Function);
       });
-  // eslint-disable-next-line max-len
   it('When updateExpenseController called with HttpRequest Then service called with HttpRequest',
       async () => {
         const returnedStatus = 200;
@@ -68,7 +67,6 @@ describe('Update expense controller unit tests', () => {
         expect(updatedFrequency).toStrictEqual(ExpenseFrequency.BIWEEKLY);
         expect(updatedDate).toStrictEqual(currentDate);
       });
-  // eslint-disable-next-line max-len
   it('When updateExpenseController called with HttpRequest and service returns status and body Then service called with HttpRequest returns status and body',
       async () => {
         const returnedStatus = 200;

@@ -14,7 +14,6 @@ export const connectToDatabase = (
       })
       .catch((err) => {
         logger.error(
-            // eslint-disable-next-line max-len
             `Could not connect to database: ${process.env.DATABASE_URL} -> ${err}`,
         );
       });

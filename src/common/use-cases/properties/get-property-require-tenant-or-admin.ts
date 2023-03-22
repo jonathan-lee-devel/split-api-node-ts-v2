@@ -1,7 +1,6 @@
 import {Model} from 'mongoose';
 import {Property} from '../../../properties/models/Property';
 import {User} from '../../../users/main/models/User';
-// eslint-disable-next-line max-len
 import {GetPropertyRequireTenantOrAdminFunction} from './types/get-property-require-tenant-or-admin';
 
 export const makeGetPropertyRequireTenantOrAdmin = (

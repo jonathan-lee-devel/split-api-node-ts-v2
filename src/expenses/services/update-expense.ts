@@ -6,7 +6,6 @@ import {User} from '../../users/main/models/User';
 import {ExpenseFrequency} from '../enums/ExpenseFrequency';
 import {Expense} from '../models/Expense';
 import {Property} from '../../properties/models/Property';
-// eslint-disable-next-line max-len
 import {returnForbidden, returnInternalServerError, returnNotFound} from '../../common/use-cases/status-data-container';
 
 export const makeUpdateExpense = (
@@ -33,7 +32,6 @@ export const makeUpdateExpense = (
           .findOne({id: expenseModel.propertyId}, {__v: 0});
       if (!propertyModel) {
         logger
-        // eslint-disable-next-line max-len
             .error(`Property: ${expenseModel.propertyId} does not exist for expense: ${expenseId}`);
         return returnInternalServerError();
       }
@@ -42,7 +40,7 @@ export const makeUpdateExpense = (
       }
 
       expenseModel.title = title;
-      // eslint-disable-next-line max-len,new-cap
+      // eslint-disable-next-line new-cap
       expenseModel.amount = Dinero({amount: Number(amount) * 100, currency: 'EUR', precision: 2}).toFormat();
       expenseModel.frequency = frequency;
       expenseModel.date = date;

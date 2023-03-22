@@ -3,7 +3,6 @@ import bunyan from 'bunyan';
 import {Property} from '../../properties/models/Property';
 import {GetExpensesForMonthFunction} from '../types/get-expenses-for-month';
 import {User} from '../../users/main/models/User';
-// eslint-disable-next-line max-len
 import {returnForbidden, returnInternalServerError, returnNotFound} from '../../common/use-cases/status-data-container';
 import {
   GetAggregatedExpensesForMonthFunction,

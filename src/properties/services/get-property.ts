@@ -3,7 +3,6 @@ import {Model} from 'mongoose';
 import {Property} from '../models/Property';
 import {GetPropertyFunction} from '../types/get-property';
 import {User} from '../../users/main/models/User';
-// eslint-disable-next-line max-len
 import {returnForbidden, returnInternalServerError, returnNotFound} from '../../common/use-cases/status-data-container';
 
 export const makeGetProperty = (

@@ -4,10 +4,8 @@ import {GenerateIdFunction} from '../../util/id/types/generate-id';
 import {DEFAULT_ID_LENGTH} from '../../util/id/constants/default-id-length';
 import {Property} from '../models/Property';
 import {CreatePropertyFunction} from '../types/create-property';
-// eslint-disable-next-line max-len
 import {InviteToPropertyFunction} from '../invitations/types/invite-to-property';
 import {User} from '../../users/main/models/User';
-// eslint-disable-next-line max-len
 import {returnInternalServerError} from '../../common/use-cases/status-data-container';
 
 export const makeCreateProperty = (

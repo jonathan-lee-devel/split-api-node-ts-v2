@@ -7,17 +7,11 @@ import {makeDeleteExpense} from './delete-expense';
 import {loggerConfig} from '../../main/config/logger/logger-config';
 import {makeGetExpensesForProperty} from './get-expenses-for-property';
 import {makeUpdateExpense} from './update-expense';
-// eslint-disable-next-line max-len
 import {ExpenseDistributionAssignmentModel} from '../models/ExpenseDistributionAssignment';
-// eslint-disable-next-line max-len
 import {makeCreateExpenseDistributionAssignment} from './create-expense-distribution-assignment';
-// eslint-disable-next-line max-len
 import {makeUpdateExpenseDistributionAssignment} from './update-expense-distribution-assignment';
-// eslint-disable-next-line max-len
 import {makeDeleteExpenseDistributionAssignment} from './delete-expense-distribution-assignment';
-// eslint-disable-next-line max-len
 import {makeGetExpenseDistributionAssignmentsForProperty} from './get-expense-distribution-assignments-for-property';
-// eslint-disable-next-line max-len
 import {makeGetExpenseDistributionAssignment} from './get-expense-distribution-assignment';
 import {makeGetExpensesForMonth} from './get-expenses-for-month';
 import {getAggregatedExpensesForMonth} from '../../common/use-cases/properties';

@@ -1,6 +1,5 @@
 import {HttpController} from '../../main/types/http-controller';
 import {HttpRequest} from '../../main/types/http-request';
-// eslint-disable-next-line max-len
 import {UpdateExpenseDistributionAssignmentFunction} from '../types/update-expense-distribution-assignment';
 
 export const makeUpdateExpenseDistributionAssignmentController = (

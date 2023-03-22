@@ -1,11 +1,9 @@
 import bunyan from 'bunyan';
 import {Model} from 'mongoose';
 import {Notification} from '../models/Notification';
-// eslint-disable-next-line max-len
 import {GetNotificationsForUserFunction} from '../types/get-notifications-for-user';
 import {User} from '../../users/main/models/User';
 import {NotificationDto} from '../dtos/NotificationDto';
-// eslint-disable-next-line max-len
 import {returnInternalServerError} from '../../common/use-cases/status-data-container';
 
 export const makeGetNotificationsForUser = (

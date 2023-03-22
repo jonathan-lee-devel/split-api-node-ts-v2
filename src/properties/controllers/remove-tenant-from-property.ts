@@ -1,4 +1,3 @@
-// eslint-disable-next-line max-len
 import {RemoveTenantFromPropertyFunction} from '../types/remove-tenant-from-property';
 import {HttpController} from '../../main/types/http-controller';
 import {HttpRequest} from '../../main/types/http-request';

@@ -1,4 +1,3 @@
-// eslint-disable-next-line max-len
 import {ConfirmPropertyInvitationFunction} from '../types/confirm-property-invitation';
 import {HttpController} from '../../../main/types/http-controller';
 import {HttpRequest} from '../../../main/types/http-request';

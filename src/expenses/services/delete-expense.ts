@@ -4,9 +4,7 @@ import bunyan from 'bunyan';
 import {Model} from 'mongoose';
 import {Expense} from '../models/Expense';
 import {Property} from '../../properties/models/Property';
-// eslint-disable-next-line max-len
 import {ExpenseDistributionAssignment} from '../models/ExpenseDistributionAssignment';
-// eslint-disable-next-line max-len
 import {returnForbidden, returnInternalServerError, returnNotFound} from '../../common/use-cases/status-data-container';
 
 export const makeDeleteExpense = (
@@ -29,9 +27,7 @@ export const makeDeleteExpense = (
       const propertyModel = await PropertyModel
           .findOne({id: expenseModel.propertyId}, {__v: 0});
       if (!propertyModel) {
-        logger
-        // eslint-disable-next-line max-len
-            .error(`Attempting to delete expense: ${expenseId} for which property does not exist`);
+        logger.error(`Attempting to delete expense: ${expenseId} for which property does not exist`);
         return returnInternalServerError();
       }
 

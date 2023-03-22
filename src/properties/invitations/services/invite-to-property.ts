@@ -4,9 +4,7 @@ import {Property} from '../../models/Property';
 import {InviteToPropertyFunction} from '../types/invite-to-property';
 import {StatusDataContainer} from '../../../main/dtos/StatusDataContainer';
 import {PropertyInvitationDto} from '../dtos/PropertyInvitationDto';
-// eslint-disable-next-line max-len
 import {CreatePropertyInvitationFunction} from '../types/create-property-invitation';
-// eslint-disable-next-line max-len
 import {SendPropertyInvitationFunction} from '../types/send-property-invitation';
 
 export const makeInviteToProperty = (
@@ -24,7 +22,6 @@ export const makeInviteToProperty = (
       const property = await PropertyModel
           .findOne({id: propertyId}, {__v: 0});
       if (!property) {
-        // eslint-disable-next-line max-len
         logger.error(`Cannot invite to property with ID: ${propertyId} as does not exist`);
         return {
           status: 400,
@@ -68,7 +65,6 @@ export const makeInviteToProperty = (
         },
       };
     }
-    // eslint-disable-next-line max-len
     logger.error(`An error has occurred, createPropertyInvitation returned status: ${propertyInvitationContainer.status}`);
     return {
       status: 500,

@@ -3,7 +3,6 @@ import {User} from '../../../users/main/models/User';
 import {HttpRequest} from '../../../main/types/http-request';
 
 describe('Get expenses for month controller unit tests', () => {
-  // eslint-disable-next-line max-len
   it('When makeGetExpensesForMonthController Then getExpensesForMonthController',
       async () => {
         const getExpensesForMonthController = makeGetExpensesForMonthController(
@@ -14,7 +13,6 @@ describe('Get expenses for month controller unit tests', () => {
         expect(getExpensesForMonthController).not.toBeNull();
         expect(getExpensesForMonthController).toBeInstanceOf(Function);
       });
-  // eslint-disable-next-line max-len
   it('When getExpensesForMonthController called with HttpRequest Then service called with HttpRequest',
       async () => {
         const returnedStatus = 200;
@@ -56,7 +54,6 @@ describe('Get expenses for month controller unit tests', () => {
         expect(obtainedMonth).toStrictEqual(89317239872139);
         expect(obtainedYear).toStrictEqual(9080980912380);
       });
-  // eslint-disable-next-line max-len
   it('When getExpensesForMonthController called with HttpRequest and service returns status and body Then service called with HttpRequest returns status and body',
       async () => {
         const returnedStatus = 200;

@@ -2,11 +2,8 @@ import bunyan from 'bunyan';
 import {Model} from 'mongoose';
 import {Property} from '../models/Property';
 import {User} from '../../users/main/models/User';
-// eslint-disable-next-line max-len
 import {InviteToPropertyFunction} from '../invitations/types/invite-to-property';
-// eslint-disable-next-line max-len
 import {InviteTenantsToPropertyFunction} from '../types/invite-tenants-to-property';
-// eslint-disable-next-line max-len
 import {returnForbidden, returnInternalServerError, returnNotFound} from '../../common/use-cases/status-data-container';
 
 export const makeInviteTenantsToProperty = (
@@ -42,7 +39,6 @@ export const makeInviteTenantsToProperty = (
           tenantEmail,
       );
       if (propertyInvitationContainer.status !== 200) {
-        // eslint-disable-next-line max-len
         logger.error(`Failed to invite tenant ${tenantEmail} to property: ${propertyId}`);
         status = 500;
       }

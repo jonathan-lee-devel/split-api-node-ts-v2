@@ -1,6 +1,5 @@
 import bunyan from 'bunyan';
 import {Model} from 'mongoose';
-// eslint-disable-next-line max-len
 import {ConfirmPropertyInvitationFunction} from '../types/confirm-property-invitation';
 import {StatusDataContainer} from '../../../main/dtos/StatusDataContainer';
 import {PropertyInvitationStatus} from '../enums/PropertyInvitationStatus';
@@ -28,7 +27,6 @@ export const makeConfirmPropertyInvitation = (
         return {
           status: 200,
           data: {
-            // eslint-disable-next-line max-len
             status: PropertyInvitationStatus[PropertyInvitationStatus.INVALID_TOKEN],
             propertyId: undefined,
           },
@@ -40,7 +38,6 @@ export const makeConfirmPropertyInvitation = (
                     .findOne({propertyInvitationToken: token}, {__v: 0});
       if (!invitation) {
         logger
-        // eslint-disable-next-line max-len
             .error(`Property invitation token: ${tokenValue} without associated invitation`);
         return {
           status: 500,
@@ -55,7 +52,6 @@ export const makeConfirmPropertyInvitation = (
         return {
           status: 200,
           data: {
-            // eslint-disable-next-line max-len
             status: PropertyInvitationStatus[PropertyInvitationStatus.EMAIL_VERIFICATION_EXPIRED],
             propertyId: undefined,
           },
@@ -66,7 +62,6 @@ export const makeConfirmPropertyInvitation = (
           .findOne({id: invitation.propertyId}, {__v: 0});
       if (!property) {
         logger
-        // eslint-disable-next-line max-len
             .error(`Property with id: ${invitation.propertyId} does not exist for invitation`);
         return {
           status: 400,

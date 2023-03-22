@@ -1,9 +1,7 @@
 import express from 'express';
-// eslint-disable-next-line max-len
 import {loggerConfig} from '../../main/config/logger/logger-config';
 import {configureRoute} from '../../main/routes/configure-route';
 import {HttpRequestMethod} from '../../main/enums/http-request-method';
-// eslint-disable-next-line max-len
 import {makeExpressCallback} from '../../main/express-callbacks/express-callback';
 import {
   createExpenseController,
@@ -18,9 +16,7 @@ import {
   updateExpenseController,
   updateExpenseDistributionAssignmentController,
 } from '../controllers';
-// eslint-disable-next-line max-len
 import {createExpenseValidationChain} from '../validation-chains/create-expense';
-// eslint-disable-next-line max-len
 import {updateExpenseValidationChain} from '../validation-chains/update-expense';
 import {
   createExpenseDistributionAssignmentValidationChain,
@@ -28,9 +24,7 @@ import {
 import {
   updateExpenseDistributionAssignmentValidationChain,
 } from '../validation-chains/update-expense-distribution-assignment';
-// eslint-disable-next-line max-len
 
-// eslint-disable-next-line new-cap
 const router = express.Router();
 
 const logger = loggerConfig();

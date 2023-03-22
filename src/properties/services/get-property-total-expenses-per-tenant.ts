@@ -1,17 +1,11 @@
 import bunyan from 'bunyan';
 import {Model} from 'mongoose';
-// eslint-disable-next-line max-len
 import {getPropertyRequireTenantOrAdmin} from '../../common/use-cases/properties';
-// eslint-disable-next-line max-len
 import {ExpenseDistributionAssignment} from '../../expenses/models/ExpenseDistributionAssignment';
-// eslint-disable-next-line max-len
 import {GetPropertyTotalExpensesPerTenantFunction} from '../types/get-property-total-expenses-per-tenant-function';
 import {User} from '../../users/main/models/User';
-// eslint-disable-next-line max-len
 import {IndividualExpenseBreakdownDto} from '../../expenses/dtos/IndividualExpenseBreakdownDto';
-// eslint-disable-next-line max-len
 import {amountStringAsNumber, newDineroAmount} from '../../common/use-cases/dinero';
-// eslint-disable-next-line max-len
 import {returnInternalServerError} from '../../common/use-cases/status-data-container';
 import {errorMessageToDto} from '../../common/use-cases/errors';
 import {
@@ -49,7 +43,6 @@ export const makeGetPropertyTotalExpensesPerTenant = (
                     .includes(requestingUser.email)) {
         return {
           status: 400,
-          // eslint-disable-next-line max-len
           data: errorMessageToDto('Admin viewing expense report is not a tenant'),
         };
       }
