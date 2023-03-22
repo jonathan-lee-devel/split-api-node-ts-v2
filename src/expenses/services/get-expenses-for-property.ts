@@ -1,12 +1,10 @@
 import bunyan from 'bunyan';
 import {Model} from 'mongoose';
 import {Expense} from '../models/Expense';
-// eslint-disable-next-line max-len
 import {GetExpensesForPropertyFunction} from '../types/get-expenses-for-property';
 import {User} from '../../users/main/models/User';
 import {Property} from '../../properties/models/Property';
 import {ExpenseDto} from '../dtos/ExpenseDto';
-// eslint-disable-next-line max-len
 import {returnForbidden, returnInternalServerError, returnNotFound} from '../../common/use-cases/status-data-container';
 
 export const makeGetExpensesForProperty = (

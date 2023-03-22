@@ -1,11 +1,8 @@
 import bunyan from 'bunyan';
 import {Model} from 'mongoose';
 import {User} from '../../../main/models/User';
-// eslint-disable-next-line max-len
 import {HandleExistingUserFunction} from '../../types/inner/handle-existing-user';
-// eslint-disable-next-line max-len
 import {RegistrationVerificationToken} from '../../models/RegistrationVerificationToken';
-// eslint-disable-next-line max-len
 import {PasswordResetVerificationToken} from '../../../password/models/PasswordResetVerificationToken';
 
 export const makeHandleExistingUser = (

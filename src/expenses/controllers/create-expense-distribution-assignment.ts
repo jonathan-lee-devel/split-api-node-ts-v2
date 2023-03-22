@@ -1,4 +1,3 @@
-// eslint-disable-next-line max-len
 import {CreateExpenseDistributionAssignmentFunction} from '../types/create-expense-distribution-assignment';
 import {HttpController} from '../../main/types/http-controller';
 import {HttpRequest} from '../../main/types/http-request';

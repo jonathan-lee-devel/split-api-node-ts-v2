@@ -1,8 +1,6 @@
 import {makeGenerateSalt} from './generate-salt';
 import {makeEncodePassword} from './encode-password';
-// eslint-disable-next-line max-len
 import {makeGeneratePasswordResetVerificationToken} from './generate-password-reset-verification-token';
-// eslint-disable-next-line max-len
 import {PasswordResetVerificationTokenModel} from '../models/PasswordResetVerificationToken';
 import {makeResetPassword} from './reset-password';
 import {UserModel} from '../../main/models/User';

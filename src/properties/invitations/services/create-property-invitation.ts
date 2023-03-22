@@ -3,11 +3,8 @@ import {Model} from 'mongoose';
 import {GenerateIdFunction} from '../../../util/id/types/generate-id';
 import {DEFAULT_ID_LENGTH} from '../../../util/id/constants/default-id-length';
 import {DEFAULT_TOKEN_SIZE} from '../../../util/token/default-token-size';
-// eslint-disable-next-line max-len
 import {DEFAULT_TOKEN_EXPIRY_TIME_DAYS} from '../../../util/token/default-token-expiry-time-days';
-// eslint-disable-next-line max-len
 import {GeneratePropertyInvitationTokenFunction} from '../types/generate-property-invitation-token';
-// eslint-disable-next-line max-len
 import {CreatePropertyInvitationFunction} from '../types/create-property-invitation';
 import {StatusDataContainer} from '../../../main/dtos/StatusDataContainer';
 import {PropertyInvitationDto} from '../dtos/PropertyInvitationDto';

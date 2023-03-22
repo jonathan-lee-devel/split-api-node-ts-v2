@@ -1,13 +1,10 @@
 import bunyan from 'bunyan';
 import {Model} from 'mongoose';
-// eslint-disable-next-line max-len
 import {ExpenseDistributionAssignment} from '../models/ExpenseDistributionAssignment';
 import {User} from '../../users/main/models/User';
-// eslint-disable-next-line max-len
 import {DeleteExpenseDistributionAssignmentFunction} from '../types/delete-expense-distribution-assignment';
 import {Expense} from '../models/Expense';
 import {Property} from '../../properties/models/Property';
-// eslint-disable-next-line max-len
 import {returnForbidden, returnInternalServerError, returnNotFound} from '../../common/use-cases/status-data-container';
 
 export const makeDeleteExpenseDistributionAssignment = (
@@ -34,7 +31,6 @@ export const makeDeleteExpenseDistributionAssignment = (
             id: expenseDistributionAssignmentModel.expenseId,
           }, {__v: 0});
       if (!expenseModel) {
-        // eslint-disable-next-line max-len
         logger.error(`Attempting to delete expense distribution assignment ${expenseDistributionAssignmentId} but expense does not exist`);
         return returnInternalServerError();
       }
@@ -42,7 +38,6 @@ export const makeDeleteExpenseDistributionAssignment = (
       const propertyModel = await PropertyModel
           .findOne({id: expenseModel.propertyId}, {__v: 0});
       if (!propertyModel) {
-        // eslint-disable-next-line max-len
         logger.error(`No property exists for expense: ${expenseDistributionAssignmentModel.expenseId}`);
         return returnInternalServerError();
       }

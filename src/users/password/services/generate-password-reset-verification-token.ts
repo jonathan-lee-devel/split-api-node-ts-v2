@@ -2,11 +2,8 @@ import bunyan from 'bunyan';
 import {Model} from 'mongoose';
 import {randomBytes} from 'crypto';
 import {addMinutes} from 'date-fns';
-// eslint-disable-next-line max-len
 import {PasswordResetVerificationToken} from '../models/PasswordResetVerificationToken';
-// eslint-disable-next-line max-len
 import {GeneratePasswordResetVerificationTokenFunction} from '../types/generate-password-reset-verification-token';
-// eslint-disable-next-line max-len
 import {returnInternalServerError} from '../../../common/use-cases/status-data-container';
 
 export const makeGeneratePasswordResetVerificationToken = (

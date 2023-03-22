@@ -1,6 +1,5 @@
 import {randomBytes} from 'crypto';
 import {addDays} from 'date-fns';
-// eslint-disable-next-line max-len
 import {GeneratePropertyInvitationTokenFunction} from '../types/generate-property-invitation-token';
 
 export const makeGeneratePropertyInvitationToken = ()

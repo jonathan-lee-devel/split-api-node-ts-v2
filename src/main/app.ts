@@ -63,7 +63,6 @@ app.use(
       res.locals.error = req.app.get('env') === 'development' ? err : {};
 
       logger.error(
-          // eslint-disable-next-line max-len
           `Error at ${req.url}: {"status":"${err.status}", "message":"${err.message}"}`,
       );
       res.status(err.status || 500);

@@ -1,14 +1,10 @@
 import bunyan from 'bunyan';
-// eslint-disable-next-line max-len
 import {GetExpenseDistributionAssignmentFunction} from '../types/get-expense-distribution-assignment';
 import {User} from '../../users/main/models/User';
-// eslint-disable-next-line max-len
 import {returnForbidden, returnInternalServerError, returnNotFound} from '../../common/use-cases/status-data-container';
 import {Model} from 'mongoose';
-// eslint-disable-next-line max-len
 import {ExpenseDistributionAssignment} from '../models/ExpenseDistributionAssignment';
 import {Property} from '../../properties/models/Property';
-// eslint-disable-next-line max-len
 import {ExpenseDistributionAssignmentDto} from '../dtos/ExpenseDistributionAssignmentDto';
 
 export const makeGetExpenseDistributionAssignment = (

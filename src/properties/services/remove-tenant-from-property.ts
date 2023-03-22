@@ -1,10 +1,8 @@
 import bunyan from 'bunyan';
 import {Model} from 'mongoose';
-// eslint-disable-next-line max-len
 import {RemoveTenantFromPropertyFunction} from '../types/remove-tenant-from-property';
 import {User} from '../../users/main/models/User';
 import {Property} from '../models/Property';
-// eslint-disable-next-line max-len
 import {returnForbidden, returnInternalServerError} from '../../common/use-cases/status-data-container';
 
 export const makeRemoveTenantFromProperty = (

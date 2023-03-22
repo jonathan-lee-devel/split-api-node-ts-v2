@@ -13,19 +13,13 @@ import {
 } from '../services';
 import {makeDeletePropertyController} from './delete-property';
 import {makeGetPropertyController} from './get-property';
-// eslint-disable-next-line max-len
 import {makeGetPropertiesForUserAsAdminController} from './get-properties-for-user-as-admin';
-// eslint-disable-next-line max-len
 import {makeGetPropertiesForUserAsTenantController} from './get-properties-for-user-as-tenant';
-// eslint-disable-next-line max-len
 import {makeRemoveTenantFromPropertyController} from './remove-tenant-from-property';
 import {makeTenantLeavePropertyController} from './tenant-leave-property';
-// eslint-disable-next-line max-len
 import {makeInviteTenantsToPropertyController} from './invite-tenants-to-property';
 import {makeGetPropertyIsAdminController} from './get-property-is-admin';
-// eslint-disable-next-line max-len
 import {makeGetPropertyTotalExpensesController} from './get-property-total-expenses';
-// eslint-disable-next-line max-len
 import {makeGetPropertyTotalExpensesPerTenantController} from './get-property-total-expenses-per-tenant';
 
 export const getPropertyController =

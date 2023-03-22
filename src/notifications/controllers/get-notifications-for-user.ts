@@ -1,4 +1,3 @@
-// eslint-disable-next-line max-len
 import {GetNotificationsForUserFunction} from '../types/get-notifications-for-user';
 import {HttpController} from '../../main/types/http-controller';
 import {HttpRequest} from '../../main/types/http-request';

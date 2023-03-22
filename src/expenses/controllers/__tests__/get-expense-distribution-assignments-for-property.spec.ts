@@ -1,4 +1,3 @@
-// eslint-disable-next-line max-len
 import {
   makeGetExpenseDistributionAssignmentsForPropertyController,
 } from '../get-expense-distribution-assignments-for-property';
@@ -6,7 +5,6 @@ import {User} from '../../../users/main/models/User';
 import {HttpRequest} from '../../../main/types/http-request';
 
 describe('Get expense distribution assignment controller unit tests', () => {
-  // eslint-disable-next-line max-len
   it('When makeGetExpenseDistributionAssignmentsForPropertyController Then getExpenseDistributionAssignmentsForPropertyController',
       async () => {
         const getExpenseDistributionAssignmentsForPropertyController =
@@ -19,7 +17,6 @@ describe('Get expense distribution assignment controller unit tests', () => {
         expect(getExpenseDistributionAssignmentsForPropertyController)
             .toBeInstanceOf(Function);
       });
-  // eslint-disable-next-line max-len
   it('When getExpenseDistributionAssignmentsForPropertyController called with HttpRequest Then service called with HttpRequest',
       async () => {
         const returnedStatus = 200;
@@ -54,7 +51,6 @@ describe('Get expense distribution assignment controller unit tests', () => {
         expect(requestedUser).toStrictEqual({username: 'test'});
         expect(obtainedPropertyId).toStrictEqual('propertyId');
       });
-  // eslint-disable-next-line max-len
   it('When getExpenseDistributionAssignmentsForPropertyController called with HttpRequest and service returns status and body Then service called with HttpRequest returns status and body',
       async () => {
         const returnedStatus = 200;

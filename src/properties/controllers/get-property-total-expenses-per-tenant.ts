@@ -1,4 +1,3 @@
-// eslint-disable-next-line max-len
 import {GetPropertyTotalExpensesPerTenantFunction} from '../types/get-property-total-expenses-per-tenant-function';
 import {HttpController} from '../../main/types/http-controller';
 import {HttpRequest} from '../../main/types/http-request';

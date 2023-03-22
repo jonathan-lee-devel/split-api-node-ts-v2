@@ -12,7 +12,6 @@ describe('Get property controller unit tests', () => {
         expect(getPropertyController).not.toBeNull();
         expect(getPropertyController).toBeInstanceOf(Function);
       });
-  // eslint-disable-next-line max-len
   it('When getPropertyController called with HttpRequest Then service called with HttpRequest',
       async () => {
         const returnedStatus = 200;
@@ -41,7 +40,6 @@ describe('Get property controller unit tests', () => {
         expect(requestedUser).toStrictEqual({username: 'test'});
         expect(obtainedPropertyId).toStrictEqual('test');
       });
-  // eslint-disable-next-line max-len
   it('When getPropertyController called with HttpRequest and service returns status and body Then service called with HttpRequest returns status and body',
       async () => {
         const returnedStatus = 200;

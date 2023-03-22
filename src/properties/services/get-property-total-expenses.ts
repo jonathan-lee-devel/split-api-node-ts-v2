@@ -1,11 +1,9 @@
 import bunyan from 'bunyan';
 import {Model} from 'mongoose';
-// eslint-disable-next-line max-len
 import {GetPropertyTotalExpensesFunction} from '../types/get-property-total-expenses';
 import {Property} from '../models/Property';
 import {User} from '../../users/main/models/User';
 import {newDineroAmount} from '../../common/use-cases/dinero';
-// eslint-disable-next-line max-len
 import {returnForbidden, returnInternalServerError, returnNotFound} from '../../common/use-cases/status-data-container';
 import {
   GetAggregatedExpensesForMonthFunction,

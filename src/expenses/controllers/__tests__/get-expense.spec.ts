@@ -13,7 +13,6 @@ describe('Get expense controller unit tests', () => {
         expect(getExpenseController).not.toBeNull();
         expect(getExpenseController).toBeInstanceOf(Function);
       });
-  // eslint-disable-next-line max-len
   it('When getExpenseController called with HttpRequest Then service called with HttpRequest',
       async () => {
         const returnedStatus = 200;
@@ -45,7 +44,6 @@ describe('Get expense controller unit tests', () => {
         expect(requestedUser).toStrictEqual({username: 'test'});
         expect(obtainedExpenseId).toStrictEqual('expenseId');
       });
-  // eslint-disable-next-line max-len
   it('When getExpenseController called with HttpRequest and service returns status and body Then service called with HttpRequest returns status and body',
       async () => {
         const returnedStatus = 200;

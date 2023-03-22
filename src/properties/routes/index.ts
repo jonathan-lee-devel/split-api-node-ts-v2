@@ -1,7 +1,5 @@
 import express from 'express';
-// eslint-disable-next-line max-len
 import {makeExpressCallback} from '../../main/express-callbacks/express-callback';
-// eslint-disable-next-line max-len
 import {
   createPropertyController,
   deletePropertyController,
@@ -16,18 +14,13 @@ import {
   tenantLeavePropertyController,
 } from '../controllers';
 import {loggerConfig} from '../../main/config/logger/logger-config';
-// eslint-disable-next-line max-len
 import {createPropertyValidationChain} from '../validation-chains/create-property';
 import {configureRoute} from '../../main/routes/configure-route';
 import {HttpRequestMethod} from '../../main/enums/http-request-method';
-// eslint-disable-next-line max-len
 import {removeTenantFromPropertyValidationChain} from '../validation-chains/remove-tenant-from-property';
-// eslint-disable-next-line max-len
 import {tenantLeavePropertyValidationChain} from '../validation-chains/tenant-leave-property';
-// eslint-disable-next-line max-len
 import {inviteTenantsToPropertyValidationChain} from '../validation-chains/invite-tenants-to-property';
 
-// eslint-disable-next-line new-cap
 const router = express.Router();
 
 const logger = loggerConfig();

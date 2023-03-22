@@ -2,16 +2,13 @@ import bunyan from 'bunyan';
 import {Model} from 'mongoose';
 import {GenerateIdFunction} from '../../util/id/types/generate-id';
 import {Expense} from '../models/Expense';
-// eslint-disable-next-line max-len
 import {ExpenseDistributionAssignment} from '../models/ExpenseDistributionAssignment';
-// eslint-disable-next-line max-len
 import {CreateExpenseDistributionAssignmentFunction} from '../types/create-expense-distribution-assignment';
 import {User} from '../../users/main/models/User';
 import {Property} from '../../properties/models/Property';
 import {DEFAULT_ID_LENGTH} from '../../util/id/constants/default-id-length';
 import {amountStringAsNumber} from '../../common/use-cases/dinero';
 import {errorMessageToDto} from '../../common/use-cases/errors';
-// eslint-disable-next-line max-len
 import {returnForbidden, returnInternalServerError} from '../../common/use-cases/status-data-container';
 
 export const makeCreateExpenseDistributionAssignment = (
@@ -56,7 +53,6 @@ export const makeCreateExpenseDistributionAssignment = (
     if (total + amountAsNumber > expenseAmountAsNumber) {
       return {
         status: 400,
-        // eslint-disable-next-line max-len
         data: errorMessageToDto('Amount allocated exceeds total amount for expense'),
       };
     }

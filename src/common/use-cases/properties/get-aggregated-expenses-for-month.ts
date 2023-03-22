@@ -1,7 +1,6 @@
 import {User} from '../../../users/main/models/User';
 import {Expense} from '../../../expenses/models/Expense';
 import {Model} from 'mongoose';
-// eslint-disable-next-line max-len
 import {GetAggregatedExpensesForMonthFunction} from './types/get-aggregated-expenses-for-month';
 
 export const makeGetAggregatedExpensesForMonth = (

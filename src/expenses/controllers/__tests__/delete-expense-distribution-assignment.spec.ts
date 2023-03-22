@@ -1,10 +1,8 @@
-// eslint-disable-next-line max-len
 import {makeDeleteExpenseDistributionAssignmentController} from '../delete-expense-distribution-assignment';
 import {User} from '../../../users/main/models/User';
 import {HttpRequest} from '../../../main/types/http-request';
 
 describe('Delete expense distribution assignment controller unit tests', () => {
-  // eslint-disable-next-line max-len
   it('When makeDeleteExpenseDistributionAssignmentController Then deleteExpenseDistributionAssignmentController',
       async () => {
         const deleteExpenseDistributionAssignmentController =
@@ -17,7 +15,6 @@ describe('Delete expense distribution assignment controller unit tests', () => {
         expect(deleteExpenseDistributionAssignmentController)
             .toBeInstanceOf(Function);
       });
-  // eslint-disable-next-line max-len
   it('When deleteExpenseDistributionAssignmentController called with HttpRequest Then service called with HttpRequest',
       async () => {
         const returnedStatus = 200;
@@ -53,7 +50,6 @@ describe('Delete expense distribution assignment controller unit tests', () => {
         expect(deletedExpenseDistributionAssignmentId)
             .toStrictEqual('expenseDistributionAssignmentId');
       });
-  // eslint-disable-next-line max-len
   it('When deleteExpenseDistributionAssignmentController called with HttpRequest Then service called with HttpRequest',
       async () => {
         const returnedStatus = 200;

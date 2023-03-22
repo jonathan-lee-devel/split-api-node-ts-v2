@@ -2,7 +2,6 @@ import bunyan from 'bunyan';
 import {Model} from 'mongoose';
 import {GetProfileFunction} from '../types/get-profile';
 import {User} from '../../main/models/User';
-// eslint-disable-next-line max-len
 import {returnForbidden, returnInternalServerError} from '../../../common/use-cases/status-data-container';
 
 export const makeGetProfile = (

@@ -1,11 +1,9 @@
 import bunyan from 'bunyan';
 import {Model} from 'mongoose';
-// eslint-disable-next-line max-len
 import {RegistrationVerificationToken} from '../models/RegistrationVerificationToken';
 import {ConfirmRegistrationFunction} from '../types/confirm-registration';
 import {RegistrationStatus} from '../enums/RegistrationStatus';
 import {User} from '../../main/models/User';
-// eslint-disable-next-line max-len
 import {returnInternalServerError} from '../../../common/use-cases/status-data-container';
 
 export const makeConfirmRegistration = (
@@ -39,7 +37,6 @@ export const makeConfirmRegistration = (
         return {
           status: 400,
           data: {
-            // eslint-disable-next-line max-len
             status: RegistrationStatus[RegistrationStatus.EMAIL_VERIFICATION_EXPIRED],
           },
         };

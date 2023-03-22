@@ -1,11 +1,9 @@
 import bunyan from 'bunyan';
 import {Model} from 'mongoose';
 import {Property} from '../models/Property';
-// eslint-disable-next-line max-len
 import {GetPropertiesForUserAsAdminFunction} from '../types/get-properties-for-user-as-admin';
 import {User} from '../../users/main/models/User';
 import {PropertyDto} from '../dtos/PropertyDto';
-// eslint-disable-next-line max-len
 import {returnInternalServerError} from '../../common/use-cases/status-data-container';
 
 export const makeGetPropertiesForUserAsTenant = (

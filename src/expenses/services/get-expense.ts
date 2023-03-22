@@ -3,7 +3,6 @@ import {Expense} from '../models/Expense';
 import {GetExpenseFunction} from '../types/get-expense';
 import {User} from '../../users/main/models/User';
 import {Property} from '../../properties/models/Property';
-// eslint-disable-next-line max-len
 import {returnForbidden, returnInternalServerError, returnNotFound} from '../../common/use-cases/status-data-container';
 
 export const makeGetExpense = (

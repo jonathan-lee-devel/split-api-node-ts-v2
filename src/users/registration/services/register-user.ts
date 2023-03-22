@@ -3,17 +3,14 @@ import {Model} from 'mongoose';
 import {User} from '../../main/models/User';
 import {SendMailFunction} from '../../../util/email/types/send-mail';
 import {RegisterUserFunction} from '../types/register-user';
-// eslint-disable-next-line max-len
 import {EncodePasswordFunction} from '../../password/types/encode-password';
 import {HandleExistingUserFunction} from '../types/inner/handle-existing-user';
 import {RegistrationStatus} from '../enums/RegistrationStatus';
-// eslint-disable-next-line max-len
 import {GenerateRegistrationVerificationTokenFunction} from '../types/generate-registration-verification-token';
 import {
   GeneratePasswordResetVerificationTokenFunction,
 } from '../../password/types/generate-password-reset-verification-token';
 import {DEFAULT_TOKEN_SIZE} from '../../../util/token/default-token-size';
-// eslint-disable-next-line max-len
 import {DEFAULT_TOKEN_EXPIRY_TIME_MINUTES} from '../../../util/token/default-token-expiry-time-minutes';
 
 export const makeRegisterUser = (
@@ -84,15 +81,12 @@ export const makeRegisterUser = (
     // Mail is slow to send and can be sent asynchronously, hence, no await
     sendMail(email, 'Registration Confirmation',
         // @ts-ignore
-        // eslint-disable-next-line max-len
         `<h4>Please click the following link to verify your account: <a href="${process.env.FRONT_END_URL}/register/verify/${registrationVerificationTokenContainer.data.value}">Verify Account</a></h4>`);
 
     return {
       status: 200,
       data: {
-        status:
-        // eslint-disable-next-line max-len
-                    RegistrationStatus[RegistrationStatus.AWAITING_EMAIL_VERIFICATION],
+        status: RegistrationStatus[RegistrationStatus.AWAITING_EMAIL_VERIFICATION],
       },
     };
   };

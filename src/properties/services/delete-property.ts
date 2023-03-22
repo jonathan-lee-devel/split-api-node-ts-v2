@@ -3,7 +3,6 @@ import {Model} from 'mongoose';
 import {DeletePropertyFunction} from '../types/delete-property';
 import {User} from '../../users/main/models/User';
 import {Property} from '../models/Property';
-// eslint-disable-next-line max-len
 import {returnForbidden, returnInternalServerError, returnNotFound} from '../../common/use-cases/status-data-container';
 
 export const makeDeleteProperty = (

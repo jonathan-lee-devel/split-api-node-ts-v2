@@ -1,7 +1,6 @@
 import bunyan from 'bunyan';
 import {Model} from 'mongoose';
 import {ConfirmPasswordResetFunction} from '../types/confirm-password-reset';
-// eslint-disable-next-line max-len
 import {PasswordResetVerificationToken} from '../models/PasswordResetVerificationToken';
 import {PasswordResetStatus} from '../enums/PasswordResetStatus';
 import {User} from '../../main/models/User';
