@@ -15,7 +15,7 @@ export const makeConfirmRegistration = (
         .findOne({value: tokenValue}, {__v: 0});
     if (!tokenModel) {
       return {
-        status: 400,
+        status: 200,
         data: {
           status: RegistrationStatus[RegistrationStatus.INVALID_TOKEN],
         },
@@ -33,7 +33,7 @@ export const makeConfirmRegistration = (
     }
     if (tokenModel.expiryDate.getTime() < new Date().getTime()) {
       return {
-        status: 400,
+        status: 200,
         data: {
           status: RegistrationStatus[RegistrationStatus.EMAIL_VERIFICATION_EXPIRED],
         },

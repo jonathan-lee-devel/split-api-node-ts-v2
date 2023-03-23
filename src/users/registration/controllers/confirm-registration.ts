@@ -9,7 +9,7 @@ export const makeConfirmRegistrationController = (
       httpRequest: HttpRequest,
   ) {
     const registrationContainer = await confirmRegistration(
-        httpRequest.params.tokenValue,
+        httpRequest.body.tokenValue,
     );
     return {
       httpStatus: registrationContainer.status,

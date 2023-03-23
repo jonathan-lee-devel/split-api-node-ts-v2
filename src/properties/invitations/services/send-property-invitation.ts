@@ -12,7 +12,7 @@ export const makeSendPropertyInvitation = (
     sendMail(
         inviteeEmail,
         'Split Property Invitation',
-        `<h2>${inviterEmail} has invited you to manage a shared living space</h2>
+        `<p>${inviterEmail} has invited you to manage a shared living space</p>
 <h3>Please click the following link to accept:
 <a href="${process.env.FRONT_END_URL}/property/invitation/verify/${propertyInvitationTokenValue}">Accept</a></h3>`,
     );
