@@ -18,43 +18,38 @@ export const makeDeleteExpenseDistributionAssignment = (
       requestingUser: User,
       expenseDistributionAssignmentId: string,
   ) {
-    try {
-      const expenseDistributionAssignmentModel: ExpenseDistributionAssignment =
-                await ExpenseDistributionAssignmentModel
-                    .findOne({id: expenseDistributionAssignmentId}, {__v: 0});
-      if (!expenseDistributionAssignmentModel) {
-        return returnNotFound();
-      }
+    const expenseDistributionAssignmentModel: ExpenseDistributionAssignment =
+            await ExpenseDistributionAssignmentModel
+                .findOne({id: expenseDistributionAssignmentId}, {__v: 0});
+    if (!expenseDistributionAssignmentModel) {
+      return returnNotFound();
+    }
 
-      const expenseModel: Expense = await ExpenseModel
-          .findOne({
-            id: expenseDistributionAssignmentModel.expenseId,
-          }, {__v: 0});
-      if (!expenseModel) {
-        logger.error(`Attempting to delete expense distribution assignment ${expenseDistributionAssignmentId} but expense does not exist`);
-        return returnInternalServerError();
-      }
-
-      const propertyModel = await PropertyModel
-          .findOne({id: expenseModel.propertyId}, {__v: 0});
-      if (!propertyModel) {
-        logger.error(`No property exists for expense: ${expenseDistributionAssignmentModel.expenseId}`);
-        return returnInternalServerError();
-      }
-
-      if (!propertyModel.administratorEmails.includes(requestingUser.email)) {
-        return returnForbidden();
-      }
-
-      await ExpenseDistributionAssignmentModel
-          .deleteOne({id: expenseDistributionAssignmentId});
-      return {
-        status: 204,
-        data: undefined,
-      };
-    } catch (err) {
-      logger.error(`An error has occurred: ${err}`);
+    const expenseModel: Expense = await ExpenseModel
+        .findOne({
+          id: expenseDistributionAssignmentModel.expenseId,
+        }, {__v: 0});
+    if (!expenseModel) {
+      logger.error(`Attempting to delete expense distribution assignment ${expenseDistributionAssignmentId} but expense does not exist`);
       return returnInternalServerError();
     }
+
+    const propertyModel = await PropertyModel
+        .findOne({id: expenseModel.propertyId}, {__v: 0});
+    if (!propertyModel) {
+      logger.error(`No property exists for expense: ${expenseDistributionAssignmentModel.expenseId}`);
+      return returnInternalServerError();
+    }
+
+    if (!propertyModel.administratorEmails.includes(requestingUser.email)) {
+      return returnForbidden();
+    }
+
+    await ExpenseDistributionAssignmentModel
+        .deleteOne({id: expenseDistributionAssignmentId});
+    return {
+      status: 204,
+      data: undefined,
+    };
   };
 };

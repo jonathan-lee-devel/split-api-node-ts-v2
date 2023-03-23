@@ -6,6 +6,7 @@ export const inviteTenantsToPropertyValidationChain: ValidationChain[] = [
       .exists(),
   body('tenantEmails', 'Must be valid e-mail addresses')
       .exists()
+      .isEmail()
       .custom((input) => {
         for (const email of input.toString().split(',')) {
           if (!verifyEmail(email)) {

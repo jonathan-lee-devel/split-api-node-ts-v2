@@ -17,33 +17,28 @@ export const makeDeleteExpense = (
       requestingUser: User,
       expenseId: string,
   ) {
-    try {
-      const expenseModel = await ExpenseModel
-          .findOne({id: expenseId}, {__v: 0});
-      if (!expenseModel) {
-        return returnNotFound();
-      }
+    const expenseModel = await ExpenseModel
+        .findOne({id: expenseId}, {__v: 0});
+    if (!expenseModel) {
+      return returnNotFound();
+    }
 
-      const propertyModel = await PropertyModel
-          .findOne({id: expenseModel.propertyId}, {__v: 0});
-      if (!propertyModel) {
-        logger.error(`Attempting to delete expense: ${expenseId} for which property does not exist`);
-        return returnInternalServerError();
-      }
-
-      if (!propertyModel.administratorEmails.includes(requestingUser.email)) {
-        return returnForbidden();
-      }
-
-      await ExpenseModel.deleteOne({id: expenseId});
-      await ExpenseDistributionAssignmentModel.deleteMany({expenseId});
-      return {
-        status: 204,
-        data: undefined,
-      };
-    } catch (err) {
-      logger.error(`An error has occurred: ${err}`);
+    const propertyModel = await PropertyModel
+        .findOne({id: expenseModel.propertyId}, {__v: 0});
+    if (!propertyModel) {
+      logger.error(`Attempting to delete expense: ${expenseId} for which property does not exist`);
       return returnInternalServerError();
     }
+
+    if (!propertyModel.administratorEmails.includes(requestingUser.email)) {
+      return returnForbidden();
+    }
+
+    await ExpenseModel.deleteOne({id: expenseId});
+    await ExpenseDistributionAssignmentModel.deleteMany({expenseId});
+    return {
+      status: 204,
+      data: undefined,
+    };
   };
 };

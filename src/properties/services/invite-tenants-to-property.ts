@@ -4,7 +4,7 @@ import {Property} from '../models/Property';
 import {User} from '../../users/main/models/User';
 import {InviteToPropertyFunction} from '../invitations/types/invite-to-property';
 import {InviteTenantsToPropertyFunction} from '../types/invite-tenants-to-property';
-import {returnForbidden, returnInternalServerError, returnNotFound} from '../../common/use-cases/status-data-container';
+import {returnForbidden, returnNotFound} from '../../common/use-cases/status-data-container';
 
 export const makeInviteTenantsToProperty = (
     logger: bunyan,
@@ -16,19 +16,13 @@ export const makeInviteTenantsToProperty = (
       propertyId: string,
       tenantEmails: string[],
   ) {
-    let propertyModel;
-    try {
-      propertyModel = await PropertyModel
-          .findOne({id: propertyId}, {__v: 0});
-      if (!propertyModel) {
-        return returnNotFound();
-      }
-      if (!propertyModel.administratorEmails.includes(requestingUser.email)) {
-        return returnForbidden();
-      }
-    } catch (err) {
-      logger.error(`An error has occurred: ${err}`);
-      return returnInternalServerError();
+    const propertyModel = await PropertyModel
+        .findOne({id: propertyId}, {__v: 0});
+    if (!propertyModel) {
+      return returnNotFound();
+    }
+    if (!propertyModel.administratorEmails.includes(requestingUser.email)) {
+      return returnForbidden();
     }
 
     let status = 200;

@@ -8,7 +8,6 @@ import {ExpenseFrequency} from '../enums/ExpenseFrequency';
 import {DEFAULT_ID_LENGTH} from '../../util/id/constants/default-id-length';
 import {Property} from '../../properties/models/Property';
 import {newDineroAmount} from '../../common/use-cases/dinero';
-import {returnInternalServerError} from '../../common/use-cases/status-data-container';
 
 export const makeCreateExpense = (
     logger: bunyan,
@@ -44,17 +43,12 @@ export const makeCreateExpense = (
       createdByEmail,
     };
 
-    try {
-      await new ExpenseModel(expense).save();
-      return {
-        status: 201,
-        data: {
-          ...expense,
-        },
-      };
-    } catch (err) {
-      logger.error(`An error has occurred: ${err}`);
-      return returnInternalServerError();
-    }
+    await new ExpenseModel(expense).save();
+    return {
+      status: 201,
+      data: {
+        ...expense,
+      },
+    };
   };
 };
