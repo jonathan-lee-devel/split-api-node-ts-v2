@@ -6,7 +6,6 @@ import {Property} from '../models/Property';
 import {CreatePropertyFunction} from '../types/create-property';
 import {InviteToPropertyFunction} from '../invitations/types/invite-to-property';
 import {User} from '../../users/main/models/User';
-import {returnInternalServerError} from '../../common/use-cases/status-data-container';
 
 export const makeCreateProperty = (
     logger: bunyan,
@@ -30,25 +29,20 @@ export const makeCreateProperty = (
       administratorEmails: [createdByEmail], // single admin at init
     };
 
-    try {
-      await new PropertyModel(property).save();
-      for (const tenantEmail of tenantEmails) {
-        await inviteToProperty(id, createdByEmail, tenantEmail);
-      }
-      return {
-        status: 201,
-        data: {
-          id,
-          title,
-          tenantEmails,
-          acceptedTenantEmails: [],
-          createdByEmail,
-          administratorEmails: property.administratorEmails,
-        },
-      };
-    } catch (err) {
-      logger.error(`An error has occurred: ${err}`);
-      return returnInternalServerError();
+    await new PropertyModel(property).save();
+    for (const tenantEmail of tenantEmails) {
+      await inviteToProperty(id, createdByEmail, tenantEmail);
     }
+    return {
+      status: 201,
+      data: {
+        id,
+        title,
+        tenantEmails,
+        acceptedTenantEmails: [],
+        createdByEmail,
+        administratorEmails: property.administratorEmails,
+      },
+    };
   };
 };

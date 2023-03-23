@@ -20,58 +20,8 @@ export const makeResetPassword = (
   return async function resetPassword(
       email: string,
   ) {
-    try {
-      const userModel = await UserModel.findOne({email}, {__v: 0});
-      if (!userModel) {
-        return {
-          status: 200,
-          data: {
-            status: PasswordResetStatus[
-                PasswordResetStatus.AWAITING_EMAIL_VERIFICATION
-            ],
-          },
-        };
-      }
-
-      const passwordResetVerificationTokenModel =
-                await PasswordResetVerificationTokenModel
-                    .findOne({userEmail: email}, {__v: 0});
-      if (!passwordResetVerificationTokenModel) {
-        logger.error(`Password reset token does not exist for user: ${email}`);
-        return {
-          status: 200,
-          data: {
-            status: PasswordResetStatus[
-                PasswordResetStatus.AWAITING_EMAIL_VERIFICATION
-            ],
-          },
-        };
-      }
-
-      await PasswordResetVerificationTokenModel
-          .deleteOne({value: passwordResetVerificationTokenModel.value});
-      const passwordResetVerificationTokenContainer =
-                await generatePasswordResetVerificationToken(
-                    DEFAULT_TOKEN_SIZE,
-                    DEFAULT_TOKEN_EXPIRY_TIME_MINUTES,
-                    email,
-                );
-      if (passwordResetVerificationTokenContainer.status !== 201) {
-        logger.error(`generatePasswordResetVerificationToken returned ${
-          passwordResetVerificationTokenContainer.status
-        }`);
-        return {
-          status: 200,
-          data: {
-            status: PasswordResetStatus[
-                PasswordResetStatus.AWAITING_EMAIL_VERIFICATION
-            ],
-          },
-        };
-      }
-      // Mail is slow to send and can be sent asynchronously, hence, no await
-      sendMail(email, 'Password Reset',
-          `<h4>Please click the following link to reset your password: ${process.env.FRONT_END_URL}/password/reset/confirm?token=${passwordResetVerificationTokenContainer.data.value}</h4>`);
+    const userModel = await UserModel.findOne({email}, {__v: 0});
+    if (!userModel) {
       return {
         status: 200,
         data: {
@@ -80,14 +30,54 @@ export const makeResetPassword = (
           ],
         },
       };
-    } catch (err) {
-      logger.error(`An error has occurred: ${err}`);
+    }
+
+    const passwordResetVerificationTokenModel =
+            await PasswordResetVerificationTokenModel
+                .findOne({userEmail: email}, {__v: 0});
+    if (!passwordResetVerificationTokenModel) {
+      logger.error(`Password reset token does not exist for user: ${email}`);
       return {
-        status: 500,
+        status: 200,
         data: {
-          status: PasswordResetStatus[PasswordResetStatus.FAILURE],
+          status: PasswordResetStatus[
+              PasswordResetStatus.AWAITING_EMAIL_VERIFICATION
+          ],
         },
       };
     }
+
+    await PasswordResetVerificationTokenModel
+        .deleteOne({value: passwordResetVerificationTokenModel.value});
+    const passwordResetVerificationTokenContainer =
+            await generatePasswordResetVerificationToken(
+                DEFAULT_TOKEN_SIZE,
+                DEFAULT_TOKEN_EXPIRY_TIME_MINUTES,
+                email,
+            );
+    if (passwordResetVerificationTokenContainer.status !== 201) {
+      logger.error(`generatePasswordResetVerificationToken returned ${
+        passwordResetVerificationTokenContainer.status
+      }`);
+      return {
+        status: 200,
+        data: {
+          status: PasswordResetStatus[
+              PasswordResetStatus.AWAITING_EMAIL_VERIFICATION
+          ],
+        },
+      };
+    }
+    // Mail is slow to send and can be sent asynchronously, hence, no await
+    sendMail(email, 'Password Reset',
+        `<h4>Please click the following link to reset your password: ${process.env.FRONT_END_URL}/password/reset/confirm?token=${passwordResetVerificationTokenContainer.data.value}</h4>`);
+    return {
+      status: 200,
+      data: {
+        status: PasswordResetStatus[
+            PasswordResetStatus.AWAITING_EMAIL_VERIFICATION
+        ],
+      },
+    };
   };
 };

@@ -66,17 +66,7 @@ export const makeRegisterUser = (
       password: await encodePassword(password),
       emailVerified: false,
     };
-    try {
-      await new UserModel(newUser).save();
-    } catch (err) {
-      logger.error(`An error has occurred: ${err}`);
-      return {
-        status: 500,
-        data: {
-          status: RegistrationStatus[RegistrationStatus.FAILURE],
-        },
-      };
-    }
+    await new UserModel(newUser).save();
 
     // Mail is slow to send and can be sent asynchronously, hence, no await
     sendMail(email, 'Registration Confirmation',

@@ -9,7 +9,7 @@ import {Property} from '../../properties/models/Property';
 import {DEFAULT_ID_LENGTH} from '../../util/id/constants/default-id-length';
 import {amountStringAsNumber} from '../../common/use-cases/dinero';
 import {errorMessageToDto} from '../../common/use-cases/errors';
-import {returnForbidden, returnInternalServerError} from '../../common/use-cases/status-data-container';
+import {returnForbidden} from '../../common/use-cases/status-data-container';
 
 export const makeCreateExpenseDistributionAssignment = (
     logger: bunyan,
@@ -63,20 +63,14 @@ export const makeCreateExpenseDistributionAssignment = (
       tenantEmail,
       amount: String(amountAsNumber * 100.00),
     };
-
-    try {
-      await new ExpenseDistributionAssignmentModel(
-          expenseDistributionAssignmentToSave,
-      ).save();
-      return {
-        status: 201,
-        data: {
-          ...expenseDistributionAssignmentToSave,
-        },
-      };
-    } catch (err) {
-      logger.error(`An error has occurred: ${err}`);
-      return returnInternalServerError();
-    }
+    await new ExpenseDistributionAssignmentModel(
+        expenseDistributionAssignmentToSave,
+    ).save();
+    return {
+      status: 201,
+      data: {
+        ...expenseDistributionAssignmentToSave,
+      },
+    };
   };
 };

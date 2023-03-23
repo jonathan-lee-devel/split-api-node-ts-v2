@@ -20,42 +20,37 @@ export const makeGetPropertyTotalExpenses = (
       month: number,
       year: number,
   ) {
-    try {
-      const propertyModel = await PropertyModel
-          .findOne({id: propertyId}, {__v: 0});
-      if (!propertyModel) {
-        return returnNotFound();
-      }
-      if (!propertyModel.tenantEmails
-          .includes(requestingUser.email) &&
-                !propertyModel.administratorEmails
-                    .includes(requestingUser.email)) {
-        return returnForbidden();
-      }
-      const expenses = await getAggregatedExpensesForMonth(
-          requestingUser,
-          propertyId,
-          month,
-          year,
-      );
-      if (!expenses) {
-        return returnInternalServerError();
-      }
-      let total = 0.0;
-      for (const expense of expenses) {
-        const amountAsNumber = Number((await expense)
-            .amount.replace('€', '')
-            .replace(',', ''),
-        );
-        total += amountAsNumber;
-      }
-      return {
-        status: 200,
-        data: newDineroAmount(total).toFormat(),
-      };
-    } catch (err) {
-      logger.error(`An error has occurred: ${err}`);
+    const propertyModel = await PropertyModel
+        .findOne({id: propertyId}, {__v: 0});
+    if (!propertyModel) {
+      return returnNotFound();
+    }
+    if (!propertyModel.tenantEmails
+        .includes(requestingUser.email) &&
+            !propertyModel.administratorEmails
+                .includes(requestingUser.email)) {
+      return returnForbidden();
+    }
+    const expenses = await getAggregatedExpensesForMonth(
+        requestingUser,
+        propertyId,
+        month,
+        year,
+    );
+    if (!expenses) {
       return returnInternalServerError();
     }
+    let total = 0.0;
+    for (const expense of expenses) {
+      const amountAsNumber = Number((await expense)
+          .amount.replace('€', '')
+          .replace(',', ''),
+      );
+      total += amountAsNumber;
+    }
+    return {
+      status: 200,
+      data: newDineroAmount(total).toFormat(),
+    };
   };
 };
