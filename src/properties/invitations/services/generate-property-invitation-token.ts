@@ -10,7 +10,7 @@ export const makeGeneratePropertyInvitationToken = ()
       expiryTimeDays: number) {
     return {
       propertyId,
-      value: randomBytes(tokenSize).toString('hex'),
+      value: randomBytes(tokenSize / 2).toString('hex'),
       expiryDate: addDays(new Date(), expiryTimeDays),
     };
   };

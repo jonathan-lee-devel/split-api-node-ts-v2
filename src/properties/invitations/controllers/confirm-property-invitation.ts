@@ -9,7 +9,7 @@ export const makeConfirmPropertyInvitationController = (
       httpRequest: HttpRequest,
   ) {
     const propertyContainer = await confirmPropertyInvitation(
-        httpRequest.params.tokenValue,
+        httpRequest.body.tokenValue,
     );
     return {
       httpStatus: propertyContainer.status,
