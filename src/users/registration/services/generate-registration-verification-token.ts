@@ -9,6 +9,12 @@ export const makeGenerateRegistrationVerificationToken = (
     logger: bunyan,
     RegistrationVerificationTokenModel: Model<RegistrationVerificationToken>,
 ): GenerateRegistrationVerificationTokenFunction => {
+  /**
+     * @param {number} tokenSize must be a multiple of 2 to get exact size
+     * @param {number} expiryTimeMinutes number of minutes from current datetime to expire
+     * @param {string} userEmail e-mail of the user to generate token for
+     * @return {Promise<StatusDataContainer<RegistrationVerificationToken>>} generated token
+     */
   return async function generateRegistrationVerificationToken(
       tokenSize: number,
       expiryTimeMinutes: number,
