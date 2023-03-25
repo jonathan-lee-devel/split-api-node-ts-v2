@@ -7,5 +7,5 @@ module.exports = {
     },
     testEnvironment: 'node',
     collectCoverage: true,
-    testMatch: ['**/__tests__/**/*.ts?(x)', '**/?(*.)+(spec|test).ts?(x)', 'index.ts?(x)'],
+    testMatch: ['**/__tests__/**/*.ts?(x)', '**/?(*.)+(spec|test).ts?(x)'],
 };
