@@ -33,8 +33,8 @@ export const makeResetPassword = (
     }
 
     const passwordResetVerificationTokenModel =
-            await PasswordResetVerificationTokenModel
-                .findOne({userEmail: email}, {__v: 0});
+        await PasswordResetVerificationTokenModel
+            .findOne({userEmail: email}, {__v: 0});
     if (!passwordResetVerificationTokenModel) {
       logger.error(`Password reset token does not exist for user: ${email}`);
       return {
@@ -47,14 +47,13 @@ export const makeResetPassword = (
       };
     }
 
-    await PasswordResetVerificationTokenModel
-        .deleteOne({value: passwordResetVerificationTokenModel.value});
+
     const passwordResetVerificationTokenContainer =
-            await generatePasswordResetVerificationToken(
-                DEFAULT_TOKEN_SIZE,
-                DEFAULT_TOKEN_EXPIRY_TIME_MINUTES,
-                email,
-            );
+        await generatePasswordResetVerificationToken(
+            DEFAULT_TOKEN_SIZE,
+            DEFAULT_TOKEN_EXPIRY_TIME_MINUTES,
+            email,
+        );
     if (passwordResetVerificationTokenContainer.status !== 201) {
       logger.error(`generatePasswordResetVerificationToken returned ${
         passwordResetVerificationTokenContainer.status
@@ -68,6 +67,8 @@ export const makeResetPassword = (
         },
       };
     }
+    await PasswordResetVerificationTokenModel
+        .deleteOne({value: passwordResetVerificationTokenModel.value});
     // Mail is slow to send and can be sent asynchronously, hence, no await
     sendMail(email, 'Password Reset',
         `<h4>Please click the following link to reset your password: ${process.env.FRONT_END_URL}/password/reset/confirm?token=${passwordResetVerificationTokenContainer.data.value}</h4>`);
