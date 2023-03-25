@@ -24,6 +24,7 @@ export const makeGetPropertyTotalExpensesPerTenant = (
       month: number,
       year: number,
   ) {
+    logger.info(`<${requestingUser.email}> get property with ID: ${propertyId} total expenses per tenant`);
     const propertyModelContainer =
             await getPropertyRequireTenantOrAdmin(
                 requestingUser, propertyId,

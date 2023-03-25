@@ -73,6 +73,7 @@ export const makeRegisterUser = (
         // @ts-ignore
         `<h4>Please click the following link to verify your account: <a href="${process.env.FRONT_END_URL}/register/verify/${registrationVerificationTokenContainer.data.value}">Verify Account</a></h4>`);
 
+    logger.info(`Attempt to register user with e-mail: <${newUser.email}>`);
     return {
       status: 200,
       data: {

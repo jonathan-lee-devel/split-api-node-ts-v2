@@ -43,6 +43,7 @@ export const makeConfirmRegistration = (
     await userModel.save();
     tokenModel.expiryDate = new Date();
     await tokenModel.save();
+    logger.info(`Successfully confirmed registration for <${userModel.email}>`);
     return {
       status: 200,
       data: {

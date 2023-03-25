@@ -20,6 +20,7 @@ export const makeGetPropertyTotalExpenses = (
       month: number,
       year: number,
   ) {
+    logger.info(`<${requestingUser.email}> get property with ID: ${propertyId} total expenses`);
     const propertyModel = await PropertyModel
         .findOne({id: propertyId}, {__v: 0});
     if (!propertyModel) {

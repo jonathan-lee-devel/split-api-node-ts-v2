@@ -13,6 +13,7 @@ export const makeDeleteProperty = (
       requestingUser: User,
       propertyId: string,
   ) {
+    logger.info(`<${requestingUser.email}> Delete property with ID: ${propertyId}`);
     const propertyModel = await PropertyModel
         .findOne({id: propertyId}, {__v: 0});
     if (!propertyModel) {

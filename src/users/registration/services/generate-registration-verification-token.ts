@@ -19,6 +19,7 @@ export const makeGenerateRegistrationVerificationToken = (
       tokenSize: number,
       expiryTimeMinutes: number,
       userEmail: string) {
+    logger.info(`Generate registration verification token for <${userEmail}>`);
     const registrationVerificationToken: RegistrationVerificationToken = {
       value: randomBytes(tokenSize / 2).toString('hex'),
       expiryDate: addMinutes(new Date(), expiryTimeMinutes),

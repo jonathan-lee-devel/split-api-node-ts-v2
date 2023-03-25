@@ -14,6 +14,7 @@ export const makeRemoveTenantFromProperty = (
       propertyId: string,
       tenantEmailToRemove: string,
   ) {
+    logger.info(`<${requestingUser.email}> remove tenant <${tenantEmailToRemove}> from property with ID: ${propertyId}`);
     const propertyModel = await PropertyModel
         .findOne({id: propertyId}, {__v: 0});
     if (!propertyModel) {

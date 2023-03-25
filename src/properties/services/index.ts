@@ -43,7 +43,7 @@ export const removeTenantFromProperty = makeRemoveTenantFromProperty(
     PropertyModel,
 );
 
-export const getPropertyIsAdmin = makeGetPropertyIsAdmin(PropertyModel);
+export const getPropertyIsAdmin = makeGetPropertyIsAdmin(logger, PropertyModel);
 
 export const getPropertyTotalExpenses = makeGetPropertyTotalExpenses(
     logger,

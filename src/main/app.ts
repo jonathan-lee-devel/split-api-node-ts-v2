@@ -25,13 +25,13 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 
-app.use(configureExpressSession());
+app.use(configureExpressSession(logger));
 
-const passport = configurePassport(UserModel);
+const passport = configurePassport(logger, UserModel);
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(configureCors());
+app.use(configureCors(logger));
 
 connectToDatabase(logger);
 
