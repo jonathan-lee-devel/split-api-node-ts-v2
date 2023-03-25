@@ -78,8 +78,11 @@ describe('Registration Service Register User Tests', () => {
       };
     };
     const registerUser = makeRegisterUser(
-        // @ts-ignore
-        {},
+        {
+          // @ts-ignore
+          info: () => {
+          },
+        },
         () => {
           return false;
         },

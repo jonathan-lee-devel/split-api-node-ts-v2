@@ -20,8 +20,11 @@ describe('Generate Password Reset Verification Token Service Tests', () => {
       };
     };
     const generatePasswordResetVerificationToken = makeGeneratePasswordResetVerificationToken(
-        // @ts-ignore
-        {},
+        {
+          // @ts-ignore
+          info: () => {
+          },
+        },
         PasswordResetVerificationTokenModel,
     );
 

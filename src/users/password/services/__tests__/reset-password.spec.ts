@@ -19,8 +19,11 @@ describe('Reset Password Service Tests', () => {
   });
   it('When user does not exist Then return status awaiting email verification', async () => {
     const resetPassword = makeResetPassword(
-        // @ts-ignore
-        {},
+        {
+          // @ts-ignore
+          info: () => {
+          },
+        },
         {
           findOne: () => undefined,
         },
@@ -40,6 +43,9 @@ describe('Reset Password Service Tests', () => {
     let isErrorLogged = false;
     const resetPassword = makeResetPassword(
         {
+          // @ts-ignore
+          info: () => {
+          },
           // @ts-ignore
           error: () => {
             isErrorLogged = true;
@@ -69,6 +75,9 @@ describe('Reset Password Service Tests', () => {
     let isErrorLogged = false;
     const resetPassword = makeResetPassword(
         {
+          // @ts-ignore
+          info: () => {
+          },
           // @ts-ignore
           error: () => {
             isErrorLogged = true;
@@ -104,8 +113,11 @@ describe('Reset Password Service Tests', () => {
     let sentSubject: string = '';
     let isTokenDeleted: boolean = false;
     const resetPassword = makeResetPassword(
-        // @ts-ignore
-        {},
+        {
+          // @ts-ignore
+          info: () => {
+          },
+        },
         {
           findOne: () => {
             return {};

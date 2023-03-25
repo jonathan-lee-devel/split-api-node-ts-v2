@@ -91,8 +91,11 @@ describe('Password Reset Confirm Service Tests', () => {
     let isUserSaved = false;
     let isPasswordEncoded = false;
     const confirmPasswordReset = makeConfirmPasswordReset(
-        // @ts-ignore
-        {},
+        {
+          // @ts-ignore
+          info: () => {
+          },
+        },
         {
           findOne: () => {
             return {
