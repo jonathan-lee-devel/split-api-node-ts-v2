@@ -12,6 +12,7 @@ export const makeGetPropertiesForUserAsTenant = (
   return async function getPropertiesForUserAsAdmin(
       requestingUser: User,
   ) {
+    logger.info(`<${requestingUser.email}> Get properties for user as tenant`);
     const propertyModels = await PropertyModel
         .find({tenantEmails: requestingUser.email}, {__v: 0});
 

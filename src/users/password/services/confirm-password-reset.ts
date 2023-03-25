@@ -53,6 +53,7 @@ export const makeConfirmPasswordReset = (
     await userModel.save();
     tokenModel.expiryDate = new Date();
     await tokenModel.save();
+    logger.info(`Successfully updated password for: <${userModel.email}>`);
     return {
       status: 200,
       data: {

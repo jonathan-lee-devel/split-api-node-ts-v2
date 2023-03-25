@@ -13,6 +13,7 @@ export const makeGeneratePasswordResetVerificationToken = (
       tokenSize: number,
       expiryTimeMinutes: number,
       userEmail: string) {
+    logger.info(`Generate password reset verification token for user e-mail: <${userEmail}>`);
     const passwordResetVerificationToken: PasswordResetVerificationToken = {
       value: randomBytes(tokenSize).toString('hex'),
       expiryDate: addMinutes(new Date(), expiryTimeMinutes),

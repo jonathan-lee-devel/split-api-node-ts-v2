@@ -18,8 +18,11 @@ describe('Generate Registration Verification Token Tests', () => {
       };
     };
     const generateRegistrationVerificationToken = makeGenerateRegistrationVerificationToken(
-        // @ts-ignore
-        {},
+        {
+          // @ts-ignore
+          info: () => {
+          },
+        },
         RegistrationVerificationTokenModel,
     );
 

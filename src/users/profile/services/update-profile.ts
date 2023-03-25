@@ -13,6 +13,7 @@ export const makeUpdateProfile = (
       email: string,
       firstName: string,
       lastName: string) {
+    logger.info(`<${requestingUser.email}> Update profile for <${email}>`);
     if (requestingUser.email !== email) {
       return returnForbidden();
     }

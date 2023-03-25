@@ -9,6 +9,7 @@ export const makeGetProfile = (
     UserModel: Model<User>,
 ): GetProfileFunction => {
   return async function getProfile(requestingUser: User, email: string) {
+    logger.info(`<${requestingUser.email}> Get profile for <${email}>`);
     if (requestingUser.email !== email) {
       return returnForbidden();
     }

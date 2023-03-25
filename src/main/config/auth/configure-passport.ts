@@ -3,9 +3,11 @@ import bcrypt from 'bcrypt';
 import {Strategy as LocalStrategy} from 'passport-local';
 import {HydratedDocument, Model} from 'mongoose';
 import {User} from '../../../users/main/models/User';
+import bunyan from 'bunyan';
 
 export const configurePassport =
-    (UserModel: Model<User>): passport.PassportStatic => {
+    (logger: bunyan, UserModel: Model<User>): passport.PassportStatic => {
+      logger.info('Configuring passport with provided User model');
       passport.use(
           new LocalStrategy(async (username, password, done) => {
             try {
@@ -32,6 +34,7 @@ export const configurePassport =
                 return done(null, false, {message: 'Invalid password'});
               }
 
+              logger.info(`Successful login for user with e-mail: <${foundUser.email}>`);
               return done(null, foundUser);
             } catch (err) {
               if (err) return done(err);

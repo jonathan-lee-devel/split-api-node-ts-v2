@@ -13,8 +13,11 @@ describe('Profile Service Update Profile Tests', () => {
   });
   it('When requesting user email not equal to profile email Then return status forbidden', async () => {
     const updateProfile = makeUpdateProfile(
-        // @ts-ignore
-        {},
+        {
+          // @ts-ignore
+          info: () => {
+          },
+        },
         {},
     );
 
@@ -33,6 +36,9 @@ describe('Profile Service Update Profile Tests', () => {
     let isErrorLogged = false;
     const updateProfile = makeUpdateProfile(
         {
+          // @ts-ignore
+          info: () => {
+          },
           // @ts-ignore
           error: () => {
             isErrorLogged = true;
@@ -68,8 +74,11 @@ describe('Profile Service Update Profile Tests', () => {
       },
     };
     const updateProfile = makeUpdateProfile(
-        // @ts-ignore
-        {},
+        {
+          // @ts-ignore
+          info: () => {
+          },
+        },
         {
           findOne: () => user,
         },

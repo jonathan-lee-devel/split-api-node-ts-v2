@@ -19,6 +19,7 @@ export const makeCreateProperty = (
       tenantEmails: string[],
   ) {
     const id = await generateId(DEFAULT_ID_LENGTH);
+    logger.info(`<${requestingUser.email}> Create property with ID: ${id}`);
     const createdByEmail = requestingUser.email;
     const property: Property = {
       id,

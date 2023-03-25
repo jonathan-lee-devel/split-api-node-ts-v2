@@ -14,8 +14,11 @@ describe('Profile Service Get Profile Tests', () => {
   });
   it('When requesting user email not equal to profile email Then return status forbidden', async () => {
     const getProfile = makeGetProfile(
-        // @ts-ignore
-        {},
+        {
+          // @ts-ignore
+          info: () => {
+          },
+        },
         {},
     );
 
@@ -34,6 +37,9 @@ describe('Profile Service Get Profile Tests', () => {
     let isErrorLogged = false;
     const getProfile = makeGetProfile(
         {
+          // @ts-ignore
+          info: () => {
+          },
           // @ts-ignore
           error: () => {
             isErrorLogged = true;
@@ -65,8 +71,11 @@ describe('Profile Service Get Profile Tests', () => {
       password: 'password',
     };
     const getProfile = makeGetProfile(
-        // @ts-ignore
-        {},
+        {
+          // @ts-ignore
+          info: () => {
+          },
+        },
         {
           findOne: () => user,
         },

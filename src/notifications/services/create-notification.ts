@@ -20,6 +20,7 @@ export const makeCreateNotification = (
       buttonText: string | undefined,
   ) {
     const id = await generateId(DEFAULT_ID_LENGTH);
+    logger.info(`Generating notification with ID: ${id}`);
     const datetime = new Date();
     const notificationModel: Notification = {
       id,

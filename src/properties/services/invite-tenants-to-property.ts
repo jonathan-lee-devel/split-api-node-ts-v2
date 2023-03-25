@@ -16,6 +16,7 @@ export const makeInviteTenantsToProperty = (
       propertyId: string,
       tenantEmails: string[],
   ) {
+    logger.info(`<${requestingUser.email}> invite tenants: ${JSON.stringify(tenantEmails)} to property with ID: ${propertyId}`);
     const propertyModel = await PropertyModel
         .findOne({id: propertyId}, {__v: 0});
     if (!propertyModel) {

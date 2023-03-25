@@ -20,6 +20,7 @@ export const makeResetPassword = (
   return async function resetPassword(
       email: string,
   ) {
+    logger.info(`Request to reset password for e-mail: <${email}>`);
     const userModel = await UserModel.findOne({email}, {__v: 0});
     if (!userModel) {
       return {
@@ -33,8 +34,8 @@ export const makeResetPassword = (
     }
 
     const passwordResetVerificationTokenModel =
-        await PasswordResetVerificationTokenModel
-            .findOne({userEmail: email}, {__v: 0});
+            await PasswordResetVerificationTokenModel
+                .findOne({userEmail: email}, {__v: 0});
     if (!passwordResetVerificationTokenModel) {
       logger.error(`Password reset token does not exist for user: ${email}`);
       return {
@@ -49,11 +50,11 @@ export const makeResetPassword = (
 
 
     const passwordResetVerificationTokenContainer =
-        await generatePasswordResetVerificationToken(
-            DEFAULT_TOKEN_SIZE,
-            DEFAULT_TOKEN_EXPIRY_TIME_MINUTES,
-            email,
-        );
+            await generatePasswordResetVerificationToken(
+                DEFAULT_TOKEN_SIZE,
+                DEFAULT_TOKEN_EXPIRY_TIME_MINUTES,
+                email,
+            );
     if (passwordResetVerificationTokenContainer.status !== 201) {
       logger.error(`generatePasswordResetVerificationToken returned ${
         passwordResetVerificationTokenContainer.status

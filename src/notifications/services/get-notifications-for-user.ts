@@ -12,6 +12,7 @@ export const makeGetNotificationsForUser = (
   return async function getNotificationsForUser(
       requestingUser: User,
   ) {
+    logger.info(`Get notifications for user with e-mail: <${requestingUser.email}>`);
     const notifications = await NotificationModel
         .find({userEmail: requestingUser.email}, {__v: 0});
     const notificationDtos: NotificationDto[] = [];
