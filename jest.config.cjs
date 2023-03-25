@@ -7,8 +7,5 @@ module.exports = {
     },
     testEnvironment: 'node',
     collectCoverage: true,
-    coveragePathIgnorePatterns: [
-        'index.ts',
-    ],
-    testMatch: ['**/__tests__/**/*.ts?(x)', '**/?(*.)+(spec|test).ts?(x)'],
+    testMatch: ['**/__tests__/**/*.ts?(x)', '**/?(*.)+(spec|test).ts?(x)', 'index.ts?(x)'],
 };
