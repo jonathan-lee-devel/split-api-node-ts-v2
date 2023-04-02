@@ -10,7 +10,7 @@ export const configureLoginRoute = (
       if (err) {
         return next(err);
       }
-      if (!user) {
+      if (!user || !user.emailVerified) {
         return res.status(401).json({login_status: 'FAILURE'});
       }
 
@@ -18,7 +18,7 @@ export const configureLoginRoute = (
         if (loginError) {
           return next(loginError);
         }
-        return res.status(200).json({login_status: 'SUCCESS'});
+        return res.status(200).json({login_status: 'SUCCESS', username: user.email});
       });
     })(req, res, next);
   });

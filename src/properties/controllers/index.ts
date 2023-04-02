@@ -5,7 +5,6 @@ import {
   getPropertiesForUserAsAdmin,
   getPropertiesForUserAsTenant,
   getProperty,
-  getPropertyIsAdmin,
   getPropertyTotalExpenses,
   getPropertyTotalExpensesPerTenant,
   inviteTenantsToProperty,
@@ -18,7 +17,6 @@ import {makeGetPropertiesForUserAsTenantController} from './get-properties-for-u
 import {makeRemoveTenantFromPropertyController} from './remove-tenant-from-property';
 import {makeTenantLeavePropertyController} from './tenant-leave-property';
 import {makeInviteTenantsToPropertyController} from './invite-tenants-to-property';
-import {makeGetPropertyIsAdminController} from './get-property-is-admin';
 import {makeGetPropertyTotalExpensesController} from './get-property-total-expenses';
 import {makeGetPropertyTotalExpensesPerTenantController} from './get-property-total-expenses-per-tenant';
 
@@ -45,9 +43,6 @@ export const tenantLeavePropertyController =
 
 export const inviteTenantsToPropertyController =
     makeInviteTenantsToPropertyController(inviteTenantsToProperty);
-
-export const getPropertyIsAdminController =
-    makeGetPropertyIsAdminController(getPropertyIsAdmin);
 
 export const getPropertyTotalExpensesController =
     makeGetPropertyTotalExpensesController(getPropertyTotalExpenses);

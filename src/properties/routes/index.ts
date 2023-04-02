@@ -6,7 +6,6 @@ import {
   getPropertiesForUserAsAdminController,
   getPropertiesForUserAsTenantController,
   getPropertyController,
-  getPropertyIsAdminController,
   getPropertyTotalExpensesController,
   getPropertyTotalExpensesPerTenantController,
   inviteTenantsToPropertyController,
@@ -88,14 +87,6 @@ configureRoute(
     true,
     inviteTenantsToPropertyValidationChain,
     makeExpressCallback(logger, inviteTenantsToPropertyController),
-);
-configureRoute(
-    router,
-    HttpRequestMethod.GET,
-    '/:propertyId/isAdmin',
-    true,
-    [],
-    makeExpressCallback(logger, getPropertyIsAdminController),
 );
 configureRoute(
     router,
