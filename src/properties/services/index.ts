@@ -8,7 +8,6 @@ import {makeDeleteProperty} from './delete-property';
 import {makeGetPropertiesForUserAsAdmin} from './get-properties-for-user-as-admin';
 import {makeGetPropertiesForUserAsTenant} from './get-properties-for-user-as-tenant';
 import {makeRemoveTenantFromProperty} from './remove-tenant-from-property';
-import {makeGetPropertyIsAdmin} from './get-property-is-admin';
 import {makeGetPropertyTotalExpenses} from './get-property-total-expenses';
 import {makeInviteTenantsToProperty} from './invite-tenants-to-property';
 import {ExpenseDistributionAssignmentModel} from '../../expenses/models/ExpenseDistributionAssignment';
@@ -42,8 +41,6 @@ export const removeTenantFromProperty = makeRemoveTenantFromProperty(
     logger,
     PropertyModel,
 );
-
-export const getPropertyIsAdmin = makeGetPropertyIsAdmin(logger, PropertyModel);
 
 export const getPropertyTotalExpenses = makeGetPropertyTotalExpenses(
     logger,
