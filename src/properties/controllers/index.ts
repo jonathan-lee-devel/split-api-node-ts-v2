@@ -1,7 +1,9 @@
 import {makeCreatePropertyController} from './create-property';
 import {
   createProperty,
+  deescalateTenantPrivileges,
   deleteProperty,
+  escalateTenantPrivileges,
   getPropertiesForUserAsAdmin,
   getPropertiesForUserAsTenant,
   getProperty,
@@ -19,6 +21,8 @@ import {makeTenantLeavePropertyController} from './tenant-leave-property';
 import {makeInviteTenantsToPropertyController} from './invite-tenants-to-property';
 import {makeGetPropertyTotalExpensesController} from './get-property-total-expenses';
 import {makeGetPropertyTotalExpensesPerTenantController} from './get-property-total-expenses-per-tenant';
+import {makeEscalateTenantPrivilegesController} from './escalate-tenant-privileges';
+import {makeDeescalateTenantPrivilegesController} from './deescalate-tenant-privileges';
 
 export const getPropertyController =
     makeGetPropertyController(getProperty);
@@ -50,3 +54,9 @@ export const getPropertyTotalExpensesController =
 export const getPropertyTotalExpensesPerTenantController =
     makeGetPropertyTotalExpensesPerTenantController(
         getPropertyTotalExpensesPerTenant);
+
+export const escalateTenantPrivilegesController =
+    makeEscalateTenantPrivilegesController(escalateTenantPrivileges);
+
+export const deescalateTenantPrivilegesController =
+    makeDeescalateTenantPrivilegesController(deescalateTenantPrivileges);
