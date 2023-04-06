@@ -1,4 +1,4 @@
 export interface PropertyInvitationStatusDto {
     status: string;
-    propertyId: string;
+    propertyId: string | undefined;
 }

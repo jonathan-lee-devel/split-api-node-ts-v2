@@ -13,6 +13,8 @@ import {makeInviteTenantsToProperty} from './invite-tenants-to-property';
 import {ExpenseDistributionAssignmentModel} from '../../expenses/models/ExpenseDistributionAssignment';
 import {makeGetPropertyTotalExpensesPerTenant} from './get-property-total-expenses-per-tenant';
 import {getAggregatedExpensesForMonth} from '../../common/use-cases/properties';
+import {makeEscalateTenantPrivileges} from './escalate-tenant-privileges';
+import {makeDeescalateTenantPrivileges} from './deescalate-tenant-privileges';
 
 const logger = loggerConfig();
 
@@ -59,4 +61,14 @@ export const inviteTenantsToProperty = makeInviteTenantsToProperty(
     logger,
     PropertyModel,
     inviteToProperty,
+);
+
+export const escalateTenantPrivileges = makeEscalateTenantPrivileges(
+    logger,
+    PropertyModel,
+);
+
+export const deescalateTenantPrivileges = makeDeescalateTenantPrivileges(
+    logger,
+    PropertyModel,
 );

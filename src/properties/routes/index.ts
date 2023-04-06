@@ -2,7 +2,9 @@ import express from 'express';
 import {makeExpressCallback} from '../../main/express-callbacks/express-callback';
 import {
   createPropertyController,
+  deescalateTenantPrivilegesController,
   deletePropertyController,
+  escalateTenantPrivilegesController,
   getPropertiesForUserAsAdminController,
   getPropertiesForUserAsTenantController,
   getPropertyController,
@@ -19,6 +21,8 @@ import {HttpRequestMethod} from '../../main/enums/http-request-method';
 import {removeTenantFromPropertyValidationChain} from '../validation-chains/remove-tenant-from-property';
 import {tenantLeavePropertyValidationChain} from '../validation-chains/tenant-leave-property';
 import {inviteTenantsToPropertyValidationChain} from '../validation-chains/invite-tenants-to-property';
+import {escalateTenantPrivilegesValidationChain} from '../validation-chains/escalate-tenant-privileges';
+import {deescalateTenantPrivilegesValidationChain} from '../validation-chains/deescalate-tenant-privileges';
 
 const router = express.Router();
 
@@ -103,6 +107,22 @@ configureRoute(
     true,
     [],
     makeExpressCallback(logger, getPropertyTotalExpensesPerTenantController),
+);
+configureRoute(
+    router,
+    HttpRequestMethod.PATCH,
+    '/:propertyId/escalate-tenant',
+    true,
+    escalateTenantPrivilegesValidationChain,
+    makeExpressCallback(logger, escalateTenantPrivilegesController),
+);
+configureRoute(
+    router,
+    HttpRequestMethod.PATCH,
+    '/:propertyId/deescalate-tenant',
+    true,
+    deescalateTenantPrivilegesValidationChain,
+    makeExpressCallback(logger, deescalateTenantPrivilegesController),
 );
 
 export {router as PropertiesRouter};
