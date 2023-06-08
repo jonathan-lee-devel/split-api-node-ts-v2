@@ -139,7 +139,7 @@ describe('Reset Password Service Tests', () => {
             },
           };
         },
-        (email, subject, _) => {
+        async (email, subject, _) => {
           sentEmail = email;
           sentSubject = subject;
         },
