@@ -9,6 +9,7 @@ import {
 import {returnForbidden, returnNotFound} from '../../common/use-cases/status-data-container';
 import {Expense} from '../models/Expense';
 import {ExpenseDistributionAssignmentDto} from '../dtos/ExpenseDistributionAssignmentDto';
+import {HttpStatus} from '../../common/enums/HttpStatus';
 
 export const makeGetExpenseDistributionAssignmentsForProperty = (
     logger: bunyan,
@@ -51,7 +52,7 @@ export const makeGetExpenseDistributionAssignmentsForProperty = (
     }
 
     return {
-      status: 200,
+      status: HttpStatus.OK,
       data: expenseDistributionAssignmentDtos,
     };
   };

@@ -8,6 +8,7 @@ import {User} from '../../users/main/models/User';
 import {amountStringAsNumber} from '../../common/use-cases/dinero';
 import {errorMessageToDto} from '../../common/use-cases/errors';
 import {returnForbidden, returnNotFound} from '../../common/use-cases/status-data-container';
+import {HttpStatus} from '../../common/enums/HttpStatus';
 
 export const makeUpdateExpenseDistributionAssignment = (
     logger: bunyan,
@@ -54,7 +55,7 @@ export const makeUpdateExpenseDistributionAssignment = (
     const expenseAmountAsNumber = amountStringAsNumber(expenseModel.amount);
     if (total > expenseAmountAsNumber) {
       return {
-        status: 400,
+        status: HttpStatus.BAD_REQUEST,
         data: errorMessageToDto('Amount exceeds total amount for expense'),
       };
     }
@@ -66,7 +67,7 @@ export const makeUpdateExpenseDistributionAssignment = (
         expenseDistributionAssignmentModel,
     ).save();
     return {
-      status: 200,
+      status: HttpStatus.OK,
       data: {
         id: expenseDistributionAssignmentModel.id,
         expenseId: expenseDistributionAssignmentModel.expenseId,

@@ -8,6 +8,7 @@ import {ExpenseFrequency} from '../enums/ExpenseFrequency';
 import {DEFAULT_ID_LENGTH} from '../../util/id/constants/default-id-length';
 import {Property} from '../../properties/models/Property';
 import {newDineroAmount} from '../../common/use-cases/dinero';
+import {HttpStatus} from '../../common/enums/HttpStatus';
 
 export const makeCreateExpense = (
     logger: bunyan,
@@ -27,7 +28,7 @@ export const makeCreateExpense = (
         .findOne({id: propertyId}, {__v: 0});
     if (!propertyModel) {
       return {
-        status: 400,
+        status: HttpStatus.BAD_REQUEST,
         data: undefined,
       };
     }
@@ -45,7 +46,7 @@ export const makeCreateExpense = (
 
     await new ExpenseModel(expense).save();
     return {
-      status: 201,
+      status: HttpStatus.CREATED,
       data: {
         ...expense,
       },

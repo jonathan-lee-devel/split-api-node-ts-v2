@@ -3,6 +3,7 @@ import {Model} from 'mongoose';
 import {GetProfileFunction} from '../types/get-profile';
 import {User} from '../../main/models/User';
 import {returnForbidden, returnInternalServerError} from '../../../common/use-cases/status-data-container';
+import {HttpStatus} from '../../../common/enums/HttpStatus';
 
 export const makeGetProfile = (
     logger: bunyan,
@@ -20,7 +21,7 @@ export const makeGetProfile = (
     }
 
     return {
-      status: 200,
+      status: HttpStatus.OK,
       data: {
         email,
         firstName: userModel.firstName,

@@ -4,6 +4,7 @@ import {Property} from '../models/Property';
 import {GetPropertiesForUserAsAdminFunction} from '../types/get-properties-for-user-as-admin';
 import {User} from '../../users/main/models/User';
 import {PropertyDto} from '../dtos/PropertyDto';
+import {HttpStatus} from '../../common/enums/HttpStatus';
 
 export const makeGetPropertiesForUserAsAdmin = (
     logger: bunyan,
@@ -30,7 +31,7 @@ export const makeGetPropertiesForUserAsAdmin = (
     }
 
     return {
-      status: 200,
+      status: HttpStatus.OK,
       data: properties,
     };
   };

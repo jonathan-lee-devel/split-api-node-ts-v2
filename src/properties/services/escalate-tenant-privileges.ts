@@ -6,6 +6,7 @@ import {User} from '../../users/main/models/User';
 import {returnForbidden, returnNotFound} from '../../common/use-cases/status-data-container';
 import {errorMessageToDto} from '../../common/use-cases/errors';
 import {PropertyInvitationStatus} from '../invitations/enums/PropertyInvitationStatus';
+import {HttpStatus} from '../../common/enums/HttpStatus';
 
 export const makeEscalateTenantPrivileges = (
     logger: bunyan,
@@ -28,7 +29,7 @@ export const makeEscalateTenantPrivileges = (
 
     if (propertyModel.administratorEmails.includes(tenantEmailToEscalate)) {
       return {
-        status: 400,
+        status: HttpStatus.BAD_REQUEST,
         data: errorMessageToDto('Tenant is already an administrator of that property'),
       };
     }
@@ -37,7 +38,7 @@ export const makeEscalateTenantPrivileges = (
     await propertyModel.save();
 
     return {
-      status: 200,
+      status: HttpStatus.OK,
       data: {
         status: PropertyInvitationStatus[PropertyInvitationStatus.SUCCESS],
         propertyId: undefined,

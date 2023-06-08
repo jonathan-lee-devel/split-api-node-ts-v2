@@ -10,6 +10,7 @@ import {DEFAULT_ID_LENGTH} from '../../util/id/constants/default-id-length';
 import {amountStringAsNumber} from '../../common/use-cases/dinero';
 import {errorMessageToDto} from '../../common/use-cases/errors';
 import {returnForbidden} from '../../common/use-cases/status-data-container';
+import {HttpStatus} from '../../common/enums/HttpStatus';
 
 export const makeCreateExpenseDistributionAssignment = (
     logger: bunyan,
@@ -29,7 +30,7 @@ export const makeCreateExpenseDistributionAssignment = (
         .findOne({id: expenseId}, {__v: 0});
     if (!expenseModel) {
       return {
-        status: 400,
+        status: HttpStatus.BAD_REQUEST,
         data: errorMessageToDto(`Expense with ID ${expenseId} does not exist`),
       };
     }
@@ -52,7 +53,7 @@ export const makeCreateExpenseDistributionAssignment = (
     const expenseAmountAsNumber = amountStringAsNumber(expenseModel.amount);
     if (total + amountAsNumber > expenseAmountAsNumber) {
       return {
-        status: 400,
+        status: HttpStatus.BAD_REQUEST,
         data: errorMessageToDto('Amount allocated exceeds total amount for expense'),
       };
     }
@@ -67,7 +68,7 @@ export const makeCreateExpenseDistributionAssignment = (
         expenseDistributionAssignmentToSave,
     ).save();
     return {
-      status: 201,
+      status: HttpStatus.CREATED,
       data: {
         ...expenseDistributionAssignmentToSave,
       },

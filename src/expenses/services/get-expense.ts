@@ -4,6 +4,7 @@ import {GetExpenseFunction} from '../types/get-expense';
 import {User} from '../../users/main/models/User';
 import {Property} from '../../properties/models/Property';
 import {returnForbidden, returnNotFound} from '../../common/use-cases/status-data-container';
+import {HttpStatus} from '../../common/enums/HttpStatus';
 
 export const makeGetExpense = (
     ExpenseModel: Model<Expense>,
@@ -26,7 +27,7 @@ export const makeGetExpense = (
       console
           .error(`Property does not exist for expense with ID: ${expenseId}`);
       return {
-        status: 400,
+        status: HttpStatus.BAD_REQUEST,
         data: undefined,
       };
     }
@@ -40,7 +41,7 @@ export const makeGetExpense = (
     }
 
     return {
-      status: 200,
+      status: HttpStatus.OK,
       data: {
         id: expenseModel.id,
         propertyId: expenseModel.propertyId,

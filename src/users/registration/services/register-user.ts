@@ -12,6 +12,7 @@ import {
 } from '../../password/types/generate-password-reset-verification-token';
 import {DEFAULT_TOKEN_SIZE} from '../../../util/token/default-token-size';
 import {DEFAULT_TOKEN_EXPIRY_TIME_MINUTES} from '../../../util/token/default-token-expiry-time-minutes';
+import {HttpStatus} from '../../../common/enums/HttpStatus';
 
 export const makeRegisterUser = (
     logger: bunyan,
@@ -32,7 +33,7 @@ export const makeRegisterUser = (
   ) {
     if (await handleExistingUser(email)) {
       return {
-        status: 409,
+        status: HttpStatus.CONFLICT,
         data: {
           status: RegistrationStatus[RegistrationStatus.USER_ALREADY_EXISTS],
         },
@@ -53,7 +54,7 @@ export const makeRegisterUser = (
     if (registrationVerificationTokenContainer.status !== 201 ||
             expiredPasswordResetVerificationTokenContainer.status !== 201) {
       return {
-        status: 500,
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
         data: {
           status: RegistrationStatus[RegistrationStatus.FAILURE],
         },
@@ -75,7 +76,7 @@ export const makeRegisterUser = (
 
     logger.info(`Attempt to register user with e-mail: <${newUser.email}>`);
     return {
-      status: 200,
+      status: HttpStatus.OK,
       data: {
         status: RegistrationStatus[RegistrationStatus.AWAITING_EMAIL_VERIFICATION],
       },

@@ -6,6 +6,7 @@ import {Property} from '../models/Property';
 import {CreatePropertyFunction} from '../types/create-property';
 import {InviteToPropertyFunction} from '../invitations/types/invite-to-property';
 import {User} from '../../users/main/models/User';
+import {HttpStatus} from '../../common/enums/HttpStatus';
 
 export const makeCreateProperty = (
     logger: bunyan,
@@ -35,7 +36,7 @@ export const makeCreateProperty = (
       await inviteToProperty(id, createdByEmail, tenantEmail);
     }
     return {
-      status: 201,
+      status: HttpStatus.CREATED,
       data: {
         id,
         title,

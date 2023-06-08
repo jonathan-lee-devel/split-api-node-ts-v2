@@ -5,6 +5,7 @@ import {PasswordResetVerificationToken} from '../models/PasswordResetVerificatio
 import {PasswordResetStatus} from '../enums/PasswordResetStatus';
 import {User} from '../../main/models/User';
 import {EncodePasswordFunction} from '../types/encode-password';
+import {HttpStatus} from '../../../common/enums/HttpStatus';
 
 export const makeConfirmPasswordReset = (
     logger: bunyan,
@@ -20,7 +21,7 @@ export const makeConfirmPasswordReset = (
     if (!tokenModel) {
       logger.info(`No token exists with value: ${tokenValue}`);
       return {
-        status: 400,
+        status: HttpStatus.BAD_REQUEST,
         data: {
           status: PasswordResetStatus[PasswordResetStatus.INVALID_TOKEN],
         },
@@ -32,7 +33,7 @@ export const makeConfirmPasswordReset = (
     if (!userModel) {
       logger.error(`No user exists for token with value: ${tokenValue}`);
       return {
-        status: 500,
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
         data: {
           status: PasswordResetStatus[PasswordResetStatus.FAILURE],
         },
@@ -41,7 +42,7 @@ export const makeConfirmPasswordReset = (
 
     if (tokenModel.expiryDate.getTime() < new Date().getTime()) {
       return {
-        status: 400,
+        status: HttpStatus.BAD_REQUEST,
         data: {
           status: PasswordResetStatus[
               PasswordResetStatus.EMAIL_VERIFICATION_EXPIRED
@@ -55,7 +56,7 @@ export const makeConfirmPasswordReset = (
     await tokenModel.save();
     logger.info(`Successfully updated password for: <${userModel.email}>`);
     return {
-      status: 200,
+      status: HttpStatus.OK,
       data: {
         status: PasswordResetStatus[PasswordResetStatus.SUCCESS],
       },

@@ -4,6 +4,7 @@ import {DeletePropertyFunction} from '../types/delete-property';
 import {User} from '../../users/main/models/User';
 import {Property} from '../models/Property';
 import {returnForbidden, returnNotFound} from '../../common/use-cases/status-data-container';
+import {HttpStatus} from '../../common/enums/HttpStatus';
 
 export const makeDeleteProperty = (
     logger: bunyan,
@@ -26,7 +27,7 @@ export const makeDeleteProperty = (
 
     await PropertyModel.deleteOne({id: propertyId});
     return {
-      status: 204,
+      status: HttpStatus.NO_CONTENT,
       data: undefined,
     };
   };

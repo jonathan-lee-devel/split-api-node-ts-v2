@@ -1,4 +1,5 @@
 import {Router} from 'express';
+import {HttpStatus} from '../../../common/enums/HttpStatus';
 
 export const configureLogoutRoute = (
     router: Router,
@@ -8,9 +9,9 @@ export const configureLogoutRoute = (
     req.logout((err) => {
       if (err) {
         console.error(`An error has occurred: ${err}`);
-        return res.status(500).json({logout_status: 'FAILURE'});
+        return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({logout_status: 'FAILURE'});
       }
     });
-    return res.status(200).json({logout_status: 'SUCCESS'});
+    return res.status(HttpStatus.OK).json({logout_status: 'SUCCESS'});
   });
 };

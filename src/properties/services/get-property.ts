@@ -4,6 +4,7 @@ import {Property} from '../models/Property';
 import {GetPropertyFunction} from '../types/get-property';
 import {User} from '../../users/main/models/User';
 import {returnForbidden, returnNotFound} from '../../common/use-cases/status-data-container';
+import {HttpStatus} from '../../common/enums/HttpStatus';
 
 export const makeGetProperty = (
     logger: bunyan,
@@ -28,7 +29,7 @@ export const makeGetProperty = (
       return returnForbidden();
     }
     return {
-      status: 200,
+      status: HttpStatus.OK,
       data: {
         id: propertyModel.id,
         title: propertyModel.title,

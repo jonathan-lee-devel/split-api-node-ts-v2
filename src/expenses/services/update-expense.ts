@@ -7,6 +7,7 @@ import {ExpenseFrequency} from '../enums/ExpenseFrequency';
 import {Expense} from '../models/Expense';
 import {Property} from '../../properties/models/Property';
 import {returnForbidden, returnInternalServerError, returnNotFound} from '../../common/use-cases/status-data-container';
+import {HttpStatus} from '../../common/enums/HttpStatus';
 
 export const makeUpdateExpense = (
     logger: bunyan,
@@ -45,7 +46,7 @@ export const makeUpdateExpense = (
     expenseModel.date = date;
     await expenseModel.save();
     return {
-      status: 204,
+      status: HttpStatus.NO_CONTENT,
       data: undefined,
     };
   };

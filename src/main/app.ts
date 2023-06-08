@@ -16,6 +16,7 @@ import {PasswordResetRouter} from '../users/password/routes';
 import {loggerConfig} from './config/logger/logger-config';
 import {ProfileRouter} from '../users/profile/routes';
 import {NotificationsRouter} from '../notifications/routes';
+import {HttpStatus} from '../common/enums/HttpStatus';
 
 const logger = loggerConfig();
 
@@ -45,7 +46,7 @@ app.use('/expenses', ExpensesRouter);
 app.use('/notifications', NotificationsRouter);
 
 app.use((_req, _res, next) => {
-  next(createError(404));
+  next(createError(HttpStatus.NOT_FOUND));
 });
 
 app.use(
@@ -65,7 +66,7 @@ app.use(
       logger.error(
           `Error at ${req.url}: {"status":"${err.status}", "message":"${err.message}"}`,
       );
-      res.status(err.status || 500);
+      res.status(err.status || HttpStatus.INTERNAL_SERVER_ERROR);
       res.json({error: err});
     },
 );

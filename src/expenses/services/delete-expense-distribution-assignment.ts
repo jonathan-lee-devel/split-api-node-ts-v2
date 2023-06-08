@@ -6,6 +6,7 @@ import {DeleteExpenseDistributionAssignmentFunction} from '../types/delete-expen
 import {Expense} from '../models/Expense';
 import {Property} from '../../properties/models/Property';
 import {returnForbidden, returnInternalServerError, returnNotFound} from '../../common/use-cases/status-data-container';
+import {HttpStatus} from '../../common/enums/HttpStatus';
 
 export const makeDeleteExpenseDistributionAssignment = (
     logger: bunyan,
@@ -48,7 +49,7 @@ export const makeDeleteExpenseDistributionAssignment = (
     await ExpenseDistributionAssignmentModel
         .deleteOne({id: expenseDistributionAssignmentId});
     return {
-      status: 204,
+      status: HttpStatus.NO_CONTENT,
       data: undefined,
     };
   };

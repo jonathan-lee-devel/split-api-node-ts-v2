@@ -7,6 +7,7 @@ import {returnForbidden, returnInternalServerError, returnNotFound} from '../../
 import {
   GetAggregatedExpensesForMonthFunction,
 } from '../../common/use-cases/properties/types/get-aggregated-expenses-for-month';
+import {HttpStatus} from '../../common/enums/HttpStatus';
 
 export const makeGetExpensesForMonth = (
     _logger: bunyan,
@@ -39,7 +40,7 @@ export const makeGetExpensesForMonth = (
     }
 
     return {
-      status: 200,
+      status: HttpStatus.OK,
       data: expenses,
     };
   };
