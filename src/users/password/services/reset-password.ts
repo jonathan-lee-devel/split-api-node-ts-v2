@@ -8,6 +8,7 @@ import {GeneratePasswordResetVerificationTokenFunction} from '../types/generate-
 import {DEFAULT_TOKEN_SIZE} from '../../../util/token/default-token-size';
 import {DEFAULT_TOKEN_EXPIRY_TIME_MINUTES} from '../../../util/token/default-token-expiry-time-minutes';
 import {SendMailFunction} from '../../../util/email/types/send-mail';
+import {HttpStatus} from '../../../common/enums/HttpStatus';
 
 export const makeResetPassword = (
     logger: bunyan,
@@ -24,7 +25,7 @@ export const makeResetPassword = (
     const userModel = await UserModel.findOne({email}, {__v: 0});
     if (!userModel) {
       return {
-        status: 200,
+        status: HttpStatus.OK,
         data: {
           status: PasswordResetStatus[
               PasswordResetStatus.AWAITING_EMAIL_VERIFICATION
@@ -39,7 +40,7 @@ export const makeResetPassword = (
     if (!passwordResetVerificationTokenModel) {
       logger.error(`Password reset token does not exist for user: ${email}`);
       return {
-        status: 200,
+        status: HttpStatus.OK,
         data: {
           status: PasswordResetStatus[
               PasswordResetStatus.AWAITING_EMAIL_VERIFICATION
@@ -60,7 +61,7 @@ export const makeResetPassword = (
         passwordResetVerificationTokenContainer.status
       }`);
       return {
-        status: 200,
+        status: HttpStatus.OK,
         data: {
           status: PasswordResetStatus[
               PasswordResetStatus.AWAITING_EMAIL_VERIFICATION
@@ -74,7 +75,7 @@ export const makeResetPassword = (
     sendMail(email, 'Password Reset',
         `<h4>Please click the following link to reset your password: ${process.env.FRONT_END_URL}/password/reset/confirm?token=${passwordResetVerificationTokenContainer.data.value}</h4>`);
     return {
-      status: 200,
+      status: HttpStatus.OK,
       data: {
         status: PasswordResetStatus[
             PasswordResetStatus.AWAITING_EMAIL_VERIFICATION

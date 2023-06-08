@@ -11,6 +11,7 @@ import {errorMessageToDto} from '../../common/use-cases/errors';
 import {
   GetAggregatedExpensesForMonthFunction,
 } from '../../common/use-cases/properties/types/get-aggregated-expenses-for-month';
+import {HttpStatus} from '../../common/enums/HttpStatus';
 
 export const makeGetPropertyTotalExpensesPerTenant = (
     logger: bunyan,
@@ -29,7 +30,7 @@ export const makeGetPropertyTotalExpensesPerTenant = (
             await getPropertyRequireTenantOrAdmin(
                 requestingUser, propertyId,
             );
-    if (propertyModelContainer.status !== 200) {
+    if (propertyModelContainer.status !== HttpStatus.OK) {
       return {
         status: propertyModelContainer.status,
         data: undefined,
@@ -42,7 +43,7 @@ export const makeGetPropertyTotalExpensesPerTenant = (
             !propertyModelContainer.data.tenantEmails
                 .includes(requestingUser.email)) {
       return {
-        status: 400,
+        status: HttpStatus.BAD_REQUEST,
         data: errorMessageToDto('Admin viewing expense report is not a tenant'),
       };
     }
@@ -58,7 +59,7 @@ export const makeGetPropertyTotalExpensesPerTenant = (
     }
     if (expenses.length === 0) {
       return {
-        status: 200, data: {total: '€0.00', expenses: []},
+        status: HttpStatus.OK, data: {total: '€0.00', expenses: []},
       };
     }
 
@@ -107,7 +108,7 @@ export const makeGetPropertyTotalExpensesPerTenant = (
       }
     }
     return {
-      status: 200,
+      status: HttpStatus.OK,
       data: {
         total: newDineroAmount(total).toFormat(),
         expenses: individualExpenseBreakdownDtos,

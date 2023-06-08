@@ -4,6 +4,7 @@ import {Notification} from '../models/Notification';
 import {GetNotificationsForUserFunction} from '../types/get-notifications-for-user';
 import {User} from '../../users/main/models/User';
 import {NotificationDto} from '../dtos/NotificationDto';
+import {HttpStatus} from '../../common/enums/HttpStatus';
 
 export const makeGetNotificationsForUser = (
     logger: bunyan,
@@ -28,7 +29,7 @@ export const makeGetNotificationsForUser = (
     }
 
     return {
-      status: 200,
+      status: HttpStatus.OK,
       data: notificationDtos,
     };
   };

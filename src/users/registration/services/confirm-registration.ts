@@ -4,6 +4,7 @@ import {RegistrationVerificationToken} from '../models/RegistrationVerificationT
 import {ConfirmRegistrationFunction} from '../types/confirm-registration';
 import {RegistrationStatus} from '../enums/RegistrationStatus';
 import {User} from '../../main/models/User';
+import {HttpStatus} from '../../../common/enums/HttpStatus';
 
 export const makeConfirmRegistration = (
     logger: bunyan,
@@ -15,7 +16,7 @@ export const makeConfirmRegistration = (
         .findOne({value: tokenValue}, {__v: 0});
     if (!tokenModel) {
       return {
-        status: 200,
+        status: HttpStatus.OK,
         data: {
           status: RegistrationStatus[RegistrationStatus.INVALID_TOKEN],
         },
@@ -25,7 +26,7 @@ export const makeConfirmRegistration = (
     const userModel = await UserModel.findOne({email: tokenModel.userEmail});
     if (!userModel) {
       return {
-        status: 500,
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
         data: {
           status: RegistrationStatus[RegistrationStatus.FAILURE],
         },
@@ -33,7 +34,7 @@ export const makeConfirmRegistration = (
     }
     if (tokenModel.expiryDate.getTime() < new Date().getTime()) {
       return {
-        status: 200,
+        status: HttpStatus.OK,
         data: {
           status: RegistrationStatus[RegistrationStatus.EMAIL_VERIFICATION_EXPIRED],
         },
@@ -45,7 +46,7 @@ export const makeConfirmRegistration = (
     await tokenModel.save();
     logger.info(`Successfully confirmed registration for <${userModel.email}>`);
     return {
-      status: 200,
+      status: HttpStatus.OK,
       data: {
         status: RegistrationStatus[RegistrationStatus.SUCCESS],
       },

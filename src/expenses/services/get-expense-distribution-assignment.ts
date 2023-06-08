@@ -6,6 +6,7 @@ import {Model} from 'mongoose';
 import {ExpenseDistributionAssignment} from '../models/ExpenseDistributionAssignment';
 import {Property} from '../../properties/models/Property';
 import {ExpenseDistributionAssignmentDto} from '../dtos/ExpenseDistributionAssignmentDto';
+import {HttpStatus} from '../../common/enums/HttpStatus';
 
 export const makeGetExpenseDistributionAssignment = (
     logger: bunyan,
@@ -44,7 +45,7 @@ export const makeGetExpenseDistributionAssignment = (
             };
 
     return {
-      status: 200,
+      status: HttpStatus.OK,
       data: expenseDistributionAssignmentDto,
     };
   };

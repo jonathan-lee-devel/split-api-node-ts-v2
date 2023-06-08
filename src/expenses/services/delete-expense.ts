@@ -6,6 +6,7 @@ import {Expense} from '../models/Expense';
 import {Property} from '../../properties/models/Property';
 import {ExpenseDistributionAssignment} from '../models/ExpenseDistributionAssignment';
 import {returnForbidden, returnInternalServerError, returnNotFound} from '../../common/use-cases/status-data-container';
+import {HttpStatus} from '../../common/enums/HttpStatus';
 
 export const makeDeleteExpense = (
     logger: bunyan,
@@ -37,7 +38,7 @@ export const makeDeleteExpense = (
     await ExpenseModel.deleteOne({id: expenseId});
     await ExpenseDistributionAssignmentModel.deleteMany({expenseId});
     return {
-      status: 204,
+      status: HttpStatus.NO_CONTENT,
       data: undefined,
     };
   };

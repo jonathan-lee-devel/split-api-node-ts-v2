@@ -8,6 +8,7 @@ import {returnForbidden, returnInternalServerError, returnNotFound} from '../../
 import {
   GetAggregatedExpensesForMonthFunction,
 } from '../../common/use-cases/properties/types/get-aggregated-expenses-for-month';
+import {HttpStatus} from '../../common/enums/HttpStatus';
 
 export const makeGetPropertyTotalExpenses = (
     logger: bunyan,
@@ -50,7 +51,7 @@ export const makeGetPropertyTotalExpenses = (
       total += amountAsNumber;
     }
     return {
-      status: 200,
+      status: HttpStatus.OK,
       data: newDineroAmount(total).toFormat(),
     };
   };

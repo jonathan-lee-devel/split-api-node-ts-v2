@@ -5,6 +5,7 @@ import {CreateNotificationFunction} from '../types/create-notification';
 import {User} from '../../users/main/models/User';
 import {DEFAULT_ID_LENGTH} from '../../util/id/constants/default-id-length';
 import {Notification} from '../models/Notification';
+import {HttpStatus} from '../../common/enums/HttpStatus';
 
 export const makeCreateNotification = (
     logger: bunyan,
@@ -35,7 +36,7 @@ export const makeCreateNotification = (
 
     await new NotificationModel(notificationModel).save();
     return {
-      status: 201,
+      status: HttpStatus.CREATED,
       data: {
         userEmail,
         title,

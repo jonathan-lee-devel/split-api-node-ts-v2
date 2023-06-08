@@ -4,6 +4,7 @@ import {RemoveTenantFromPropertyFunction} from '../types/remove-tenant-from-prop
 import {User} from '../../users/main/models/User';
 import {Property} from '../models/Property';
 import {returnForbidden} from '../../common/use-cases/status-data-container';
+import {HttpStatus} from '../../common/enums/HttpStatus';
 
 export const makeRemoveTenantFromProperty = (
     logger: bunyan,
@@ -19,7 +20,7 @@ export const makeRemoveTenantFromProperty = (
         .findOne({id: propertyId}, {__v: 0});
     if (!propertyModel) {
       return {
-        status: 400,
+        status: HttpStatus.BAD_REQUEST,
         data: undefined,
       };
     }
@@ -34,7 +35,7 @@ export const makeRemoveTenantFromProperty = (
             propertyModel.tenantEmails.indexOf(tenantEmailToRemove, 0);
     if (tenantEmailIndex <= -1) {
       return {
-        status: 400,
+        status: HttpStatus.BAD_REQUEST,
         data: undefined,
       };
     }
@@ -47,7 +48,7 @@ export const makeRemoveTenantFromProperty = (
     }
     await propertyModel.save();
     return {
-      status: 204,
+      status: HttpStatus.NO_CONTENT,
       data: undefined,
     };
   };

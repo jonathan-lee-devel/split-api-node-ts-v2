@@ -6,6 +6,7 @@ import {User} from '../../users/main/models/User';
 import {Property} from '../../properties/models/Property';
 import {ExpenseDto} from '../dtos/ExpenseDto';
 import {returnForbidden, returnNotFound} from '../../common/use-cases/status-data-container';
+import {HttpStatus} from '../../common/enums/HttpStatus';
 
 export const makeGetExpensesForProperty = (
     logger: bunyan,
@@ -41,7 +42,7 @@ export const makeGetExpensesForProperty = (
     }
 
     return {
-      status: 200,
+      status: HttpStatus.OK,
       data: transformedExpenses,
     };
   };

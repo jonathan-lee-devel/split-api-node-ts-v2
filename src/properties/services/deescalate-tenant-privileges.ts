@@ -6,6 +6,7 @@ import {User} from '../../users/main/models/User';
 import {returnForbidden, returnNotFound} from '../../common/use-cases/status-data-container';
 import {errorMessageToDto} from '../../common/use-cases/errors';
 import {PropertyInvitationStatus} from '../invitations/enums/PropertyInvitationStatus';
+import {HttpStatus} from '../../common/enums/HttpStatus';
 
 export const makeDeescalateTenantPrivileges = (
     logger: bunyan,
@@ -28,14 +29,14 @@ export const makeDeescalateTenantPrivileges = (
 
     if (!propertyModel.administratorEmails.includes(tenantEmailToDeescalate)) {
       return {
-        status: 400,
+        status: HttpStatus.BAD_REQUEST,
         data: errorMessageToDto('Tenant is not an administrator of that property'),
       };
     }
 
     if (propertyModel.administratorEmails.length <= 1) {
       return {
-        status: 400,
+        status: HttpStatus.BAD_REQUEST,
         data: errorMessageToDto('Property must have at least one administrator'),
       };
     }
@@ -44,7 +45,7 @@ export const makeDeescalateTenantPrivileges = (
             propertyModel.administratorEmails.indexOf(tenantEmailToDeescalate, 0);
     if (tenantEmailIndex <= -1) {
       return {
-        status: 400,
+        status: HttpStatus.BAD_REQUEST,
         data: errorMessageToDto('Could not remove tenant\'s administrative privileges'),
       };
     }
@@ -52,7 +53,7 @@ export const makeDeescalateTenantPrivileges = (
     await propertyModel.save();
 
     return {
-      status: 200,
+      status: HttpStatus.OK,
       data: {
         status: PropertyInvitationStatus[PropertyInvitationStatus.SUCCESS],
         propertyId: undefined,

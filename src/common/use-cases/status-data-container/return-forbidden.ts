@@ -1,9 +1,10 @@
 import {ReturnForbiddenFunction} from './types/return-forbidden';
+import {HttpStatus} from '../../enums/HttpStatus';
 
 export const makeReturnForbidden = (): ReturnForbiddenFunction => {
   return function() {
     return {
-      status: 403,
+      status: HttpStatus.FORBIDDEN,
       data: undefined,
     };
   };

@@ -1,5 +1,6 @@
 import {Router} from 'express';
 import passport from 'passport';
+import {HttpStatus} from '../../../common/enums/HttpStatus';
 
 export const configureLoginRoute = (
     router: Router,
@@ -11,14 +12,14 @@ export const configureLoginRoute = (
         return next(err);
       }
       if (!user || !user.emailVerified) {
-        return res.status(401).json({login_status: 'FAILURE'});
+        return res.status(HttpStatus.UNAUTHORIZED).json({login_status: 'FAILURE'});
       }
 
       req.login(user, (loginError) => {
         if (loginError) {
           return next(loginError);
         }
-        return res.status(200).json({login_status: 'SUCCESS', username: user.email});
+        return res.status(HttpStatus.OK).json({login_status: 'SUCCESS', username: user.email});
       });
     })(req, res, next);
   });

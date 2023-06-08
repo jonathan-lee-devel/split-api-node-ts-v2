@@ -5,6 +5,7 @@ import {User} from '../../users/main/models/User';
 import {InviteToPropertyFunction} from '../invitations/types/invite-to-property';
 import {InviteTenantsToPropertyFunction} from '../types/invite-tenants-to-property';
 import {returnForbidden, returnNotFound} from '../../common/use-cases/status-data-container';
+import {HttpStatus} from '../../common/enums/HttpStatus';
 
 export const makeInviteTenantsToProperty = (
     logger: bunyan,
@@ -26,16 +27,16 @@ export const makeInviteTenantsToProperty = (
       return returnForbidden();
     }
 
-    let status = 200;
+    let status = HttpStatus.OK;
     for (const tenantEmail of tenantEmails) {
       const propertyInvitationContainer = await inviteToProperty(
           propertyId,
           requestingUser.email,
           tenantEmail,
       );
-      if (propertyInvitationContainer.status !== 200) {
+      if (propertyInvitationContainer.status !== HttpStatus.OK) {
         logger.error(`Failed to invite tenant ${tenantEmail} to property: ${propertyId}`);
-        status = 500;
+        status = HttpStatus.INTERNAL_SERVER_ERROR;
       }
     }
 
