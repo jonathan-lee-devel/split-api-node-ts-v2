@@ -72,7 +72,8 @@ export const makeRegisterUser = (
     // Mail is slow to send and can be sent asynchronously, hence, no await
     sendMail(email, 'Registration Confirmation',
         // @ts-ignore
-        `<h4>Please click the following link to verify your account: <a href="${process.env.FRONT_END_URL}/register/verify/${registrationVerificationTokenContainer.data.value}">Verify Account</a></h4>`);
+        `<h4>Please click the following link to verify your account: <a href="${process.env.FRONT_END_URL}/register/verify/${registrationVerificationTokenContainer.data.value}">Verify Account</a></h4>`)
+        .catch((reason) => logger.error(`Error occurred while sending e-mail: ${reason}`));
 
     logger.info(`Attempt to register user with e-mail: <${newUser.email}>`);
     return {
