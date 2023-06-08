@@ -18,7 +18,7 @@ export const makeHandleExistingUser = (
         await RegistrationVerificationTokenModel.deleteOne({userEmail: email});
         await PasswordResetVerificationTokenModel.deleteOne({userEmail: email});
       }
-      if (existingUser && existingUser.emailVerified) {
+      if (existingUser?.emailVerified) {
         return true;
       }
       if (existingUser && !existingUser.emailVerified) {
