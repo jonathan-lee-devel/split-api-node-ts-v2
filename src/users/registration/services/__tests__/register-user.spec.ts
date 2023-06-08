@@ -102,7 +102,7 @@ describe('Registration Service Register User Tests', () => {
         () => {
         },
         UserModel,
-        () => {
+        async () => {
         },
     );
     const result = await registerUser(

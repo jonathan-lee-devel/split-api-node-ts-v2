@@ -73,7 +73,8 @@ export const makeResetPassword = (
         .deleteOne({value: passwordResetVerificationTokenModel.value});
     // Mail is slow to send and can be sent asynchronously, hence, no await
     sendMail(email, 'Password Reset',
-        `<h4>Please click the following link to reset your password: ${process.env.FRONT_END_URL}/password/reset/confirm?token=${passwordResetVerificationTokenContainer.data.value}</h4>`);
+        `<h4>Please click the following link to reset your password: ${process.env.FRONT_END_URL}/password/reset/confirm?token=${passwordResetVerificationTokenContainer.data.value}</h4>`)
+        .catch((reason) => logger.error(`Error occurred while sending e-mail: ${reason}`));
     return {
       status: HttpStatus.OK,
       data: {
