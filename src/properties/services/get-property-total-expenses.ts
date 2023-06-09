@@ -3,7 +3,7 @@ import {Model} from 'mongoose';
 import {GetPropertyTotalExpensesFunction} from '../types/get-property-total-expenses';
 import {Property} from '../models/Property';
 import {User} from '../../users/main/models/User';
-import {newDineroAmount} from '../../common/use-cases/dinero';
+import {amountStringAsNumber, newDineroAmount} from '../../common/use-cases/dinero';
 import {returnForbidden, returnInternalServerError, returnNotFound} from '../../common/use-cases/status-data-container';
 import {
   GetAggregatedExpensesForMonthFunction,
@@ -27,10 +27,8 @@ export const makeGetPropertyTotalExpenses = (
     if (!propertyModel) {
       return returnNotFound();
     }
-    if (!propertyModel.tenantEmails
-        .includes(requestingUser.email) &&
-            !propertyModel.administratorEmails
-                .includes(requestingUser.email)) {
+    if (!propertyModel.tenantEmails.includes(requestingUser.email) &&
+            !propertyModel.administratorEmails.includes(requestingUser.email)) {
       return returnForbidden();
     }
     const expenses = await getAggregatedExpensesForMonth(
@@ -44,10 +42,7 @@ export const makeGetPropertyTotalExpenses = (
     }
     let total = 0.0;
     for (const expense of expenses) {
-      const amountAsNumber = Number((await expense)
-          .amount.replace('€', '')
-          .replace(',', ''),
-      );
+      const amountAsNumber = amountStringAsNumber(String(Number(await expense)));
       total += amountAsNumber;
     }
     return {
