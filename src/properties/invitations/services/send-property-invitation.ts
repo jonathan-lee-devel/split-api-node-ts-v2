@@ -1,7 +1,9 @@
+import bunyan from 'bunyan';
 import {SendMailFunction} from '../../../util/email/types/send-mail';
 import {SendPropertyInvitationFunction} from '../types/send-property-invitation';
 
 export const makeSendPropertyInvitation = (
+    logger: bunyan,
     sendMail: SendMailFunction,
 ): SendPropertyInvitationFunction => {
   return async function sendPropertyInvitation(
@@ -15,6 +17,9 @@ export const makeSendPropertyInvitation = (
         `<p>${inviterEmail} has invited you to manage a shared living space</p>
 <h3>Please click the following link to accept:
 <a href="${process.env.FRONT_END_URL}/property/invitation/verify/${propertyInvitationTokenValue}">Accept</a></h3>`,
-    );
+    )
+        .catch((reason) => {
+          logger.error(`An error occurred while sending e-mail: ${reason}`);
+        });
   };
 };
