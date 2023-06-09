@@ -67,7 +67,7 @@ app.use(
           `Error at ${req.url}: {"status":"${err.status}", "message":"${err.message}"}`,
       );
       res.status(err.status || HttpStatus.INTERNAL_SERVER_ERROR);
-      res.json({error: err});
+      res.json((process.env.NODE_ENV === 'development') ? {error: err.message} : undefined);
     },
 );
 
