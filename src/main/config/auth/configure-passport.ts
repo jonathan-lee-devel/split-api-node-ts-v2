@@ -49,7 +49,10 @@ export const configurePassport =
       passport.deserializeUser((id, done) => {
         UserModel.findById(id, (err: any, user: User) => {
           done(err, user);
-        });
+        })
+            .catch((reason) => {
+              logger.error(`An error occurred while deserializing user: ${reason}`);
+            });
       });
 
       return passport;

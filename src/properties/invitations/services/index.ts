@@ -23,6 +23,7 @@ const createPropertyInvitation = makeCreatePropertyInvitation(
 );
 
 const sendPropertyInvitation = makeSendPropertyInvitation(
+    logger,
     sendMail,
 );
 
